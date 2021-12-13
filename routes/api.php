@@ -61,3 +61,6 @@ Route::get('coupon/list', 'Api\CouponController@couponList');
 //save order
 Route::post('save-order', 'Api\OrderController@saveOrder');
 Route::get('order/list', 'Api\OrderController@listOrders');
+Route::get('order/view', 'Api\OrderController@viewOrder');
+
+
