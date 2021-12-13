@@ -1,0 +1,105 @@
+*{box-sizing: border-box;}
+/*eagle font*/
+/*eagle font*/
+@font-face {
+font-family: 'icomoon';
+src:  url('../fonts/icomoon.eot?fn6ykt');
+src:  url('../fonts/icomoon.eot?fn6ykt#iefix') format('embedded-opentype'),
+url('../fonts/icomoon.ttf?fn6ykt') format('truetype'),
+url('../fonts/icomoon.woff?fn6ykt') format('woff'),
+url('../fonts/icomoon.svg?fn6ykt#icomoon') format('svg');
+font-weight: normal;
+font-style: normal;
+font-display: block;
+}
+[class^="icon-"], [class*=" icon-"] {
+/* use !important to prevent issues with browser extensions that change fonts */
+font-family: 'icomoon' !important;
+speak: never;
+font-style: normal;
+font-weight: normal;
+font-variant: normal;
+text-transform: none;
+line-height: 1;
+/* Better Font Rendering =========== */
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+.icon-eagle:before {
+content: "\e900";
+/*color: #164578;*/
+}
+
+.icon-shield:before {
+    content: "\e902";
+ /* content: "\e901";*/
+  /*color: #164578;*/
+}
+/*end eagle font*/
+/*end eagle font*/
+/*CertificationLogo*/
+/*CertificationLogo*/
+.CertificationLogo{position: relative; z-index: 1; background: #fff; display: -webkit-box; display: -ms-flexbox; display: flex; /*-ms-flex-wrap: wrap; flex-wrap: wrap;*/ flex-direction: column; align-items: center; justify-content: space-between; width: 175px; height: 175px; border-radius: 50%; border-width: 4px; border-style: solid; color: #164578; font-size: 135px; padding: 20px;}
+.CertificationLogo.samblue{ color: #001f3f; }
+.CertificationLogo.samolive{ color: #3D9970; }
+.CertificationLogo.sammaroon{ color: #85144b; }
+.CertificationLogo.samgreen{ color: #2ECC40; }
+.CertificationLogo.samfuschia{ color: #164578; }
+.CertificationLogo.samteal{ color: #39CCCC; }
+.CertificationLogo.samred{ color: #FF4136; }
+.CertificationLogo.samlime{ color: #3D9970; }
+.CertificationLogo.sampurple{ color: #B10DC9; }
+.CertificationLogo.samaqua{ color: #7FDBFF; }
+
+
+.CertificationLogo .icon-eagle{line-height: .5; position: absolute; z-index: -1; left: 50%; top: 50%; transform:translate(-50%,-50%);}
+.CertificationLogo .track-name{width: 100%; color: #222; font-size: 24px; font-family: Helvetica, sans-serif; font-weight: 700; text-align: center; padding: 0 20px;}
+.CertificationLogo .certified{width: 100%; color: #222; font-size: 12px; font-family: Georgia, serif; font-weight: 700; text-align: center; padding: 0 20px; white-space: nowrap;}
+/*end CertificationLogo*/
+/*end CertificationLogo*/
+
+/*CertificationLogoShield*/
+/*CertificationLogoShield*/
+.CertificationLogo.Shield{padding: 0; border-radius: 0; border: none; margin: auto;}
+.CertificationLogo.Shield .ShieldLogo{width: 100%; height: 100%; padding: 10px;}
+.CertificationLogo.Shield .ShieldLogo .textfit{height: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; align-items: center; justify-content: center;}
+.CertificationLogo.Shield .track-name{position: absolute; left: 0; top: 0px; z-index: 1; padding: 0 35px; text-align: center;font-size: 19px;letter-spacing: 0.5px; }
+/*end CertificationLogoShield*/
+/*end CertificationLogoShield*/
+
+span.trcname {
+    width: 100%;
+    transform: rotate(-90deg);
+    -ms-transform: rotate(20deg);
+    position: absolute;
+    top: 45%;
+    left: -50%;
+    color: #444;
+    font-weight: bold;
+    text-transform: uppercase;
+    z-index: 9999;
+}
+.flex.horz-row figure.content-image {
+    position: relative;
+}
+.kc-elm.kc-css-695259.kc-feature-boxes.kc-fb-layout-2.cust_col_track {
+    
+    padding: 20px 10px 20px 25px;
+    }
+    .content-title {
+    margin-bottom: 0px;
+}
+
+.breadcrumb span.altspan{
+    position: relative;
+    top: -1px;
+}
+
+@font-face {
+    font-family: 'elephantregular';
+    src: url('../fonts/elephant-webfont.woff2') format('woff2'),
+         url('../fonts/elephant-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
