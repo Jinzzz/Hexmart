@@ -64,3 +64,6 @@ Route::get('order/list', 'Api\OrderController@listOrders');
 Route::get('order/view', 'Api\OrderController@viewOrder');
 Route::get('order/cancel', 'Api\OrderController@cancelOrder'); // updated cancel status is not correct
 Route::get('order/status', 'Api\OrderController@orderStatus');
+
+//checkout page
+Route::get('checkout-page', 'Api\OrderController@checkoutPage');

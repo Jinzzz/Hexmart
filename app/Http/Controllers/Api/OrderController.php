@@ -11,6 +11,8 @@ use App\Models\admin\Mst_Customer;
 use App\Models\admin\Mst_Product;
 use App\Models\admin\Mst_ProductVariant;
 use App\Models\admin\Mst_Setting;
+use App\Models\admin\Trn_Cart;
+use App\Models\admin\Trn_CustomerAddress;
 use App\Models\admin\Trn_Order;
 use App\Models\admin\Trn_OrderItem;
 use App\Models\admin\Trn_StockDetail;
@@ -23,10 +25,91 @@ use Crypt;
 use Mail;
 use PDF;
 use Auth;
+use stdClass;
 use Validator;
 
 class OrderController extends Controller
 {
+
+
+    public function checkoutPage(Request $request) // cancel status is not correct
+    {
+        $data = array();
+
+        try {
+            if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
+
+                $customerAddressData = Trn_CustomerAddress::where('customer_id', $request->customer_id)->where('is_default', 1)->first();
+                $data['customerAddress'] = $customerAddressData;
+
+                $today = Carbon::now()->toDateTimeString();
+                $couponDetail = Mst_Coupon::where('coupon_status', 1);
+                $couponDetail = $couponDetail->whereDate('valid_from', '<=', $today)->whereDate('valid_to', '>=', $today);
+                $couponDetail = $couponDetail->orderBy('coupon_id', 'DESC')->get();
+
+                $data['couponDetails'] = $couponDetail;
+
+
+                $checkoutProducts  = Trn_Cart::where('customer_id', $request->customer_id)->get();
+
+                $priceDetails = new stdClass();
+                $price = 0;
+                $itemCount = 0;
+                $discount = 0;
+                foreach ($checkoutProducts as $c) {
+
+                    $itemTotalPrice = 0;
+
+                    if (Helper::isOfferAvailable($c->product_variant_id)) {
+                        $offerData = Helper::isOfferAvailable($c->product_variant_id);
+
+                        $itemTotalPrice = $offerData->offer_price * $c->quantity;
+                        $price += $itemTotalPrice;
+
+                        $itemDiscount =  @$c->productVariantData->variant_price_regular - $offerData->offer_pric;
+                        $itemTotalDiscount = $itemDiscount * $c->quantity;
+                        $discount += $itemTotalDiscount;
+                    } else {
+
+                        $itemTotalPrice = @$c->productVariantData->variant_price_offer * $c->quantity;
+                        $price += $itemTotalPrice;
+
+                        $itemDiscount = @$c->productVariantData->variant_price_regular - @$c->productVariantData->variant_price_offer;
+                        $itemTotalDiscount = $itemDiscount * $c->quantity;
+                        $discount += $itemTotalDiscount;
+                    }
+
+                    $itemCount++;
+                }
+                $couponDiscount = Helper::reduceCouponDiscount($request->customer_id);
+
+                $priceDetails->price = $price; // total price for carted prducts
+                $priceDetails->itemCount = $itemCount; // total carted prducts
+                $priceDetails->discount = $discount; // total discount for carted prducts
+                $deliveryCharge = Helper::findDeliveryCharge($request->customer_id); // delivery charge
+                $priceDetails->deliveryCharge = $deliveryCharge;
+                $totalAmount = ($price - $discount) + $deliveryCharge;
+                $priceDetails->totalAmount = $totalAmount; // total amount after all deductions plus delivery charge
+                $priceDetails->couponDiscount = $couponDiscount;
+
+
+                // $data['checkoutProducts'] = $checkoutProducts;
+
+                $data['priceDetails'] = $priceDetails;
+            } else {
+                $data['status'] = 0;
+                $data['message'] = "Customer not found ";
+            }
+            return response($data);
+        } catch (\Exception $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        }
+    }
+
 
 
 

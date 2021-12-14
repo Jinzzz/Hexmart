@@ -8,6 +8,8 @@ use App\Models\admin\Mst_Customer;
 use App\Models\admin\Mst_Product;
 use App\Models\admin\Mst_ProductVariant;
 use App\Models\admin\Trn_Cart;
+use App\Models\admin\Trn_CustomerAddress;
+use App\Models\admin\Trn_CustomerReward;
 use App\Models\admin\Trn_WishList;
 use Illuminate\Http\Request;
 use stdClass;
@@ -66,6 +68,14 @@ class ProductController extends Controller
 
                 foreach ($wishListProducts as $c) {
 
+                    if (Helper::isOfferAvailable($c->product_variant_id)) {
+                        $c->isOfferAvailable  = 1;
+                        $c->offerData  = Helper::isOfferAvailable($c->product_variant_id);
+                    } else {
+                        $c->isOfferAvailable  = 0;
+                        $c->offerData  = new stdClass();;
+                    }
+
                     $baseProductData  = @$c->productVariantData->productData;
                     $baseProductData->item_category_data = @$baseProductData->itemCategoryData;
                     $baseProductData->item_sub_category_data = @$baseProductData->itemSubCategoryData;
@@ -114,11 +124,49 @@ class ProductController extends Controller
         $data = array();
 
         try {
+
+
             if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
+
+                $customerAddressData = Trn_CustomerAddress::where('customer_id', $request->customer_id)->where('is_default', 1)->first();
+                $data['customerAddress'] = $customerAddressData;
+
+
+
+
                 $cartProducts  = Trn_Cart::where('customer_id', $request->customer_id)->get();
 
-
+                $priceDetails = new stdClass();
+                $price = 0;
+                $itemCount = 0;
+                $discount = 0;
                 foreach ($cartProducts as $c) {
+
+                    $itemTotalPrice = 0;
+
+                    if (Helper::isOfferAvailable($c->product_variant_id)) {
+                        $c->isOfferAvailable  = 1;
+                        $offerData = Helper::isOfferAvailable($c->product_variant_id);
+                        $c->offerData = $offerData;
+
+                        $itemTotalPrice = $offerData->offer_price * $c->quantity;
+                        $price += $itemTotalPrice;
+
+                        $itemDiscount =  @$c->productVariantData->variant_price_regular - $offerData->offer_pric;
+                        $itemTotalDiscount = $itemDiscount * $c->quantity;
+                        $discount += $itemTotalDiscount;
+                    } else {
+                        $c->isOfferAvailable  = 0;
+                        $c->offerData  = new stdClass();
+
+                        $itemTotalPrice = @$c->productVariantData->variant_price_offer * $c->quantity;
+                        $price += $itemTotalPrice;
+
+                        $itemDiscount = @$c->productVariantData->variant_price_regular - @$c->productVariantData->variant_price_offer;
+                        $itemTotalDiscount = $itemDiscount * $c->quantity;
+                        $discount += $itemTotalDiscount;
+                    }
+
 
                     $baseProductData  = @$c->productVariantData->productData;
                     $baseProductData->item_category_data = @$baseProductData->itemCategoryData;
@@ -139,10 +187,22 @@ class ProductController extends Controller
                     $c->productVariantBaseImage  = Helper::productVarBaseImage(@$c->productVariantData->product_id, $c->product_variant_id);
                     $c->proVarAttributes  = Helper::variantArrtibutes($c->product_variant_id);
                     $c->proVarImages  = Helper::variantImages($c->product_variant_id);
+                    $itemCount++;
                 }
+
+                $priceDetails->price = $price; // total price for carted prducts
+                $priceDetails->itemCount = $itemCount; // total carted prducts
+                $priceDetails->discount = $discount; // total discount for carted prducts
+                $deliveryCharge = Helper::findDeliveryCharge($request->customer_id); // delivery charge
+                $priceDetails->deliveryCharge = $deliveryCharge;
+                $totalAmount = ($price - $discount) + $deliveryCharge;
+                $priceDetails->totalAmount = $totalAmount; // total amount after all deductions plus delivery charge
 
 
                 $data['cartProducts'] = $cartProducts;
+
+                $data['priceDetails'] = $priceDetails;
+
                 $data['status'] = 1;
                 $data['message'] = "success";
             } else {
@@ -302,13 +362,23 @@ class ProductController extends Controller
             $recentAddedProducts = $recentAddedProducts->get();
 
             foreach ($recentAddedProducts as $c) {
+
+                if (Helper::isOfferAvailable($c->product_variant_id)) {
+                    $c->isOfferAvailable  = 1;
+                    $c->offerData  = Helper::isOfferAvailable($c->product_variant_id);
+                } else {
+                    $c->isOfferAvailable  = 0;
+                    $c->offerData  = new stdClass();;
+                }
+
+
                 $c->productBaseImage  = Helper::productBaseImage($c->product_id);
                 $c->productVariantBaseImage  = Helper::productVarBaseImage($c->product_id, $c->product_variant_id);
                 $c->proVarAttributes  = Helper::variantArrtibutes($c->product_variant_id);
                 $c->proVarImages  = Helper::variantImages($c->product_variant_id);
             }
 
-            $data['offerDetails'] = $recentAddedProducts;
+            $data['recentAddedProducts'] = $recentAddedProducts;
             $data['status'] = 1;
             $data['message'] = "success";
 

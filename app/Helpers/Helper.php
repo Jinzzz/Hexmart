@@ -128,6 +128,16 @@ class Helper
         return 0;
     }
 
+    public static function findDeliveryCharge()
+    {
+        return 0;
+    }
+
+    public static function reduceCouponDiscount()
+    {
+        return 0;
+    }
+
 
     public static function subCategoryLevOne($item_category_id)
     {

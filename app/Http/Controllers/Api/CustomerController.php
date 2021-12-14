@@ -90,6 +90,7 @@ class CustomerController extends Controller
 
                         $addr->longitude = $request->longitude;
                         $addr->latitude = $request->latitude;
+                        $addr->is_home_address = $request->is_home_address;
                         $addr->is_active = 1;
 
 
@@ -176,6 +177,7 @@ class CustomerController extends Controller
 
                     $addr->longitude = $request->longitude;
                     $addr->latitude = $request->latitude;
+                    $addr->is_home_address = $request->is_home_address;
                     $addr->is_active = 1;
 
 
