@@ -62,5 +62,5 @@ Route::get('coupon/list', 'Api\CouponController@couponList');
 Route::post('save-order', 'Api\OrderController@saveOrder');
 Route::get('order/list', 'Api\OrderController@listOrders');
 Route::get('order/view', 'Api\OrderController@viewOrder');
-
-
+Route::get('order/cancel', 'Api\OrderController@cancelOrder'); // updated cancel status is not correct
+Route::get('order/status', 'Api\OrderController@orderStatus');

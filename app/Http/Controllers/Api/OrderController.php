@@ -28,6 +28,145 @@ use Validator;
 class OrderController extends Controller
 {
 
+
+
+    public function orderStatus(Request $request) // cancel status is not correct
+    {
+        $data = array();
+
+        try {
+            if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
+                if (isset($request->order_id) && Trn_Order::find($request->order_id)) {
+
+                    $orderData  = Trn_Order::where('customer_id', $request->customer_id)
+                        ->where('order_id', $request->order_id)
+                        ->first();
+                    $data['orderStatus'] = $orderData->orderStatusData;
+
+                    $data['status'] = 1;
+                    $data['message'] = "Order cancelled";
+                    return response($data);
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "Order not found ";
+                    return response($data);
+                }
+            } else {
+                $data['status'] = 0;
+                $data['message'] = "Customer not found ";
+                return response($data);
+            }
+        } catch (\Exception $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        }
+    }
+
+
+
+    public function cancelOrder(Request $request) // cancel status is not correct
+    {
+        $data = array();
+
+        try {
+            if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
+                if (isset($request->order_id) && Trn_Order::find($request->order_id)) {
+
+                    $orderData  = Trn_Order::where('customer_id', $request->customer_id)
+                        ->where('order_id', $request->order_id)
+                        ->update(['order_status_id' => null]);
+
+                    $data['status'] = 1;
+                    $data['message'] = "success";
+                    return response($data);
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "Order not found ";
+                    return response($data);
+                }
+            } else {
+                $data['status'] = 0;
+                $data['message'] = "Customer not found ";
+                return response($data);
+            }
+        } catch (\Exception $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        }
+    }
+
+    public function viewOrder(Request $request)
+    {
+        $data = array();
+
+        try {
+            if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
+                if (isset($request->order_id) && Trn_Order::find($request->order_id)) {
+                    $orderData  = Trn_Order::where('customer_id', $request->customer_id)->where('order_id', $request->order_id)->first();
+
+                    $orderStatusData = $orderData->orderStatusData;
+                    $timeSlotData = $orderData->timeSlotData;
+                    $paymentTypeData = $orderData->paymentTypeData;
+                    $customerAddressData = $orderData->customerAddressData;
+                    $paymentStatusData = $orderData->paymentStatusData;
+                    $deliveryBoyData = $orderData->deliveryBoyData;
+                    $deliveryBoyStatus = $orderData->deliveryBoyStatus;
+                    $orderTypeData = $orderData->orderTypeData;
+                    $couponData = $orderData->couponData;
+
+                    $orderItems = $orderData->orderItems;
+
+                    foreach ($orderItems as $e) {
+                        $offerData = $e->offerData;
+
+                        $product_data = $e->productData;
+                        $itemCategoryData = $e->productData->itemCategoryData;
+                        $itemSubCategoryData = $e->productData->itemSubCategoryData;
+                        $itemSubCatLevTwoData = $e->productData->itemSubCatLevTwoData;
+                        $brandData = $e->productData->brandData;
+                        $taxData = $e->productData->taxData;
+
+
+                        $e->product_data = $product_data;
+
+                        $e->product_variant_data = $e->product_variant_data;
+                        $e->productVariantBaseImage  = Helper::productVarBaseImage(@$e->productVariantData->product_id, $e->product_variant_id);
+                        $e->proVarAttributes  = Helper::variantArrtibutes($e->product_variant_id);
+                        $e->proVarImages  = Helper::variantImages($e->product_variant_id);
+                    }
+
+                    $orderData->customer_data = $orderData->customerData;
+                    $orderData->order_items = $orderItems;
+
+                    $data['orderData'] = $orderData;
+                    $data['status'] = 1;
+                    $data['message'] = "success";
+                    return response($data);
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "Order not found ";
+                    return response($data);
+                }
+            } else {
+                $data['status'] = 0;
+                $data['message'] = "Customer not found ";
+                return response($data);
+            }
+        } catch (\Exception $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        }
+    }
+
     public function listOrders(Request $request)
     {
         $data = array();
@@ -36,6 +175,40 @@ class OrderController extends Controller
             if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
                 $orderData  = Trn_Order::where('customer_id', $request->customer_id)->get();
                 foreach ($orderData as $d) {
+
+                    $orderStatusData = $d->orderStatusData;
+                    $timeSlotData = $d->timeSlotData;
+                    $paymentTypeData = $d->paymentTypeData;
+                    $customerAddressData = $d->customerAddressData;
+                    $paymentStatusData = $d->paymentStatusData;
+                    $deliveryBoyData = $d->deliveryBoyData;
+                    $deliveryBoyStatus = $d->deliveryBoyStatus;
+                    $orderTypeData = $d->orderTypeData;
+                    $couponData = $d->couponData;
+
+                    $orderItems = $d->orderItems;
+
+                    foreach ($orderItems as $e) {
+                        $offerData = $e->offerData;
+
+                        $product_data = $e->productData;
+                        $itemCategoryData = $e->productData->itemCategoryData;
+                        $itemSubCategoryData = $e->productData->itemSubCategoryData;
+                        $itemSubCatLevTwoData = $e->productData->itemSubCatLevTwoData;
+                        $brandData = $e->productData->brandData;
+                        $taxData = $e->productData->taxData;
+
+
+                        $e->product_data = $product_data;
+
+                        $e->product_variant_data = $e->product_variant_data;
+                        $e->productVariantBaseImage  = Helper::productVarBaseImage(@$e->productVariantData->product_id, $e->product_variant_id);
+                        $e->proVarAttributes  = Helper::variantArrtibutes($e->product_variant_id);
+                        $e->proVarImages  = Helper::variantImages($e->product_variant_id);
+                    }
+
+                    $d->customer_data = $d->customerData;
+                    $d->order_items = $orderItems;
                 }
                 $data['orderData'] = $orderData;
                 $data['status'] = 1;

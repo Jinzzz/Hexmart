@@ -35,6 +35,11 @@ class Trn_Order extends Model
         'transaction_id',
     ];
 
+    public function orderItems()
+    {
+        return $this->hasMany('App\Models\admin\Trn_OrderItem', 'order_id', 'order_id');
+    }
+
 
     public function orderStatusData()
     {
