@@ -46,7 +46,6 @@ class OrderController extends Controller
                 $couponDetail = Mst_Coupon::where('coupon_status', 1);
                 $couponDetail = $couponDetail->whereDate('valid_from', '<=', $today)->whereDate('valid_to', '>=', $today);
                 $couponDetail = $couponDetail->orderBy('coupon_id', 'DESC')->get();
-
                 $data['couponDetails'] = $couponDetail;
 
 
@@ -81,16 +80,21 @@ class OrderController extends Controller
 
                     $itemCount++;
                 }
-                $couponDiscount = Helper::reduceCouponDiscount($request->customer_id);
 
                 $priceDetails->price = $price; // total price for carted prducts
                 $priceDetails->itemCount = $itemCount; // total carted prducts
                 $priceDetails->discount = $discount; // total discount for carted prducts
+
                 $deliveryCharge = Helper::findDeliveryCharge($request->customer_id); // delivery charge
                 $priceDetails->deliveryCharge = $deliveryCharge;
+
                 $totalAmount = ($price - $discount) + $deliveryCharge;
-                $priceDetails->totalAmount = $totalAmount; // total amount after all deductions plus delivery charge
+                $couponDiscount = Helper::reduceCouponDiscount($request->customer_id, $request->coupon_code, $totalAmount);
                 $priceDetails->couponDiscount = $couponDiscount;
+
+                $totalAmountAfterCouponDiscount = (($price - $discount) - $couponDiscount) + $deliveryCharge;
+                $priceDetails->totalAmount = $totalAmountAfterCouponDiscount; // total amount after all deductions plus delivery charge
+
 
 
                 // $data['checkoutProducts'] = $checkoutProducts;

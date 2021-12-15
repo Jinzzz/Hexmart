@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\admin\Mst_Coupon;
 use App\Models\admin\Mst_ItemLevelTwoSubCategory;
 use App\Models\admin\Mst_ItemSubCategory;
 use App\Models\admin\Mst_OfferZone;
@@ -133,9 +134,43 @@ class Helper
         return 0;
     }
 
-    public static function reduceCouponDiscount()
+    public static function reduceCouponDiscount($customer_id, $coupon_code, $totalAmount)
     {
-        return 0;
+        $current_time = Carbon::now()->toDateTimeString();
+        $coupon = Mst_Coupon::where('coupon_code', $coupon_code)->where('coupon_status', 1)->first();
+        if (($coupon->valid_from <= $current_time) && ($coupon->valid_to >= $current_time)) {
+            if ($totalAmount >= $coupon->min_purchase_amt) {
+
+                if ((Trn_Order::where('customer_id', $customer_id)->where('coupon_code', $coupon->coupon_id)->count()) <= 0) {
+                    // ->whereIn('status_id', [6, 9, 4, 7, 8, 1]) order status not added to previous query
+                    if ($coupon->discount_type == 1) {
+                        //fixedAmt
+                        $amtToBeReduced = $coupon->discount;
+                    } else {
+                        //percentage
+                        $amtToBeReduced = ($coupon->discount * 100) / $totalAmount;
+                    }
+                    return number_format((float)$amtToBeReduced, 2, '.', '');
+                } else {
+                    if ($coupon->coupon_type == 2) {
+                        if ($coupon->discount_type == 1) {
+                            //fixedAmt
+                            $amtToBeReduced = $coupon->discount;
+                        } else {
+                            //percentage
+                            $amtToBeReduced = ($coupon->discount * 100) / $totalAmount;
+                        }
+                        return number_format((float)$amtToBeReduced, 2, '.', '');
+                    } else {
+                        return 0;
+                    }
+                }
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
     }
 
 
