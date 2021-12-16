@@ -129,7 +129,7 @@ class Helper
         return 0;
     }
 
-    public static function findDeliveryCharge()
+    public static function findDeliveryCharge($customerd, $cusAddrId)
     {
         return 0;
     }
@@ -139,9 +139,11 @@ class Helper
         $current_time = Carbon::now()->toDateTimeString();
         $coupon = Mst_Coupon::where('coupon_code', $coupon_code)->where('coupon_status', 1)->first();
         if (($coupon->valid_from <= $current_time) && ($coupon->valid_to >= $current_time)) {
+            // echo "here " . $totalAmount . " - " . $coupon->min_purchase_amt;
+            // die;
             if ($totalAmount >= $coupon->min_purchase_amt) {
 
-                if ((Trn_Order::where('customer_id', $customer_id)->where('coupon_code', $coupon->coupon_id)->count()) <= 0) {
+                if ((Trn_Order::where('customer_id', $customer_id)->where('coupon_id', $coupon->coupon_id)->count()) <= 0) {
                     // ->whereIn('status_id', [6, 9, 4, 7, 8, 1]) order status not added to previous query
                     if ($coupon->discount_type == 1) {
                         //fixedAmt

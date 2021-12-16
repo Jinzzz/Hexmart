@@ -36,6 +36,7 @@ Route::get('all-product-category/list', 'Api\MasterController@listAllCategory');
 Route::get('product-category/list', 'Api\MasterController@listCategory');
 Route::get('product-subcategory-level-one/list', 'Api\MasterController@listSubCategoryLevOne');
 Route::get('product-subcategory-level-two/list', 'Api\MasterController@listSubCategoryLevTwo');
+Route::get('brand/list', 'Api\MasterController@listBrand');
 
 Route::get('banner/list', 'Api\MasterController@listBanner');
 Route::get('offer-products/list', 'Api\MasterController@listOfferProducts');
@@ -67,3 +68,5 @@ Route::get('order/status', 'Api\OrderController@orderStatus');
 
 //checkout page
 Route::get('checkout-page', 'Api\OrderController@checkoutPage');
+// home page
+Route::get('customer/home', 'Api\HomePageController@homePage');

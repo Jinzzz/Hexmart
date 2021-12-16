@@ -140,6 +140,7 @@ class ProductController extends Controller
                 $price = 0;
                 $itemCount = 0;
                 $discount = 0;
+                $itemRegularPriceTotal = 0;
                 foreach ($cartProducts as $c) {
 
                     $itemTotalPrice = 0;
@@ -190,12 +191,15 @@ class ProductController extends Controller
                     $itemCount++;
                 }
 
-                $priceDetails->price = $price; // total price for carted prducts
+                $itemRegularPriceTotal += ($c->productVariantData->variant_price_regular * $c->quantity);
+
+
+                $priceDetails->price = $itemRegularPriceTotal; // total price for carted prducts
                 $priceDetails->itemCount = $itemCount; // total carted prducts
                 $priceDetails->discount = $discount; // total discount for carted prducts
-                $deliveryCharge = Helper::findDeliveryCharge($request->customer_id); // delivery charge
+                $deliveryCharge = Helper::findDeliveryCharge($request->customer_id, $customerAddressData->customer_address_id); // delivery charge
                 $priceDetails->deliveryCharge = $deliveryCharge;
-                $totalAmount = ($price - $discount) + $deliveryCharge;
+                $totalAmount = ($price - 0) + $deliveryCharge;
                 $priceDetails->totalAmount = $totalAmount; // total amount after all deductions plus delivery charge
 
 

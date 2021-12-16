@@ -11,6 +11,7 @@ use App\Models\admin\Mst_Customer;
 use App\Models\admin\Mst_Product;
 use App\Models\admin\Mst_ProductVariant;
 use App\Models\admin\Mst_Setting;
+use App\Models\admin\Mst_TimeSlot;
 use App\Models\admin\Trn_Cart;
 use App\Models\admin\Trn_CustomerAddress;
 use App\Models\admin\Trn_Order;
@@ -39,14 +40,27 @@ class OrderController extends Controller
         try {
             if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
 
-                $customerAddressData = Trn_CustomerAddress::where('customer_id', $request->customer_id)->where('is_default', 1)->first();
+                $customerAddressData = Trn_CustomerAddress::where('customer_id', $request->customer_id);
+
+                if ($request->customer_address_id) {
+                    $customerAddressData = $customerAddressData->where('customer_address_id', $request->customer_address_id);
+                } else {
+                    $customerAddressData = $customerAddressData->where('is_default', 1);
+                }
+                $customerAddressData = $customerAddressData->first();
+
                 $data['customerAddress'] = $customerAddressData;
 
                 $today = Carbon::now()->toDateTimeString();
                 $couponDetail = Mst_Coupon::where('coupon_status', 1);
-                $couponDetail = $couponDetail->whereDate('valid_from', '<=', $today)->whereDate('valid_to', '>=', $today);
+                //  $couponDetail = $couponDetail->whereDate('valid_from', '<=', $today)->whereDate('valid_to', '>=', $today);
                 $couponDetail = $couponDetail->orderBy('coupon_id', 'DESC')->get();
                 $data['couponDetails'] = $couponDetail;
+
+                $timeslots = Mst_TimeSlot::all();
+                $data['timeSlot'] = $timeslots;
+                $data['expectedDeliveryDate'] = '2022-01-01';
+
 
 
                 $checkoutProducts  = Trn_Cart::where('customer_id', $request->customer_id)->get();
@@ -55,6 +69,7 @@ class OrderController extends Controller
                 $price = 0;
                 $itemCount = 0;
                 $discount = 0;
+                $itemRegularPriceTotal = 0;
                 foreach ($checkoutProducts as $c) {
 
                     $itemTotalPrice = 0;
@@ -81,18 +96,21 @@ class OrderController extends Controller
                     $itemCount++;
                 }
 
-                $priceDetails->price = $price; // total price for carted prducts
+                $itemRegularPriceTotal += ($c->productVariantData->variant_price_regular * $c->quantity);
+
+                $priceDetails->price = $itemRegularPriceTotal; // total price for carted prducts
                 $priceDetails->itemCount = $itemCount; // total carted prducts
                 $priceDetails->discount = $discount; // total discount for carted prducts
 
-                $deliveryCharge = Helper::findDeliveryCharge($request->customer_id); // delivery charge
+                $deliveryCharge = Helper::findDeliveryCharge($request->customer_id, $customerAddressData->customer_address_id); // delivery charge
                 $priceDetails->deliveryCharge = $deliveryCharge;
 
-                $totalAmount = ($price - $discount) + $deliveryCharge;
-                $couponDiscount = Helper::reduceCouponDiscount($request->customer_id, $request->coupon_code, $totalAmount);
+                $totalAmount = ($price - 0) + $deliveryCharge;
+                $couponDiscount = floatval(Helper::reduceCouponDiscount($request->customer_id, $request->coupon_code, $totalAmount));
+                // dd($couponDiscount);
                 $priceDetails->couponDiscount = $couponDiscount;
 
-                $totalAmountAfterCouponDiscount = (($price - $discount) - $couponDiscount) + $deliveryCharge;
+                $totalAmountAfterCouponDiscount = (($price - 0) - $couponDiscount) + $deliveryCharge;
                 $priceDetails->totalAmount = $totalAmountAfterCouponDiscount; // total amount after all deductions plus delivery charge
 
 
@@ -401,29 +419,31 @@ class OrderController extends Controller
                 $order = new Trn_Order();
 
                 $order->order_number = $orderNumberPrefix . @$orderNumber;
-                $order->order_status_id = $request->order_status_id;
+                $order->order_status_id = 1; // pending
                 $order->customer_id = $request->customer_id;
                 $order->time_slot_id = $request->time_slot_id;
-                $order->order_total_amount = $request->order_total_amount;
-                $order->delivery_charge = $request->delivery_charge;
-                $order->packing_charge = $request->packing_charge;
+                $order->order_type_id = null;
                 $order->payment_type_id = $request->payment_type_id;
                 $order->customer_address_id = $request->customer_address_id;
-                $order->payment_status_id = $request->payment_status_id;
-                $order->order_type_id = null;
                 $order->coupon_id = $request->coupon_id;
-                $order->amount_reduced_by_coupon = $request->amount_reduced_by_coupon;
                 $order->reward_points_used = $request->reward_points_used;
                 $order->amount_reduced_by_rp = $request->amount_reduced_by_rp;
+                $order->payment_status_id = $request->payment_status_id;
                 $order->transaction_id = $request->transaction_id;
-
                 $order->save();
+
+
+                // $order->order_total_amount = $request->order_total_amount;
+                // $order->delivery_charge = $request->delivery_charge;
+                // $order->packing_charge = $request->packing_charge;
+                // $order->amount_reduced_by_coupon = $request->amount_reduced_by_coupon;
+
+
 
                 $orderId = DB::getPdo()->lastInsertId();
 
 
                 //invoice table
-
                 // $invoice_info['order_id'] = $order_id;
                 // $invoice_info['invoice_date'] =  Carbon::now()->format('Y-m-d');
                 // $invoice_info['invoice_id'] = "INV0" . $order_id;
@@ -431,7 +451,19 @@ class OrderController extends Controller
                 // $invoice_info['updated_at'] = Carbon::now();
                 // Trn_order_invoice::insert($invoice_info);
 
+
+                $price = 0;
+                $itemCount = 0;
+                $discount = 0;
+                $itemRegularPriceTotal = 0;
+
                 foreach ($request->orderItems as $value) {
+
+                    $itemTotalPrice = 0;
+                    $singleItemPrice = 0;
+                    $itemTotalTaxPrice = 0;
+
+
                     $productVarOlddata = Mst_ProductVariant::find($value['product_variant_id']);
                     $productData = Mst_Product::find(@$productVarOlddata->product_id);
 
@@ -457,7 +489,36 @@ class OrderController extends Controller
                     }
 
 
-                    $totalAmount = $value['quantity'] * $value['unit_price'];
+
+                    if (Helper::isOfferAvailable($value['product_variant_id'])) {
+                        // offer available
+                        $offerData = Helper::isOfferAvailable($value['product_variant_id']);
+                        $singleItemPrice = $offerData->offer_price;
+
+                        $itemTotalPrice = $offerData->offer_price * $value['quantity'];
+                        $price += $itemTotalPrice;
+
+                        $itemDiscount =  @$productVarOlddata->variant_price_regular - $offerData->offer_pric;
+                        $itemTotalDiscount = $itemDiscount * $value['quantity'];
+                        $itemTotalTaxPrice = 0; // tax to be calculated
+                        $discount += $itemTotalDiscount;
+                    } else {
+                        // no offer product
+                        $singleItemPrice = @$productVarOlddata->variant_price_offer;
+
+                        $itemTotalPrice = @$productVarOlddata->variant_price_offer * $value['quantity'];
+                        $price += $itemTotalPrice;
+
+                        $itemDiscount = @$productVarOlddata->variant_price_regular - @$productVarOlddata->variant_price_offer;
+                        $itemTotalDiscount = $itemDiscount * $value['quantity'];
+                        $itemTotalTaxPrice = 0; // tax to be calculated
+
+                        $discount += $itemTotalDiscount;
+                    }
+
+                    $itemRegularPriceTotal += ($productVarOlddata->variant_price_regular * $value['quantity']);
+
+
                     $lastOrderData = Trn_Order::find($orderId);
 
                     $data2 = [
@@ -467,10 +528,10 @@ class OrderController extends Controller
                         'product_id' => $productData->product_id,
                         'product_variant_id' => $value['product_variant_id'],
                         'quantity' => $value['quantity'],
-                        'unit_price' =>  $value['unit_price'],
-                        'tax_amount' => $value['tax_amount'],
-                        'discount_amount' => $value['discount_amount'],
-                        'total_amount' => $totalAmount,
+                        'unit_price' =>  $singleItemPrice,
+                        'tax_amount' => $itemTotalTaxPrice,
+                        'discount_amount' => $itemTotalDiscount,
+                        'total_amount' => $itemTotalPrice,
                         'is_store_ticked' => 0,
                         'is_db_ticked' => 0,
                         'created_at'         => Carbon::now(),
@@ -478,6 +539,21 @@ class OrderController extends Controller
                     ];
                     Trn_OrderItem::insert($data2);
                 }
+
+
+                $orderUpdate = Trn_Order::find($orderId);
+                $orderUpdate->order_total_amount = $price;
+                $deliveryCharge = Helper::findDeliveryCharge($request->customer_id, $request->customer_address_id); // delivery charge
+                $orderUpdate->delivery_charge = $deliveryCharge;
+                $orderUpdate->packing_charge = 0;
+
+                $totalOrdAmount = ($price - 0) + $deliveryCharge;
+                $couponData = Mst_Coupon::find($request->coupon_id);
+                $couponDiscount = floatval(Helper::reduceCouponDiscount($request->customer_id, $couponData->coupon_code, $totalOrdAmount));
+
+                $orderUpdate->amount_reduced_by_coupon = $couponDiscount;
+                $orderUpdate->update();
+
 
 
 

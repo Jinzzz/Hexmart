@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\admin\Mst_Brand;
 use App\Models\admin\Mst_CustomerBanner;
 use App\Models\admin\Mst_ItemCategory;
 use App\Models\admin\Mst_ItemLevelTwoSubCategory;
@@ -13,6 +14,47 @@ use Illuminate\Http\Request;
 
 class MasterController extends Controller
 {
+
+
+
+    public function listBrand(Request $request)
+    {
+        $data = array();
+
+        try {
+
+            $brandDetails  = Mst_Brand::select(
+                'brand_id',
+                'brand_name',
+                'brand_icon',
+                'is_active'
+            )
+                ->where('is_active', 1)
+                ->orderBy('brand_name', 'ASC')
+                ->get();
+
+            foreach ($brandDetails as $c) {
+                if (isset($c->brand_icon)) {
+                    $c->brand_icon = '/assets/uploads/brand_icon/' . $c->brand_icon;
+                } else {
+                    $c->brand_icon = Helper::brandIcon();
+                }
+            }
+
+            $data['brandDetails'] = $brandDetails;
+            $data['status'] = 1;
+            $data['message'] = "success";
+
+            return response($data);
+        } catch (\Exception $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+
+            return response($response);
+        }
+    }
 
 
     public function listOfferProducts(Request $request)
