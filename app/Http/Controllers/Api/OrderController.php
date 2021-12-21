@@ -12,6 +12,7 @@ use App\Models\admin\Mst_Product;
 use App\Models\admin\Mst_ProductVariant;
 use App\Models\admin\Mst_Setting;
 use App\Models\admin\Mst_TimeSlot;
+use App\Models\admin\Sys_PaymentType;
 use App\Models\admin\Trn_Cart;
 use App\Models\admin\Trn_CustomerAddress;
 use App\Models\admin\Trn_Order;
@@ -93,6 +94,8 @@ class OrderController extends Controller
                 //  $couponDetail = $couponDetail->whereDate('valid_from', '<=', $today)->whereDate('valid_to', '>=', $today);
                 $couponDetail = $couponDetail->orderBy('coupon_id', 'DESC')->get();
                 $data['couponDetails'] = $couponDetail;
+
+                $data['paymentTypes'] = Sys_PaymentType::all();
 
                 $timeslots = Mst_TimeSlot::all();
                 $data['timeSlot'] = $timeslots;
