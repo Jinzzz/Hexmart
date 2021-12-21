@@ -33,6 +33,43 @@ class OrderController extends Controller
 {
 
 
+    public function orderStatusUpdate(Request $request)
+    {
+        $data = array();
+
+        try {
+            if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
+
+                if (isset($request->order_id) && Trn_Order::find($request->order_id)) {;
+
+                    if (Trn_Order::where('customer_id', $request->customer_id)->where('order_id', $request->order_id)
+                        ->update(['order_status_id' => $request->order_status_id])
+                    ) {
+                        $data['status'] = 1;
+                        $data['message'] = "Order status updated ";
+                    } else {
+                        $data['status'] = 0;
+                        $data['message'] = "failed";
+                    }
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "Order not found ";
+                }
+            } else {
+                $data['status'] = 0;
+                $data['message'] = "Customer not found ";
+            }
+            return response($data);
+        } catch (\Exception $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        }
+    }
+
+
     public function checkoutPage(Request $request) // cancel status is not correct
     {
         $data = array();
@@ -118,6 +155,9 @@ class OrderController extends Controller
                 // $data['checkoutProducts'] = $checkoutProducts;
 
                 $data['priceDetails'] = $priceDetails;
+
+                $data['status'] = 1;
+                $data['message'] = "Success";
             } else {
                 $data['status'] = 0;
                 $data['message'] = "Customer not found ";
@@ -342,26 +382,17 @@ class OrderController extends Controller
                 $request->all(),
                 [
                     'customer_id'   => 'required',
-                    'order_total_amount'  => 'required',
+                    //  'order_total_amount'  => 'required',
                     //  'payment_type_id'   => 'required',
-                    'order_status_id' => 'required',
+                    // 'order_status_id' => 'required',
                     'product_variants.*.product_variant_id'    => 'required',
                     'product_variants.*.quantity'    => 'required',
-                    'product_variants.*.discount_amount'    => 'required',
+                    // 'product_variants.*.discount_amount'    => 'required',
                 ],
                 [
                     'customer_id.required'  => 'Customer required',
-                    'order_total_amount.required' => 'Total order amount required',
-                    'payment_type_id.required'  => 'Payment type required',
-                    'order_status_id.required'    => 'Order status required',
-                    'product_variants.*.product_id.required'    => 'Product required',
                     'product_variants.*.product_variant_id.required'    => 'Product variant required',
                     'product_variants.*.quantity.required'    => 'Product quantity required',
-                    'product_variants.*.unit_price.required'    => 'Product quantity required',
-                    'product_variants.*.total_amount.required'    => 'Total amount required',
-                    'product_variants.*.tax_amount.required'    => 'Tax amount required',
-                    'product_variants.*.discount_amount.required'    => 'Discount amount required',
-                    // 'product_variants.*.discount_percentage.required'    =>'Discount percentage required',
                 ]
             );
 
@@ -548,8 +579,8 @@ class OrderController extends Controller
                 $orderUpdate->packing_charge = 0;
 
                 $totalOrdAmount = ($price - 0) + $deliveryCharge;
-                $couponData = Mst_Coupon::find($request->coupon_id);
-                $couponDiscount = floatval(Helper::reduceCouponDiscount($request->customer_id, $couponData->coupon_code, $totalOrdAmount));
+                @$couponData = Mst_Coupon::find($request->coupon_id);
+                $couponDiscount = floatval(Helper::reduceCouponDiscount($request->customer_id, @$couponData->coupon_code, $totalOrdAmount));
 
                 $orderUpdate->amount_reduced_by_coupon = $couponDiscount;
                 $orderUpdate->update();

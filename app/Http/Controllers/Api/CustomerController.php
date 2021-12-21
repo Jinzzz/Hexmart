@@ -7,17 +7,18 @@ use App\Models\admin\Mst_Customer;
 use App\Models\admin\Trn_CustomerOtpVerify;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
+use App\Models\admin\Mst_Coupon;
 use App\Models\admin\Trn_CustomerAddress;
 use Response;
 use Image;
 use DB;
-use Hash;
 use Carbon\Carbon;
 use Crypt;
 use Mail;
 use PDF;
 use Auth;
 use Validator;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -297,7 +298,7 @@ class CustomerController extends Controller
                 return response($data);
             } else {
                 $data['status'] = 0;
-                $data['message'] = "Address not found ";
+                $data['message'] = "Customer not found ";
                 return response($data);
             }
         } catch (\Exception $e) {
@@ -377,43 +378,59 @@ class CustomerController extends Controller
     public function updateProfile(Request $request)
     {
         $data = array();
+
+
+
+
         try {
 
-            $validator =   $validate = Validator::make(
-                $request->all(),
-                [
-                    'customer_name' => 'required',
-                    'password'  => 'required|min:5|same:password_confirmation',
+            if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
 
 
-                ],
-                [
-                    'customer_name.required'                => 'Customer name required',
-                    'password.required'                  => 'Password required ',
+                $validator =   $validate = Validator::make(
+                    $request->all(),
+                    [
+                        'customer_name' => 'required',
+                        'password'  => 'required|min:5|same:password_confirmation',
 
-                ]
-            );
 
-            if (!$validator->fails()) {
-                $customer = Mst_Customer::find($request->customer_id);
-                $customer->customer_name            = $request->customer_name;
-                $customer->customer_email   = $request->customer_email;
-                $customer->place   = $request->place;
-                $customer->longitude   = $request->longitude;
-                $customer->latitude   = $request->latitude;
-                if (isset($request->password))
-                    $customer->password              = Hash::make($request->password);
-                $customer->save();
+                    ],
+                    [
+                        'customer_name.required'                => 'Customer name required',
+                        'password.required'                  => 'Password required ',
 
-                $data['status'] = 1;
-                $data['message'] = "Profile updated";
+                    ]
+                );
+
+                if (!$validator->fails()) {
+                    $customer = Mst_Customer::find($request->customer_id);
+                    $customer->customer_name            = $request->customer_name;
+                    $customer->customer_email   = $request->customer_email;
+                    $customer->place   = $request->place;
+
+                    $customer->customer_gender   = $request->customer_gender;
+                    $customer->customer_dob   = $request->customer_dob;
+
+                    $customer->longitude   = $request->longitude;
+                    $customer->latitude   = $request->latitude;
+                    if (isset($request->password))
+                        $customer->password              = Hash::make($request->password);
+                    $customer->save();
+
+                    $data['status'] = 1;
+                    $data['message'] = "Profile updated";
+                } else {
+                    $data['errors'] = $validator->errors();
+                    $data['status'] = 0;
+                    $data['message'] = "Failed";
+                }
+
+                return response($data);
             } else {
-                $data['errors'] = $validator->errors();
                 $data['status'] = 0;
-                $data['message'] = "Failed";
+                $data['message'] = "Customer not found ";
+                return response($data);
             }
-
-            return response($data);
         } catch (\Exception $e) {
             $response = ['status' => '0', 'message' => $e->getMessage()];
             return response($response);
@@ -506,6 +523,66 @@ class CustomerController extends Controller
                 $data['errors'] = $validator->errors();
                 $data['message'] = "Login Failed";
             }
+
+            return response($data);
+        } catch (\Exception $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $data = array();
+        try {
+            if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
+                $validator = Validator::make(
+                    $request->all(),
+                    [
+
+                        'password' => 'required|confirmed',
+
+                    ],
+                    [
+                        'store_admin_id.required'        => 'store admin id required',
+                        'old_password.required'        => 'Old password required',
+                        'password.required'        => 'Password required',
+                        'password.confirmed'        => 'Passwords not matching',
+                    ]
+                );
+
+                if (!$validator->fails()) {
+                    $custCheck = Mst_Customer::where('customer_id', '=', $request->customer_id)->first();
+
+                    if (Hash::check($request->old_password, $custCheck->password)) {
+                        $data20 = [
+                            'password'      => Hash::make($request->password),
+                        ];
+                        Mst_Customer::where('customer_id', $request->customer_id)->update($data20);
+
+                        $data['status'] = 1;
+                        $data['message'] = "Password updated successfully.";
+                        return response($data);
+                    } else {
+                        $data['status'] = 0;
+                        $data['message'] = "Old password incorrect.";
+                        return response($data);
+                    }
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "failed";
+                    $data['errors'] = $validator->errors();
+                    return response($data);
+                }
+            } else {
+                $data['status'] = 0;
+                $data['message'] = "Customer not found.";
+                return response($data);
+            }
+
 
             return response($data);
         } catch (\Exception $e) {

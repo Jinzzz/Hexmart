@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('informations', 'Api\InfoController@info');
+
+
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
@@ -22,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 //category list
 Route::post('customer/save', 'Api\CustomerController@saveCustomer');
 Route::post('customer/login', 'Api\CustomerController@loginCustomer');
+Route::post('customer/change-password', 'Api\CustomerController@updatePassword');
 
 Route::post('customer/add-address', 'Api\CustomerController@addAddress');
 Route::post('customer/edit-address', 'Api\CustomerController@editAddress');
@@ -30,7 +34,7 @@ Route::get('customer/view-address', 'Api\CustomerController@ViewAddress');
 Route::get('customer/address-list', 'Api\CustomerController@listAddress');
 
 Route::get('customer/view-profile', 'Api\CustomerController@ViewProfile');
-Route::post('customer/update-profile', 'Api\CustomerContr-oller@updateProfile');
+Route::post('customer/update-profile', 'Api\CustomerController@updateProfile');
 
 Route::get('all-product-category/list', 'Api\MasterController@listAllCategory');
 Route::get('product-category/list', 'Api\MasterController@listCategory');
@@ -65,6 +69,7 @@ Route::get('order/list', 'Api\OrderController@listOrders');
 Route::get('order/view', 'Api\OrderController@viewOrder');
 Route::get('order/cancel', 'Api\OrderController@cancelOrder'); // updated cancel status is not correct
 Route::get('order/status', 'Api\OrderController@orderStatus');
+Route::get('order-status/update', 'Api\OrderController@orderStatusUpdate');
 
 //checkout page
 Route::get('checkout-page', 'Api\OrderController@checkoutPage');
