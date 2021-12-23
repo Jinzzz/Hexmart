@@ -72,6 +72,8 @@ Route::get('order/status', 'Api\OrderController@orderStatus');
 Route::get('order-status/update', 'Api\OrderController@orderStatusUpdate');
 
 //checkout page
-Route::get('checkout-page', 'Api\OrderController@checkoutPage');
+Route::post('checkout-page', 'Api\OrderController@checkoutPage');
+Route::get('reduce-reward-points', 'Api\OrderController@reduceRewardPoint');
+
 // home page
 Route::get('customer/home', 'Api\HomePageController@homePage');

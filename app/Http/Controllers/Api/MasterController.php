@@ -47,10 +47,10 @@ class MasterController extends Controller
 
             return response($data);
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
 
             return response($response);
         }
@@ -87,10 +87,10 @@ class MasterController extends Controller
 
             return response($data);
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
 
             return response($response);
         }
@@ -126,10 +126,10 @@ class MasterController extends Controller
 
             return response($data);
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
 
             return response($response);
         }
@@ -165,10 +165,10 @@ class MasterController extends Controller
 
             return response($data);
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
 
             return response($response);
         }
@@ -203,10 +203,10 @@ class MasterController extends Controller
 
             return response($data);
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
 
             return response($response);
         }
@@ -247,10 +247,10 @@ class MasterController extends Controller
 
             return response($data);
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
 
             return response($response);
         }
@@ -295,10 +295,10 @@ class MasterController extends Controller
 
             return response($data);
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
 
             return response($response);
         }

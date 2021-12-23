@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use App\Models\admin\Mst_AttributeValue;
+use App\Models\admin\Mst_ConfigurePoints;
 use App\Models\admin\Mst_Coupon;
 use App\Models\admin\Mst_Customer;
 use App\Models\admin\Mst_Product;
@@ -15,6 +16,7 @@ use App\Models\admin\Mst_TimeSlot;
 use App\Models\admin\Sys_PaymentType;
 use App\Models\admin\Trn_Cart;
 use App\Models\admin\Trn_CustomerAddress;
+use App\Models\admin\Trn_CustomerReward;
 use App\Models\admin\Trn_Order;
 use App\Models\admin\Trn_OrderItem;
 use App\Models\admin\Trn_StockDetail;
@@ -32,6 +34,108 @@ use Validator;
 
 class OrderController extends Controller
 {
+
+    public function reduceRewardPoint(Request $request)
+    {
+        $data = array();
+        try {
+            if (isset($request->totalAmount)) {
+                if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
+                    $customer_id = $request->customer_id;
+
+                    $totalCustomerRewardsCount = Trn_CustomerReward::where('customer_id', $request->customer_id)->where('is_active', 1)->sum('reward_points_earned');
+                    $totalusedPoints = Trn_Order::where('customer_id', $request->customer_id)->sum('reward_points_used'); // ->whereNotIn('status_id',[5]) cancelled order must be avoided
+                    $customerRewardPoint = $totalCustomerRewardsCount - $totalusedPoints;
+
+                    //echo $customerRewardPoint;die;
+
+                    if ($customerRewardPoint > 0) {
+
+
+                        $ConfigPoints = Mst_ConfigurePoints::first();
+                        $pointToRupeeRatio =   $ConfigPoints->rupee / $ConfigPoints->rupee_points; // points to rupee ratio
+
+                        $avilableRewardAmount = $pointToRupeeRatio * $customerRewardPoint;
+                        $maxRedeemAmountPerOrder = $ConfigPoints->max_redeem_amount;
+                        $totalReducableAmount = ($avilableRewardAmount * $ConfigPoints->redeem_percentage) / 100; // 10% of order amount
+
+                        if ($totalReducableAmount > $maxRedeemAmountPerOrder) {
+
+                            $orderAmount = $request->totalAmount;
+                            $totalAmount = $orderAmount - $maxRedeemAmountPerOrder;
+                            $customerUsedRewardPoint = $maxRedeemAmountPerOrder / $pointToRupeeRatio;
+
+                            //   $data['orderAmount'] = number_format((float)$orderAmount, 2, '.', '');
+                            //   $data['totalReducableAmount'] = number_format((float)$maxRedeemAmountPerOrder, 2, '.', '');
+                            $data['totalAmount'] = number_format((float)$totalAmount, 2, '.', '');
+                            $data['reducedAmountByWalletPoints'] = number_format((float)$maxRedeemAmountPerOrder, 2, '.', '');
+                            $data['usedPoint'] = number_format((float)$customerUsedRewardPoint, 2, '.', '');
+                            $data['balancePoint'] = $customerRewardPoint - $customerUsedRewardPoint;
+                        } else {
+
+                            $orderAmount = $request->totalAmount;
+                            $totalAmount = $orderAmount - $totalReducableAmount;
+                            $customerUsedRewardPoint = $totalReducableAmount / $pointToRupeeRatio;
+
+                            //   $data['orderAmount'] = number_format((float)$orderAmount, 2, '.', '');
+                            //   $data['totalReducableAmount'] = number_format((float)$totalReducableAmount, 2, '.', '');
+                            $data['totalAmount'] = number_format((float)$totalAmount, 2, '.', '');
+                            $data['reducedAmountByWalletPoints'] = number_format((float)$totalReducableAmount, 2, '.', '');
+                            $data['usedPoint'] = number_format((float)$customerUsedRewardPoint, 2, '.', '');
+                            $data['balancePoint'] = $customerRewardPoint - $customerUsedRewardPoint;
+                        }
+
+
+
+
+
+                        //     $orderAmount = $request->order_amount;
+                        //     $totalReducableAmount = ($orderAmount * $ConfigPoints->redeem_percentage) / 100; // 10% of order amount
+                        //     $amountCanBeReduced = $pointToRupeeRatio * $customerRewardPoint;
+                        //     if($totalReducableAmount >= $amountCanBeReduced){
+                        //         $reducedOrderAmount = $orderAmount - $amountCanBeReduced;
+                        //         $data['orderAmount'] = number_format((float)$orderAmount, 2, '.', '');
+                        //         $data['totalReducableAmount'] = number_format((float)$totalReducableAmount, 2, '.', '');
+                        //         $data['reducedOrderAmount'] = number_format((float)$reducedOrderAmount, 2, '.', '');
+                        //         $data['reducedAmountByWalletPoints'] = number_format((float)$amountCanBeReduced, 2, '.', '');
+                        //         $data['usedPoint'] = number_format((float)$customerRewardPoint, 2, '.', '');
+                        //         $data['balancePoint'] = 0;
+                        //     }else{
+                        //         $usedPoint = $totalReducableAmount / $pointToRupeeRatio;
+                        //         $reducedOrderAmount = $orderAmount - $totalReducableAmount;
+                        //         $balancePoint = $customerRewardPoint - $usedPoint;
+                        //         $data['orderAmount'] = number_format((float)$orderAmount, 2, '.', '');
+                        //         $data['totalReducableAmount'] = number_format((float)$totalReducableAmount, 2, '.', '');
+                        //         $data['reducedOrderAmount'] = number_format((float)$reducedOrderAmount, 2, '.', '');
+                        //         $data['reducedAmountByWalletPoints'] = number_format((float)$totalReducableAmount, 2, '.', '');
+                        //         $data['usedPoint'] = number_format((float)$usedPoint, 2, '.', '');
+                        //         $data['balancePoint'] = number_format((float)$balancePoint, 2, '.', '');
+                        //     }
+
+                        $data['status'] = 1;
+                        $data['message'] = "success";
+                    } else {
+                        $data['status'] = 0;
+                        $data['message'] = "No reward points available";
+                    }
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "Customer not found";
+                }
+            } else {
+                $data['status'] = 0;
+                $data['message'] = "Order amount required";
+            }
+
+            return response($data);
+        } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+        }
+    }
 
 
     public function orderStatusUpdate(Request $request)
@@ -62,10 +166,10 @@ class OrderController extends Controller
             }
             return response($data);
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         }
     }
@@ -100,10 +204,12 @@ class OrderController extends Controller
                 $timeslots = Mst_TimeSlot::all();
                 $data['timeSlot'] = $timeslots;
                 $data['expectedDeliveryDate'] = '2022-01-01';
+                $data['maxRedeemPercentage'] = Mst_ConfigurePoints::first()->redeem_percentage;
 
 
+                //$checkoutProducts  = Trn_Cart::where('customer_id', $request->customer_id)->get();
+                $checkoutProducts = $request->checkoutProducts;
 
-                $checkoutProducts  = Trn_Cart::where('customer_id', $request->customer_id)->get();
 
                 $priceDetails = new stdClass();
                 $price = 0;
@@ -111,32 +217,35 @@ class OrderController extends Controller
                 $discount = 0;
                 $itemRegularPriceTotal = 0;
                 foreach ($checkoutProducts as $c) {
-
                     $itemTotalPrice = 0;
+                    $variantInfo = Mst_ProductVariant::find($c['product_variant_id']);
 
-                    if (Helper::isOfferAvailable($c->product_variant_id)) {
-                        $offerData = Helper::isOfferAvailable($c->product_variant_id);
+                    if (Helper::isOfferAvailable($variantInfo->product_variant_id)) {
+                        $offerData = Helper::isOfferAvailable($variantInfo->product_variant_id);
 
-                        $itemTotalPrice = $offerData->offer_price * $c->quantity;
+                        $itemTotalPrice = $offerData->offer_price * $c['quantity'];
                         $price += $itemTotalPrice;
 
-                        $itemDiscount =  @$c->productVariantData->variant_price_regular - $offerData->offer_pric;
-                        $itemTotalDiscount = $itemDiscount * $c->quantity;
+
+                        $itemDiscount =  @$variantInfo->variant_price_regular - $offerData->offer_price;
+                        $itemTotalDiscount = $itemDiscount * $c['quantity'];
                         $discount += $itemTotalDiscount;
                     } else {
 
-                        $itemTotalPrice = @$c->productVariantData->variant_price_offer * $c->quantity;
+                        $itemTotalPrice = @$variantInfo->variant_price_offer * $c['quantity'];
                         $price += $itemTotalPrice;
 
-                        $itemDiscount = @$c->productVariantData->variant_price_regular - @$c->productVariantData->variant_price_offer;
-                        $itemTotalDiscount = $itemDiscount * $c->quantity;
+                        $itemDiscount = @$variantInfo->variant_price_regular - @$variantInfo->variant_price_offer;
+                        $itemTotalDiscount = $itemDiscount * $c['quantity'];
                         $discount += $itemTotalDiscount;
                     }
 
                     $itemCount++;
+                    $itemRegularPriceTotal += ($variantInfo->variant_price_regular * $c['quantity']);
                 }
+                // echo "here";
+                // die;
 
-                $itemRegularPriceTotal += ($c->productVariantData->variant_price_regular * $c->quantity);
 
                 $priceDetails->price = $itemRegularPriceTotal; // total price for carted prducts
                 $priceDetails->itemCount = $itemCount; // total carted prducts
@@ -167,10 +276,10 @@ class OrderController extends Controller
             }
             return response($data);
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         }
     }
@@ -205,10 +314,10 @@ class OrderController extends Controller
                 return response($data);
             }
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         }
     }
@@ -241,10 +350,10 @@ class OrderController extends Controller
                 return response($data);
             }
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         }
     }
@@ -307,10 +416,10 @@ class OrderController extends Controller
                 return response($data);
             }
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         }
     }
@@ -368,10 +477,10 @@ class OrderController extends Controller
                 return response($data);
             }
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         }
     }
@@ -635,10 +744,10 @@ class OrderController extends Controller
                 return response($data);
             }
         } catch (\Exception $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => '0', 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         }
     }
