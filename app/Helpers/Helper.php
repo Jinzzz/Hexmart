@@ -43,6 +43,8 @@ class Helper
     {
         $ratingCount = Trn_ReviewsAndRating::where('product_variant_id', $product_variant_id)->count();
         $ratingSum = Trn_ReviewsAndRating::where('product_variant_id', $product_variant_id)->sum('rating');
+        if ($ratingCount == 0)
+            $ratingCount = 1;
         $avgRating = $ratingSum / $ratingCount;
         if ($avgRating > 1)
             return $avgRating;

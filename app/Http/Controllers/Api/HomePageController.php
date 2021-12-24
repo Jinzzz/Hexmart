@@ -119,6 +119,9 @@ class HomePageController extends Controller
                     $c->productVariantBaseImage  = Helper::productVarBaseImage($c->product_id, $c->product_variant_id);
                     $c->proVarAttributes  = Helper::variantArrtibutes($c->product_variant_id);
                     $c->proVarImages  = Helper::variantImages($c->product_variant_id);
+                    $c->ratingCount  = Helper::findRatingCount($c->product_variant_id);
+                    $c->rating  = Helper::findRating($c->product_variant_id);
+                    $c->reviewCount  = Helper::findReviewCount($c->product_variant_id);
                 }
 
                 $data['recentAddedProducts'] = $recentAddedProducts;
