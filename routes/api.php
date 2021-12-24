@@ -77,3 +77,7 @@ Route::get('reduce-reward-points', 'Api\OrderController@reduceRewardPoint');
 
 // home page
 Route::get('customer/home', 'Api\HomePageController@homePage');
+
+Route::post('customer/add-review', 'Api\ProductController@addReview');
+
+Route::get('/product/review-rating/list', 'Api\ProductController@getReviewAndRating');

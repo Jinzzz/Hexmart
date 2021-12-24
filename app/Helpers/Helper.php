@@ -10,6 +10,7 @@ use App\Models\admin\Mst_ProductVariant;
 use App\Models\admin\Trn_ItemImage;
 use App\Models\admin\Trn_ItemVariantAttribute;
 use App\Models\admin\Trn_Order;
+use App\Models\admin\Trn_ReviewsAndRating;
 use Illuminate\Support\Str;
 use Crypt;
 use  Carbon\Carbon;
@@ -18,6 +19,41 @@ use Validator;
 
 class Helper
 {
+
+    public static function findReviewData($product_variant_id)
+    {
+        $reviewData = Trn_ReviewsAndRating::where('product_variant_id', $product_variant_id)
+            ->where('review', '!=', null)
+            ->get();
+        foreach ($reviewData as $c) {
+            $c->customerData = $c->customerData;
+        }
+        return $reviewData;
+    }
+
+
+    public static function findReviewCount($product_variant_id)
+    {
+        return $ratingCount = Trn_ReviewsAndRating::where('product_variant_id', $product_variant_id)
+            ->where('review', '!=', null)
+            ->count();
+    }
+
+    public static function findRating($product_variant_id)
+    {
+        $ratingCount = Trn_ReviewsAndRating::where('product_variant_id', $product_variant_id)->count();
+        $ratingSum = Trn_ReviewsAndRating::where('product_variant_id', $product_variant_id)->sum('rating');
+        $avgRating = $ratingSum / $ratingCount;
+        if ($avgRating > 1)
+            return $avgRating;
+        else
+            return 0;
+    }
+
+    public static function findRatingCount($product_variant_id)
+    {
+        return  $ratingCount = Trn_ReviewsAndRating::where('product_variant_id', $product_variant_id)->count();
+    }
 
     public static function validateCustomer($valid)
     {

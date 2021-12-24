@@ -10,6 +10,7 @@ use App\Models\admin\Mst_ProductVariant;
 use App\Models\admin\Trn_Cart;
 use App\Models\admin\Trn_CustomerAddress;
 use App\Models\admin\Trn_CustomerReward;
+use App\Models\admin\Trn_ReviewsAndRating;
 use App\Models\admin\Trn_WishList;
 use Illuminate\Http\Request;
 use stdClass;
@@ -17,6 +18,104 @@ use Validator;
 
 class ProductController extends Controller
 {
+
+
+
+    public function getReviewAndRating(Request $request)
+    {
+        $data = array();
+
+        try {
+            if (isset($request->product_variant_id) && Mst_ProductVariant::find($request->product_variant_id)) {
+                $allReviewAndRating  = Trn_ReviewsAndRating::where('product_variant_id', $request->product_variant_id)->get();
+
+
+                foreach ($allReviewAndRating as $c) {
+                    $customerData = $c->customerData;
+                }
+
+
+                $data['reviewAndRatingData'] = $allReviewAndRating;
+                $data['ratingCount'] = Helper::findRatingCount($request->product_variant_id);
+                $data['rating'] = Helper::findRating($request->product_variant_id);
+                $data['reviewCount'] = Helper::findReviewCount($request->product_variant_id);
+                $data['status'] = 1;
+                $data['message'] = "success";
+            } else {
+
+                $data['status'] = 0;
+                $data['message'] = "Customer not exists";
+            }
+
+            return response($data);
+        } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+
+            return response($response);
+        }
+    }
+
+
+
+
+    public function addReview(Request $request)
+    {
+        $data = array();
+        try {
+            if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
+                $validator = Validator::make(
+                    $request->all(),
+                    [
+                        'product_variant_id'   => 'required',
+                        'rating'   => 'required',
+                    ],
+                    [
+                        'product_variant_id.required'  => 'Variant required',
+                        'rating.required'  => 'Rating required',
+                    ]
+                );
+
+                if (!$validator->fails()) {
+
+                    $review = new Trn_ReviewsAndRating;
+                    $review->customer_id = $request->customer_id;
+                    $variantData = Mst_ProductVariant::find($request->product_variant_id);
+                    $review->product_id = @$variantData->product_id;
+                    $review->product_variant_id = $request->product_variant_id;
+                    $review->rating = $request->rating;
+                    $review->review = $request->review;
+                    if ($review->save()) {
+                        $data['status'] = 1;
+                        $data['message'] = "Review added";
+                        return response($data);
+                    } else {
+                        $data['status'] = 0;
+                        $data['message'] = "failed";
+                        return response($data);
+                    }
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "failed";
+                    $data['errors'] = $validator->errors();
+                    return response($data);
+                }
+            } else {
+                $data['status'] = 0;
+                $data['message'] = "Customer not found ";
+                return response($data);
+            }
+        } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+        }
+    }
+
 
 
     public function removeCartItem(Request $request)
@@ -380,6 +479,9 @@ class ProductController extends Controller
                 $c->productVariantBaseImage  = Helper::productVarBaseImage($c->product_id, $c->product_variant_id);
                 $c->proVarAttributes  = Helper::variantArrtibutes($c->product_variant_id);
                 $c->proVarImages  = Helper::variantImages($c->product_variant_id);
+                $c->ratingCount  = Helper::findRatingCount($c->product_variant_id);
+                $c->rating  = Helper::findRating($c->product_variant_id);
+                $c->reviewCount  = Helper::findReviewCount($c->product_variant_id);
             }
 
             $data['recentAddedProducts'] = $recentAddedProducts;
@@ -490,6 +592,9 @@ class ProductController extends Controller
                     $c->isOfferAvailable  = 0;
                     $c->offerData  = new stdClass();;
                 }
+                $c->ratingCount  = Helper::findRatingCount($c->product_variant_id);
+                $c->rating  = Helper::findRating($c->product_variant_id);
+                $c->reviewCount  = Helper::findReviewCount($c->product_variant_id);
             }
 
             $data['productsList'] = $products;
@@ -521,6 +626,10 @@ class ProductController extends Controller
                 $product->productVariantBaseImage  = Helper::productVarBaseImage($product->product_id, $product->product_variant_id);
                 $product->proVarAttributes  = Helper::variantArrtibutes($product->product_variant_id);
                 $product->proVarImages  = Helper::variantImages($product->product_variant_id);
+                $product->ratingCount  = Helper::findRatingCount($product->product_variant_id);
+                $product->rating  = Helper::findRating($product->product_variant_id);
+                $product->reviewCount  = Helper::findReviewCount($product->product_variant_id);
+                $product->reviewData  = Helper::findReviewData($product->product_variant_id);
 
                 $baseProductData  = @$product->productData;
                 $baseProductData->item_category_data = @$baseProductData->itemCategoryData;
