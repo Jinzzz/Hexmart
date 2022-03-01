@@ -324,6 +324,42 @@ class Helper
             return false;
     }
 
+
+    public static function otherVariants($product_variant_id, $similar_products_limit)
+    {
+        $varData = Mst_ProductVariant::join('mst__products', 'mst__products.product_id', '=', 'mst__product_variants.product_id')
+            ->where('mst__product_variants.product_variant_id', $product_variant_id)->first();
+
+        $otherVariants = Mst_ProductVariant::join('mst__products', 'mst__products.product_id', '=', 'mst__product_variants.product_id')
+            ->where('mst__products.iltsc_id', $varData->iltsc_id)
+            ->where('mst__product_variants.product_variant_id', '!=', $product_variant_id)
+            ->where('mst__product_variants.product_id', '=', $varData->product_id);
+
+        if (isset($similar_products_limit)) {
+            $otherVariants = $otherVariants->limit($similar_products_limit);
+        }
+
+        $otherVariants = $otherVariants->get();
+
+        foreach ($otherVariants as $c) {
+            $c->productBaseImage  = Helper::productBaseImage($c->product_id);
+            $c->productVariantBaseImage  = Helper::productVarBaseImage($c->product_id, $c->product_variant_id);
+            $c->proVarAttributes  = Helper::variantArrtibutes($c->product_variant_id);
+            $c->proVarImages  = Helper::variantImages($c->product_variant_id);
+
+            // offer-details
+            if (Helper::isOfferAvailable($c->product_variant_id)) {
+                $c->isOfferAvailable  = 1;
+                $c->offerData  = Helper::isOfferAvailable($c->product_variant_id);
+            } else {
+                $c->isOfferAvailable  = 0;
+                $c->offerData  = new stdClass();;
+            }
+        }
+
+        return $otherVariants;
+    }
+
     public static function similarProducts($product_variant_id, $similar_products_limit)
     {
         $varData = Mst_ProductVariant::join('mst__products', 'mst__products.product_id', '=', 'mst__product_variants.product_id')
@@ -331,7 +367,9 @@ class Helper
 
         $similarProducts = Mst_ProductVariant::join('mst__products', 'mst__products.product_id', '=', 'mst__product_variants.product_id')
             ->where('mst__products.iltsc_id', $varData->iltsc_id)
-            ->where('mst__product_variants.product_variant_id', '!=', $product_variant_id);
+            ->where('mst__product_variants.product_variant_id', '!=', $product_variant_id)
+            ->where('mst__product_variants.product_id', '!=', $varData->product_id)
+            ->whereOr('mst__products.item_sub_category_id', $varData->item_sub_category_id);
 
         if (isset($similar_products_limit)) {
             $similarProducts = $similarProducts->limit($similar_products_limit);

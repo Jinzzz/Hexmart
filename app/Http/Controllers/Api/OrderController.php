@@ -276,9 +276,23 @@ class OrderController extends Controller
             }
             return response($data);
         } catch (\Exception $e) {
+
+            $data['status'] = 0;
+            $data['message'] = "failed ";
+            $data['inputData'] = $request->all();
+
+            return response($data);
+
             $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
+
+            $data['status'] = 0;
+            $data['message'] = "failed ";
+            $data['inputData'] = $request->all();
+
+            return response($data);
+
             $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         }
@@ -740,14 +754,17 @@ class OrderController extends Controller
             } else {
                 $data['status'] = 0;
                 $data['message'] = "failed";
+                        $data['inputData'] = $request->all();
+
                 $data['errors'] = $validator->errors();
                 return response($data);
             }
         } catch (\Exception $e) {
-            $response = ['status' => 0, 'message' => $e->getMessage()];
+
+            $response = ['status' => 0, 'message' => $e->getMessage(),'inputData' => $request->all()];
             return response($response);
         } catch (\Throwable $e) {
-            $response = ['status' => 0, 'message' => $e->getMessage()];
+            $response = ['status' => 0, 'message' => $e->getMessage(),'inputData' => $request->all()];
             return response($response);
         }
     }

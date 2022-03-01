@@ -659,6 +659,7 @@ class ProductController extends Controller
                 }
 
                 $data['productDetails'] = $product;
+                $data['otherVariants'] =  Helper::otherVariants($product->product_variant_id, 50);
                 $data['similarProducts'] =  Helper::similarProducts($product->product_variant_id, $similar_products_limit);
                 $data['status'] = 1;
                 $data['message'] = "success";
