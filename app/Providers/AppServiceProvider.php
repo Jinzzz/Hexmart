@@ -23,6 +23,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+        // view()->composer(
+        //     'layout.nav', 
+        //     function ($view) {
+        //         $view->with('categories', \App\Models\Category::all());
+        //     }
+        // );
     }
 }

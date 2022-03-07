@@ -33,7 +33,12 @@ Route::get('customer/remove-address', 'Api\CustomerController@removeAddress');
 Route::get('customer/view-address', 'Api\CustomerController@ViewAddress');
 Route::get('customer/address-list', 'Api\CustomerController@listAddress');
 
-Route::get('customer/view-profile', 'Api\CustomerController@ViewProfile');
+
+Route::group(['middleware' => 'auth:api'], function () {
+
+    Route::get('customer/view-profile', 'Api\CustomerController@ViewProfile');
+});
+
 Route::post('customer/update-profile', 'Api\CustomerController@updateProfile');
 
 Route::get('all-product-category/list', 'Api\MasterController@listAllCategory');

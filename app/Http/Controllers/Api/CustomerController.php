@@ -468,6 +468,17 @@ class CustomerController extends Controller
             );
             // dd($validator);
             if (!$validator->fails()) {
+                // $custCheck = Mst_Customer::where('customer_mobile', '=', $phone)->first();
+
+                // $loginData = array('customer_mobile' => $request->customer_mobile, 'password' => $request->password);
+                // if ($custCheck) {
+                //     $accessToken = $custCheck->createToken('authToken')->accessToken;
+                //     return response(['message' => "Valid details", "accessToken" => $accessToken]);
+                // } else {
+                //     return response(['message' => "Invalid details"]);
+                // }
+
+
                 $custCheck = Mst_Customer::where('customer_mobile', '=', $phone)->first();
                 $today = Carbon::now()->toDateString();
 
@@ -482,11 +493,11 @@ class CustomerController extends Controller
                                 //  dd(Auth::guard('api')->user());
 
                                 // if (Auth::guard('api')->attempt(['customer_mobile' => request('customer_mobile'), 'password' => request('password')])) {
-                                $user = Mst_Customer::find(auth()->guard('api')->user());
+                                //  $custCheck = Mst_Customer::where('customer_mobile', '=', $phone)->first();
 
-                                dd($user);
+                                // dd($user);
                                 // $data['token'] =  $user->createToken('authToken', ['customer'])->accessToken;
-                                $data['token'] =  $user->createToken('authToken', [])->accessToken;
+                                $data['token'] =  $custCheck->createToken('authToken', [])->accessToken;
                                 $data['status'] = 1;
                                 $data['message'] = "Login Success";
 

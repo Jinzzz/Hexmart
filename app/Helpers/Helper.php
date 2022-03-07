@@ -39,6 +39,13 @@ class Helper
             ->count();
     }
 
+    public static function itemSubCategoryL2Data($item_sub_category_id)
+    {
+        return $list = Mst_ItemLevelTwoSubCategory::where('item_sub_category_id', $item_sub_category_id)
+            ->where('is_active', 1)
+            ->get();
+    }
+
     public static function findRating($product_variant_id)
     {
         $ratingCount = Trn_ReviewsAndRating::where('product_variant_id', $product_variant_id)->count();
@@ -262,8 +269,12 @@ class Helper
     public static function productVarBaseImage($product_id, $product_variant_id)
     {
         $productBaseImage = Trn_ItemImage::where('is_default', 1)
-            ->where('product_variant_id', $product_variant_id)
-            ->where('product_id', $product_id)->first();
+            ->where('product_variant_id', $product_variant_id);
+
+        if ($product_id != 0)
+            $productBaseImage = $productBaseImage->where('product_id', $product_id);
+
+        $productBaseImage = $productBaseImage->first();
 
         if (isset($productBaseImage->item_image_name)) {
             return '/assets/uploads/products/' . $productBaseImage->item_image_name;

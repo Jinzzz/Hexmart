@@ -56,28 +56,32 @@
                <div class="container collapse navbar-collapse" id="navbarNavDropdown">
                   <ul class="navbar-nav">
                      <li class="nav-item active"> <a class="nav-link" href="#">TopOffers </a> </li>
-                     <li class="nav-item"><a class="nav-link" href="#"> Grocery </a></li>
-                     <li class="nav-item"><a class="nav-link" href="#"> Mobiles </a></li>
+
+
+                     {{-- <li class="nav-item"><a class="nav-link" href="#"> Grocery </a></li>
+                     <li class="nav-item"><a class="nav-link" href="#"> Mobiles </a></li> --}}
+                     
+                     @foreach ($navCategoryDetails as $cat)
                      <li class="nav-item dropdown has-megamenu">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> fashion  </a>
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> {{ $cat->category_name }}  </a>
                         <div class="dropdown-menu  drop-list" aria-labelledby="navbarDropdownMenuLink">
                            <div class="roww">
+                              @foreach (@$cat->itemSubCategoryL1Data as $subCatLOne)
                               <div class="column drp-list-content">
-                                 <h3>Category 1</h3>
-                                 <a href="#">Link 1</a>
-                                 <a href="#">Link 2</a>
-                                 <a href="#">Link 3</a>
+                                 <h3>{{ $subCatLOne->sub_category_name }}</h3>
+                                
+                                 @foreach ((new \App\Helpers\Helper)->itemSubCategoryL2Data($subCatLOne->item_sub_category_id) as $subCatLTwo)
+                                    <a href="#">{{ $subCatLTwo->iltsc_name }}</a>
+                                 @endforeach
                               </div>
-                              <div class="column drp-list-content">
-                                 <h3>Category 2</h3>
-                                 <a href="#">Link 1</a>
-                                 <a href="#">Link 2</a>
-                                 <a href="#">Link 3</a>
-                              </div>
+                              @endforeach
                            </div>
                         </div>
                      </li>
-                     <li class="nav-item dropdown has-megamenu">
+                     @endforeach
+                    
+
+                     {{-- <li class="nav-item dropdown has-megamenu">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> Elecronics  </a>
                         <div class="dropdown-menu  drop-list" aria-labelledby="navbarDropdownMenuLink">
                            <div class="roww">
@@ -95,8 +99,8 @@
                               </div>
                            </div>
                         </div>
-                     </li>
-                     <li class="nav-item dropdown has-megamenu">
+                     </li> --}}
+                     {{-- <li class="nav-item dropdown has-megamenu">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> Home  </a>
                         <div class="dropdown-menu  drop-list" aria-labelledby="navbarDropdownMenuLink">
                            <div class="roww">
@@ -120,8 +124,8 @@
                               </div>
                            </div>
                         </div>
-                     </li>
-                     <li class="nav-item dropdown has-megamenu">
+                     </li> --}}
+                     {{-- <li class="nav-item dropdown has-megamenu">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> Appliances  </a>
                         <div class="dropdown-menu  drop-list" aria-labelledby="navbarDropdownMenuLink">
                            <div class="roww">
@@ -139,9 +143,9 @@
                               </div>
                            </div>
                         </div>
-                     </li>
-                     <li class="nav-item"><a class="nav-link" href="#"> Travel </a></li>
-                     <li class="nav-item dropdown has-megamenu">
+                     </li> --}}
+                     {{-- <li class="nav-item"><a class="nav-link" href="#"> Travel </a></li> --}}
+                     {{-- <li class="nav-item dropdown has-megamenu">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> Beauty,Toys & More  </a>
                         <div class="dropdown-menu  drop-list" aria-labelledby="navbarDropdownMenuLink">
                            <div class="roww">
@@ -171,7 +175,7 @@
                               </div>
                            </div>
                         </div>
-                     </li>
+                     </li> --}}
                   </ul>
                </div>
                <!-- navbar-collapse.// -->
@@ -200,7 +204,16 @@
                               <h2>shop by category</h2>
                            </div>
                            <div class="row text-center">
+                              @foreach ($categoryDetails as $cat)
                               <div class="col-md-4 col-sm-6 col-4 col-lg-4 pb-2 " data-aos="fade-up">
+                                 <a href="{{ url('/categories/'.$cat->item_category_id.'/'.$cat->category_name_slug) }}">
+                                    <img src="{{URL::to('assets/uploads/category_icon/'.$cat->category_icon)}} " class="img-fluid shop-item-icon" alt="">
+                                    <h3 class="cat-head">{{ $cat->category_name }}</h3>
+                                 </a>
+                              </div>
+                              @endforeach
+
+                              {{-- <div class="col-md-4 col-sm-6 col-4 col-lg-4 pb-2 " data-aos="fade-up">
                                  <a href="">
                                     <img src="{{URL::to('/assets/frontAssets/image/cat-icon1.png')}} " class="img-fluid shop-item-icon" alt="">
                                     <h3 class="cat-head">Fashion</h3>
@@ -229,9 +242,9 @@
                                     <img src="{{URL::to('/assets/frontAssets/image/cat-icon5.png')}} " class="img-fluid shop-item-icon" alt="">
                                     <h3 class="cat-head">Lifestyle</h3>
                                  </a>
-                              </div>
+                              </div> --}}
                               <div class="col-md-4 col-sm-6 col-4 col-lg-4" data-aos="fade-up">
-                                 <a href="">
+                                 <a href="{{ url('/categories') }}">
                                     <img src="{{URL::to('/assets/frontAssets/image/cat-icon6.png')}} " class="img-fluid shop-item-icon" alt="">
                                     <h3 class="cat-head">View All</h3>
                                  </a>
@@ -242,7 +255,37 @@
                      <div class="col-md-12 col-lg-6 col-12">
                         <div class="product-slid-container">
                            <div class="slider">
+
+                              @foreach ($offerDetails as $offer)
+                                 
+
                               <div class="slide">
+                                 <div class="sec-imag">
+                                    <img src="{{URL::to((new \App\Helpers\Helper)->productVarBaseImage(0,$offer->product_variant_id) )}}" class="img-fluid product-slid-img" alt="">
+                                 </div>
+                                 <div class="sec-content">
+                                    <p class="product-slid-rs">From &#8377; {{ $offer->offer_price }}</p>
+                                    <p class="product-slid-text">
+                                       @if (@$offer->productVariantData->variant_name != @$offer->productVariantData->productData->product_name)
+                                             @php
+                                                $productFullName = @$offer->productVariantData->productData->product_name."-".@$offer->productVariantData->variant_name;
+                                             @endphp
+                                             {{ @$offer->productVariantData->productData->product_name }} {{ @$offer->productVariantData->variant_name }}
+                                          @else
+                                             {{ @$offer->productVariantData->variant_name }}
+                                             @php
+                                             $productFullName = @$offer->productVariantData->variant_name;
+                                             @endphp
+                                       @endif
+                                    </p>
+                                    <a href="{{ url('product-variant/'.$offer->product_variant_id."/".$productFullName) }}" class="shop-now-btn">Shop Now</a>
+                                 </div>
+                              </div>
+
+                              @endforeach
+                              
+
+                              {{-- <div class="slide">
                                  <div class="sec-imag">
                                     <img src="{{URL::to('/assets/frontAssets/image/offer-img2.jpeg')}}" class="img-fluid product-slid-img" alt="">
                                  </div>
@@ -252,6 +295,7 @@
                                     <a href="" class="shop-now-btn">Shop Now</a>
                                  </div>
                               </div>
+
                               <div class="slide"  >
                                  <div class="sec-imag">
                                     <img src="{{URL::to('/assets/frontAssets/image/offer-img1.jpg')}}" class="img-fluid product-slid-img" alt="">
@@ -321,7 +365,7 @@
                                     <p class="product-slid-text">Office Study Table</p>
                                     <a href="" class="shop-now-btn">Shop Now</a>
                                  </div>
-                              </div>
+                              </div> --}}
                            </div>
                            <h3 class="offer-sale">OFFER<br> SALE</h3>
                            <div class="controls">
@@ -350,19 +394,31 @@
                <div class="container-fluid">
                   <h2>Recent products</h2>
                   <div class="row">
+                     @foreach($recentAddedProducts as $product)
+
                      <div class="col-md-6 col-lg-3 col-6 col-padding pt-3 pb-4" data-aos="fade-up">
-                        <a href="">
+                        <a href="{{ url('/product/'.$product->product_variant_id."/".$product->product_name_slug."-".$product->variant_name_slug) }}">
                            <div class="box">
-                              <img src="{{URL::to('/assets/frontAssets/image/pdt-img1.jpeg')}} " class="img-fluid product-image" alt="">
-                              <p>Sony Alpha ILCE-6400L
-                                 Mirrorless Camera with...
+                              <img src="{{URL::to((new \App\Helpers\Helper)->productVarBaseImage($product->product_id,$product->product_variant_id))}} " class="img-fluid product-image" alt="">
+                              <p>
+                                 @if (@$product->productVariantData->variant_name != @$product->productVariantData->productData->product_name)
+                                   
+                                    {{ @$product->productVariantData->productData->product_name }} {{ @$product->productVariantData->variant_name }}
+                                 @else
+                                    {{ @$product->productVariantData->variant_name }}
+                                   
+                                 @endif
                               </p>
-                              <span class="rating-reviews">184 Ratings & 36 Reviews</span>
-                              <span class="price">&#8377; 79,999</span>
+                              <span class="rating-reviews">{{ (new \App\Helpers\Helper)->findRatingCount($product->product_variant_id) }} Ratings & {{ (new \App\Helpers\Helper)->findReviewCount($product->product_variant_id)}} Reviews</span>
+                              <span class="price">&#8377; {{ number_format($product->variant_price_offer, 2, '.', ',')   }}</span>
                            </div>
                         </a>
                      </div>
-                     <div class="col-md-6 col-lg-3 col-6 col-padding pt-3 pb-4" data-aos="fade-up">
+
+                     @endforeach
+
+                    
+                     {{-- <div class="col-md-6 col-lg-3 col-6 col-padding pt-3 pb-4" data-aos="fade-up">
                         <a href="">
                            <div class="box">
                               <img src="{{URL::to('/assets/frontAssets/image/pdt-img2.jpeg')}} " class="img-fluid product-image" alt="">
@@ -445,7 +501,7 @@
                               <span class="price">&#8377; 79,999</span>
                            </div>
                         </a>
-                     </div>
+                     </div> --}}
                   </div>
                </div>
             </div>
