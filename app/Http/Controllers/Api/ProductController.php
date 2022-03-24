@@ -630,7 +630,7 @@ class ProductController extends Controller
                 $product->rating  = Helper::findRating($product->product_variant_id);
                 $product->reviewCount  = Helper::findReviewCount($product->product_variant_id);
                 $product->reviewData  = Helper::findReviewData($product->product_variant_id);
-
+                $product->isWishListProduct  = Helper::isWishListProduct($product->product_variant_id, $request->customer_id);
                 $baseProductData  = @$product->productData;
                 $baseProductData->item_category_data = @$baseProductData->itemCategoryData;
                 $baseProductData->item_sub_category_data = @$baseProductData->itemSubCategoryData;
@@ -655,7 +655,7 @@ class ProductController extends Controller
                     $product->offerData  = Helper::isOfferAvailable($request->product_variant_id);
                 } else {
                     $product->isOfferAvailable  = 0;
-                    $product->offerData  = new stdClass();;
+                    $product->offerData  = new stdClass();
                 }
 
                 $data['productDetails'] = $product;

@@ -618,12 +618,12 @@ class CustomerController extends Controller
 
             $customer_id = $request->customer_id;
 
-            $otp_verify =  Mst_Customer_otp_verify::where('customer_id', '=', $customer_id)->latest()->first();
-
+            $otp_verify =  Trn_CustomerOtpVerify::where('customer_id', '=', $customer_id)->latest()->first();
+            // dd($otp_verify);
             if ($otp_verify) {
-                $customer_otp_expirytime = $otp_verify->customer_otp_expirytime;
+                $customer_otp_expirytime = $otp_verify->otp_expirytime;
                 $current_time = Carbon::now()->toDateTimeString();
-                $customer_otp =  $otp_verify->customer_otp;
+                $customer_otp =  $otp_verify->otp;
 
                 if ($customer_otp == $request->customer_otp) {
                     if ($current_time < $customer_otp_expirytime) {
@@ -631,7 +631,7 @@ class CustomerController extends Controller
                         $customer->is_active = 1;
                         $customer->is_otp_verified = 1;
                         $customer->update();
-
+ 
                         $data['status'] = 1;
                         $data['message'] = "OTP Verifiction Success";
                     } else {

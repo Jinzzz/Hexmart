@@ -11,6 +11,7 @@ use App\Models\admin\Trn_ItemImage;
 use App\Models\admin\Trn_ItemVariantAttribute;
 use App\Models\admin\Trn_Order;
 use App\Models\admin\Trn_ReviewsAndRating;
+use App\Models\admin\Trn_WishList;
 use Illuminate\Support\Str;
 use Crypt;
 use  Carbon\Carbon;
@@ -29,6 +30,18 @@ class Helper
             $c->customerData = $c->customerData;
         }
         return $reviewData;
+    }
+
+    public static function isWishListProduct($product_variant_id, $customer_id)
+    {
+        $data = Trn_WishList::where('product_variant_id', $product_variant_id)
+            ->where('customer_id', $customer_id)
+            ->count();
+        if ($data < 1) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
 

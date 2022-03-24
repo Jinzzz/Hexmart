@@ -26,13 +26,14 @@ Route::get('informations', 'Api\InfoController@info');
 Route::post('customer/save', 'Api\CustomerController@saveCustomer');
 Route::post('customer/login', 'Api\CustomerController@loginCustomer');
 Route::post('customer/change-password', 'Api\CustomerController@updatePassword');
+Route::get('customer/otp-verify', 'Api\CustomerController@verifyOtp');
 
 Route::post('customer/add-address', 'Api\CustomerController@addAddress');
 Route::post('customer/edit-address', 'Api\CustomerController@editAddress');
 Route::get('customer/remove-address', 'Api\CustomerController@removeAddress');
 Route::get('customer/view-address', 'Api\CustomerController@ViewAddress');
 Route::get('customer/address-list', 'Api\CustomerController@listAddress');
-
+http: //yellowstore.hexeam.org/api/store/otp-verify?store_id=1&otp_status=accepted
 
 Route::group(['middleware' => 'auth:api'], function () {
 
