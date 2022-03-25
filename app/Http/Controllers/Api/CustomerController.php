@@ -497,9 +497,11 @@ class CustomerController extends Controller
 
                                 // dd($user);
                                 // $data['token'] =  $user->createToken('authToken', ['customer'])->accessToken;
-                                $data['token'] =  $custCheck->createToken('authToken', [])->accessToken;
+
                                 $data['status'] = 1;
                                 $data['message'] = "Login Success";
+                                $data['token'] =  $custCheck->createToken('authToken', [])->accessToken;
+                                $data['customer_id'] = $custCheck->customer_id;
 
                                 // $storeData = Mst_store::find($custCheck->store_id);
                                 // // $storeData->online_status = 1;
@@ -514,6 +516,8 @@ class CustomerController extends Controller
                                 // }
                             } else {
                                 $data['status'] = 2;
+                                $data['customer_id'] = $custCheck->customer_id;
+
                                 $data['message'] = "OTP not verified";
                             }
                         } else {
@@ -631,7 +635,7 @@ class CustomerController extends Controller
                         $customer->is_active = 1;
                         $customer->is_otp_verified = 1;
                         $customer->update();
- 
+
                         $data['status'] = 1;
                         $data['message'] = "OTP Verifiction Success";
                     } else {
@@ -663,7 +667,7 @@ class CustomerController extends Controller
    Date        : 25/3/2022
 
 */
-    public function resendOtp(Request $request,Mst_Customer $customer, Trn_CustomerOtpVerify $otp_verify){
+    public function resend_Otp(Request $request,Mst_Customer $customer, Trn_CustomerOtpVerify $otp_verify){
         $data = array();
           try{
               $customer_id = $request->customer_id;
@@ -712,4 +716,49 @@ class CustomerController extends Controller
           }
   
       }
+
+
+    public function resendOtp(Request $request, Mst_Customer $customer, Trn_CustomerOtpVerify $otp_verify)
+    {
+        $data = array();
+        try {
+            $customer_id = $request->customer_id;
+            if ($customer_id) {
+                $otp_verify = Trn_CustomerOtpVerify::where('customer_id', '=', $customer_id)->latest()->first();
+                if ($otp_verify !== null) {
+                    $customer_otp_id = $otp_verify->customer_otp_id;
+                    $otp_verify = Trn_CustomerOtpVerify::Find($customer_otp_id);
+                    $extented_time = Carbon::now()->addMinute(10);
+                    $otp_verify->otp_expirytime = $extented_time;
+                    $otp_verify->update();
+                    $data['status'] = 1;
+                    $data['otp'] = $otp_verify->otp;
+                    $data['message'] = "OTP resent Success.";
+                } else {
+                    $otp_verify = new Trn_CustomerOtpVerify;
+                    $customer_otp =  rand(1000, 9999);
+                    $extented_time = Carbon::now()->addMinute(10);
+                    $otp_verify->customer_id                 = $customer_id;
+                    $otp_verify->otp_expirytime     = $extented_time;
+                    $otp_verify->otp                 = $customer_otp;
+                    $otp_verify->save();
+                    $data['status'] = 2;
+                    $data['otp'] = $customer_otp;
+                    $data['message'] = "OTP genarated successfully. Please verify OTP.";
+                }
+            } else {
+                $data['status'] = 0;
+                $data['message'] = "Customer Doesn't Exist.";
+            }
+
+
+            return response($data);
+        } catch (\Exception $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
+            return response($response);
+        }
+    }
 }
