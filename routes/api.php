@@ -27,6 +27,7 @@ Route::post('customer/save', 'Api\CustomerController@saveCustomer');
 Route::post('customer/login', 'Api\CustomerController@loginCustomer');
 Route::post('customer/change-password', 'Api\CustomerController@updatePassword');
 Route::get('customer/otp-verify', 'Api\CustomerController@verifyOtp');
+Route::get('customer/otp-resend', 'Api\CustomerController@resendOtp');
 
 Route::post('customer/add-address', 'Api\CustomerController@addAddress');
 Route::post('customer/edit-address', 'Api\CustomerController@editAddress');
