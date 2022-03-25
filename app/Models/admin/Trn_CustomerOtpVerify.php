@@ -13,5 +13,6 @@ class Trn_CustomerOtpVerify extends Model
         'customer_id',
         'otp_expirytime',
         'otp',
+        'customer_otp_id',
     ];
 }

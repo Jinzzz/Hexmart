@@ -657,4 +657,59 @@ class CustomerController extends Controller
             return response($response);
         }
     }
+
+/*
+   Description : Customer Resend OTP 
+   Date        : 25/3/2022
+
+*/
+    public function resendOtp(Request $request,Mst_Customer $customer, Trn_CustomerOtpVerify $otp_verify){
+        $data = array();
+          try{
+              $customer_id = $request->customer_id;
+              if($customer_id)
+              {
+              $otp_verify = Trn_CustomerOtpVerify::where('customer_id','=',$customer_id)->latest()->first();
+              $currentDate = date("Y-m-d H:i:s");
+              $currentDate_timestamp = strtotime($currentDate);
+              $endtime = strtotime("+10 minutes", $currentDate_timestamp);
+              $endminute = date("Y-m-d H:i:s", $endtime);
+                if($otp_verify !== null && $currentDate<=$endminute){
+                      
+                      $extented_time =$endminute;
+                      $otp_verify->otp_expirytime = $extented_time;
+                      $otp_verify->update();
+                      $data['status'] = 1;
+                      $data['otp'] = $otp_verify->otp;
+                      $data['message'] = "OTP resent Success.";
+                     
+                  }else{
+                      $cust_otp_verify = new Trn_CustomerOtpVerify;
+                      $customer_otp =  rand ( 1000 , 9999 );
+                      $customer_otp_expirytime = Carbon::now()->addMinute(10);
+                      $cust_otp_verify->customer_id        = $customer_id;
+                      $cust_otp_verify->otp_expirytime     = $customer_otp_expirytime;
+                      $cust_otp_verify->otp                = $customer_otp;
+                      $cust_otp_verify->save();
+                      $data['status'] = 2;
+                      $data['otp'] = $customer_otp;
+                      $data['message'] = "OTP registerd successfully. Please verify OTP.";
+                  }
+              }else{
+                  $data['status'] = 0;
+                  $data['message'] = "Customer Doesn't Exist.";
+              }
+         
+          
+            return response($data);
+         
+            }catch (\Exception $e) {
+             $response = ['status' => '0', 'message' => $e->getMessage()];
+             return response($response);
+          }catch (\Throwable $e) {
+              $response = ['status' => '0','message' => $e->getMessage()];
+              return response($response);
+          }
+  
+      }
 }

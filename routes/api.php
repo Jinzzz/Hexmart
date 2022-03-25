@@ -27,6 +27,8 @@ Route::post('customer/save', 'Api\CustomerController@saveCustomer');
 Route::post('customer/login', 'Api\CustomerController@loginCustomer');
 Route::post('customer/change-password', 'Api\CustomerController@updatePassword');
 Route::get('customer/otp-verify', 'Api\CustomerController@verifyOtp');
+//customer resendotp check
+Route::get('/resendOtp', 'Api\CustomerController@resendOtp');
 
 Route::post('customer/add-address', 'Api\CustomerController@addAddress');
 Route::post('customer/edit-address', 'Api\CustomerController@editAddress');
@@ -87,3 +89,4 @@ Route::get('customer/home', 'Api\HomePageController@homePage');
 Route::post('customer/add-review', 'Api\ProductController@addReview');
 
 Route::get('/product/review-rating/list', 'Api\ProductController@getReviewAndRating');
+
