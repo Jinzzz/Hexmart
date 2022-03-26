@@ -54,4 +54,9 @@ class Mst_Product extends Model
     {
         return $this->belongsTo('App\Models\admin\Mst_ItemLevelTwoSubCategory', 'iltsc_id', 'iltsc_id');
     }
+
+    public function Productvarients()
+    {
+        return $this->hasMany('App\Models\admin\Mst_ProductVariant', 'product_id', 'product_id');
+    }
 }

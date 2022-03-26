@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'customer'], function () {
     Route::get('/', 'HomeController@Home')->name('customer.home');
+    Route::get('/home/product/{name}', 'HomeController@productlist')->name('customer.productlist');
+    Route::get('/home/subcatgeory/{name}/{catname}', 'HomeController@productcatlist')->name('customer.productcatlist');
+    Route::get('/home/mainsubcatgeory/{name}/{catname}/{mainsubcat}', 'HomeController@mainsubcatgeory')->name('customer.mainsubcatgeory');
+
 });
 
 

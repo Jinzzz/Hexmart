@@ -12,6 +12,7 @@ class Mst_ProductVariant extends Model
     protected $primaryKey = "product_variant_id";
 
     protected $fillable = [
+        'product_variant_id',
         'product_id',
         'variant_name',
         'variant_name_slug',
@@ -30,5 +31,9 @@ class Mst_ProductVariant extends Model
     public function unitData()
     {
         return $this->belongsTo('App\Models\admin\Mst_Unit', 'unit_id', 'unit_id');
+    }
+    public function Productvarients()
+    {
+        return $this->hasMany('App\Models\admin\Mst_Product', 'product_id', 'product_id');
     }
 }
