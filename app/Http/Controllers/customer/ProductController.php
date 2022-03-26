@@ -116,7 +116,7 @@ class ProductController extends Controller
 */
     public function mainsubcatgeory($name,$catname,$mainsubcat)
     {
-    $main_pageinationval=3;    
+    $main_pageinationval=1;    
     $navCategoryDetails  = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id','category_name_slug','category_name','category_icon','category_description'
     )->where('is_active', 1)->limit(5)->get();
     $category=Mst_ItemCategory::where('category_name',$catname)->first();
