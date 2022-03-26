@@ -9,8 +9,8 @@
                <div class="pricerange">
                   <h5>Price </h5>
                   <section class="range-slider">
-                     <input value="500" min="500" max="50000" step="500" type="range">
-                     <input value="50000" min="500" max="50000" step="500" type="range">
+                     <input value="<?php echo $min;?>" min="<?php echo $min;?>" max="<?php echo $max;?>" step="" type="range">
+                     <input value="<?php echo $max;?>" min="<?php echo $min;?>" max="<?php echo $max;?>" step="" type="range">
                      <div class="sminmax">
                         <div class="smin">Min <span class="rangeValues1"></span></div>
                         <div class="smin">Max <span class="rangeValues2"></span></div>
