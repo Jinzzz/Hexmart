@@ -231,23 +231,21 @@
                   @endforeach
                </div>
                <div class="pageination-div">
-                  <div class="pageof"> <span>page 1 of 30</span> </div>
+                  <div class="pageof"> <span></span> </div>
                   <div class="pagination-news-page">
                      <nav aria-label="Page navigation example">
                         <ul class="pagination">
-                           <li class="page-item pgitemactive"><a class="page-link pglink" href="news.html">1</a></li>
-                           <li class="page-item"><a class="page-link pglink" href="#">2</a></li>
-                           <li class="page-item"><a class="page-link pglink" href="#">3</a></li>
-                           <li class="page-item"><a class="page-link pglink" href="#">4</a></li>
-                           <li class="page-item"><a class="page-link pglink" href="#">5</a></li>
-                           <li class="page-item"><a class="page-link pglink" href="#">6</a></li>
-                           <li class="page-item">
-                              <a class="page-link next-btn" href="#" aria-label="Next"> <span aria-hidden="true">Next</span> <span class="sr-only">Next</span> </a>
-                           </li>
+                            <li>
+                               
+                            
+                         {{ $product_varient->appends(request()->input())->links()}}
+                         </li>
                         </ul>
                      </nav>
                   </div>
                </div>
+
+              
             </div>
          </div>
       </div>
