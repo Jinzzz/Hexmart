@@ -1,5 +1,7 @@
 @include('layouts.header')
 <!-----end------>
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+
 <section class="product-details-sec">
    <div class="container-fluid">
       <div class="pagediv-main">
@@ -8,14 +10,21 @@
                <h4>Filter by</h4>
                <div class="pricerange">
                   <h5>Price </h5>
+                  <form action="{{URL::current('/')}}">
+                     @csrf
                   <section class="range-slider">
-                     <input value="<?php echo $min;?>" min="<?php echo $min;?>" max="<?php echo $max;?>" step="" type="range">
-                     <input value="<?php echo $max;?>" min="<?php echo $min;?>" max="<?php echo $max;?>" step="" type="range">
+                     <input value="<?php echo $min;?>" min="<?php echo $min;?>" max="<?php echo $max;?>" step="" type="range" id="min" name="min">
+                     <input value="<?php echo $max;?>" min="<?php echo $min;?>" max="<?php echo $max;?>" step="" type="range" id="max" name="max">
+                     <input type="hidden" id="name" name="name" value="<?php echo $name;?>" >
                      <div class="sminmax">
                         <div class="smin">Min <span class="rangeValues1"></span></div>
                         <div class="smin">Max <span class="rangeValues2"></span></div>
                      </div>
                   </section>
+               </br>
+               </br>
+                <div class="col-md-12 text-center"><button type="submit" class="btn btn-primary" id="pricefilter">Filter</button></div>
+                  </form>
                </div>
                <div class="">
                   <div class="cccc">
