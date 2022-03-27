@@ -26,6 +26,12 @@ class ProductController extends Controller
         $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')->where('is_active', 1)->limit(5)->get();
         $category = Mst_ItemCategory::where('category_name', $name)->first();
         $product = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->get();
+        if ($product->isEmpty())
+        {
+            return view('customer.product.notfount', compact('navCategoryDetails'));
+        }
+        else
+        {
         foreach ($product as $val)
         {
             $data[] = [$val->product_id];
@@ -63,6 +69,7 @@ class ProductController extends Controller
         }
 
         return view('customer.product.productlist', compact('navCategoryDetails', 'product', 'product_varient','min','max','name'));
+     }
     }
 
     /*
