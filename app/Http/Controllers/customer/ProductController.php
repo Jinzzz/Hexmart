@@ -62,8 +62,6 @@ class ProductController extends Controller
 
         }
 
-        
-
         return view('customer.product.productlist', compact('navCategoryDetails', 'product', 'product_varient','min','max','name'));
     }
 
