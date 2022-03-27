@@ -10,7 +10,7 @@
                <h4>Filter by</h4>
                <div class="pricerange">
                   <h5>Price </h5>
-                  <form action="{{URL('/home/filterproduct')}}" method="POST">
+                  <form action="{{URL::current('/')}}">
                      @csrf
                   <section class="range-slider">
                      <input value="<?php echo $min;?>" min="<?php echo $min;?>" max="<?php echo $max;?>" step="" type="range" id="min" name="min">

@@ -20,6 +20,8 @@ class ProductController extends Controller
     */
     public function productlist($name)
     {
+        $min=isset($_GET['min']) ? $_GET['min'] : '0';
+        $max=isset($_GET['max']) ? $_GET['max'] : '1000000';
         $pageination = 4;
         $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')->where('is_active', 1)->limit(5)->get();
         $category = Mst_ItemCategory::where('category_name', $name)->first();
@@ -30,31 +32,31 @@ class ProductController extends Controller
         }
         if (Request::get('sort') == 'price_newest')
         {
-            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('created_at', 'desc')->paginate($pageination);
+            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$min, $max])->orderBy('created_at', 'desc')->paginate($pageination);
             $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('created_at', 'desc')->min('variant_price_offer');
             $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('created_at', 'desc')->max('variant_price_offer');
         }
         elseif (Request::get('sort') == 'price_asc')
         {
-            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_price_offer', 'asc')->paginate($pageination);
+            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$min, $max])->orderBy('variant_price_offer', 'asc')->paginate($pageination);
             $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_price_offer', 'asc')->min('variant_price_offer');
             $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_price_offer', 'asc')->max('variant_price_offer');
         }
         elseif (Request::get('sort') == 'price_dsc')
         {
-            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_price_offer', 'desc')->paginate($pageination);
+            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$min, $max])->orderBy('variant_price_offer', 'desc')->paginate($pageination);
             $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_price_offer', 'desc')->min('variant_price_offer');
             $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_price_offer', 'desc')->max('variant_price_offer');
         }
         elseif (Request::get('sort') == 'price_popularity')
         {
-            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->where('is_active', 1)->paginate($pageination);
+            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$min, $max])->where('is_active', 1)->paginate($pageination);
             $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->where('is_active', 1)->min('variant_price_offer');
             $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->where('is_active', 1)->max('variant_price_offer');
         }
         else
         {
-            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_name', 'asc')->take(2)->paginate($pageination);
+            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_name', 'asc')->whereBetween('variant_price_offer', [$min, $max])->take(2)->paginate($pageination);
             $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->min('variant_price_offer');
             $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->max('variant_price_offer');
 
@@ -72,6 +74,7 @@ class ProductController extends Controller
     */
     public function productcatlist($name, $catname)
     {
+
         $pageinationval = 2;
         $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')->where('is_active', 1)->limit(5)->get();
         $category = Mst_ItemCategory::where('category_name', $catname)->first();
