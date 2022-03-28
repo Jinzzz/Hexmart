@@ -219,14 +219,14 @@
                      <div class="maindicproduct">
                         <div class="primag"> 
                           
-                           <img src="{{asset( (new \App\Helpers\Helper)->productVarBaseImage($varient->product_id,$varient->product_variant_id))}}"   width="50" >
+                           <a href="{{url('/productdetail').'/'.$name.'/'.$varient->variant_name}}"><img src="{{asset( (new \App\Helpers\Helper)->productVarBaseImage($varient->product_id,$varient->product_variant_id))}}"   width="50" ></a>
                         </div>
                         <div class="prdetails">
                            <h3>{{$varient->variant_name}} </h3>
                            <ul>
                               
-                              <li> @if(isset($varient->Productvarients[0]->product_description))
-                              {!!  substr(strip_tags($varient->Productvarients[0]->product_description), 0, 100) !!}@endif</li>
+                              @if(isset($varient->Productvarients[0]->product_description))
+                              {!!  substr(strip_tags($varient->Productvarients[0]->product_description), 0, 100) !!}@endif
                            </ul>
 
                         </div>

@@ -23,6 +23,10 @@ Route::group(['namespace' => 'customer'], function () {
     Route::any('/home/product/{name}', 'ProductController@productlist')->name('customer.productlist');
     Route::any('/home/subcatgeory/{name}/{catname}', 'ProductController@productcatlist')->name('customer.productcatlist');
     Route::any('/home/mainsubcatgeory/{name}/{catname}/{mainsubcat}', 'ProductController@mainsubcatgeory')->name('customer.mainsubcatgeory');
+    Route::get('/productdetail/{name}/{catname}', 'ProductController@productdetail')->name('customer.productdetail');
+    Route::get('/productsubdetail/{name}/{catname}/{variant_name}', 'ProductController@productsubdetail')->name('customer.productsubdetail');
+    Route::get('/productmainsubdetail/{name}/{catname}/{variant_name}/{mainsub}', 'ProductController@productmainsubdetail')->name('customer.productmainsubdetail');
+
 
 });
 

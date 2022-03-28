@@ -16,6 +16,9 @@
                      <input value="<?php echo $min;?>" min="<?php echo $min;?>" max="<?php echo $max;?>" step="" type="range" id="min" name="min">
                      <input value="<?php echo $max;?>" min="<?php echo $min;?>" max="<?php echo $max;?>" step="" type="range" id="max" name="max">
                      <input type="hidden" id="name" name="name" value="<?php echo $name;?>" >
+                     <input type="hidden" id="catname" name="catname" value="<?php echo $catname;?>" >
+                     <input type="hidden" id="mainsubcat" name="mainsubcat" value="<?php echo $mainsubcat;?>" >
+
                      <div class="sminmax">
                         <div class="smin">Min <span class="rangeValues1"></span></div>
                         <div class="smin">Max <span class="rangeValues2"></span></div>
@@ -219,14 +222,14 @@
                      <div class="maindicproduct">
                         <div class="primag"> 
                           
-                           <img src="{{asset( (new \App\Helpers\Helper)->productVarBaseImage($varient->product_id,$varient->product_variant_id))}}"   width="50" >
+                           <a href="{{url('/productmainsubdetail').'/'.$name.'/'.$catname.'/'.$varient->variant_name.'/'.$mainsubcat}}"><img src="{{asset( (new \App\Helpers\Helper)->productVarBaseImage($varient->product_id,$varient->product_variant_id))}}"   width="50" ></a>
                         </div>
                         <div class="prdetails">
                            <h3>{{$varient->variant_name}} </h3>
                            <ul>
                               
-                              <li> @if(isset($varient->Productvarients[0]->product_description))
-                              {!!  substr(strip_tags($varient->Productvarients[0]->product_description), 0, 100) !!}@endif</li>
+                              @if(isset($varient->Productvarients[0]->product_description))
+                              {!!  substr(strip_tags($varient->Productvarients[0]->product_description), 0, 100) !!}@endif
                            </ul>
 
                         </div>

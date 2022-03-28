@@ -133,7 +133,7 @@ class ProductController extends Controller
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->max('variant_price_offer');
             }
 
-            return view('customer.product.productcat1', compact('navCategoryDetails', 'product', 'subcat_product_varient','min','max','name'));
+            return view('customer.product.productcat1', compact('navCategoryDetails', 'product', 'subcat_product_varient','min','max','name','catname'));
 
         }
 
@@ -205,9 +205,64 @@ class ProductController extends Controller
 
             }
 
-            return view('customer.product.productcat2', compact('navCategoryDetails', 'product', 'mainsub_product_varient','min','max','name'));
+            return view('customer.product.productcat2', compact('navCategoryDetails', 'product', 'mainsub_product_varient','min','max','name','catname','mainsubcat'));
 
         }
+    }
+    
+    /*
+    Description : Product detail page
+    Date        : 28/3/2022
+    
+    */
+
+    public function productdetail($name,$catname)
+    {
+       $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')->where('is_active', 1)->limit(5)->get();
+       $product = Mst_ProductVariant::take(4)->orderBy('created_at','desc')->get();
+       $category = Mst_ItemCategory::where('category_name', $name)->first();
+       $product_Category = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('product_name', $catname)->first();
+       $product_varient = Mst_ProductVariant::with('Productvarients')->where('variant_name',$catname)->where('is_active', 1)->first();
+       return view('customer.product.productdetail',compact('navCategoryDetails','product','product_varient'));
+    }
+
+    /*
+    Description : Product Sub category detail page
+    Date        : 28/3/2022
+    
+    */
+
+    public function productsubdetail($name,$catname,$variant_name)
+    {
+       $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')->where('is_active', 1)->limit(5)->get();
+       $product = Mst_ProductVariant::take(4)->orderBy('created_at','desc')->get();
+       $category = Mst_ItemCategory::where('category_name', $catname)->first();
+       $sub_category = Mst_ItemSubCategory::where('item_category_id', $category->item_category_id)
+            ->first();
+       $product_Category = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('product_name', $variant_name)->first();
+       $product_varient = Mst_ProductVariant::with('Productvarients')->where('variant_name',$variant_name)->where('is_active', 1)->first();
+       return view('customer.product.productsubcatdetail',compact('navCategoryDetails','product','product_varient'));
+    }
+
+
+    /*
+    Description : Product Main-Sub category detail page
+    Date        : 28/3/2022
+    
+    */
+
+    public function productmainsubdetail($name,$catname,$variant_name,$mainsub)
+    {
+       $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')->where('is_active', 1)->limit(5)->get();
+       $product = Mst_ProductVariant::take(4)->orderBy('created_at','desc')->get();
+       $category = Mst_ItemCategory::where('category_name', $catname)->first();
+       $sub_category = Mst_ItemSubCategory::where('item_category_id', $category->item_category_id)
+            ->first();
+       $mainsub_category = Mst_ItemLevelTwoSubCategory::where('item_sub_category_id', $sub_category->item_sub_category_id)
+            ->first();   
+       $product_Category = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('iltsc_id', $mainsub_category->iltsc_id)->where('product_name', $variant_name)->first();
+       $product_varient = Mst_ProductVariant::with('Productvarients')->where('variant_name',$variant_name)->where('is_active', 1)->first();
+       return view('customer.product.productsubcatdetail',compact('navCategoryDetails','product','product_varient'));
     }
 
 }

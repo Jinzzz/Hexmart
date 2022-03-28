@@ -13,6 +13,7 @@ class Mst_Product extends Model
     protected $primaryKey = "product_id";
 
     protected $fillable = [
+        'product_id',
         'product_name',
         'product_name_slug',
         'product_code',
