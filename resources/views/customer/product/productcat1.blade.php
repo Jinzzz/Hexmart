@@ -32,160 +32,34 @@
                      <div class="accordion-wrap">
                         <div class="accordion-data">
                            <input type="checkbox" id="accordion-1" class="checkbox-label">
-                           <label for="accordion-1">Processor</label>
+                           <label for="accordion-1">Brand</label>
                            <div class="accordion-content">
                               <form action="/action_page.php">
+                                  @foreach($brand as $val)
+
                                  <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i5</label>
+                                 <label for=""> {{ucfirst($val->brand_name)}}</label>
                                  <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i3</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i7</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for="">Ryzen 7 Quad Core</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Ryzen 5 Quad Core</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i9</label>
-                                 <br>
+                                @endforeach
                                  <br> </form>
                            </div>
                         </div>
                         <div class="accordion-data">
                            <input type="checkbox" id="accordion-2" class="checkbox-label">
-                           <label for="accordion-2">Brand</label>
+                           <label for="accordion-2">Attribute</label>
                            <div class="accordion-content">
                               <form action="/action_page.php">
+                                  @foreach($attribute as $val)
+
                                  <input type="checkbox" id="" name="" value="">
-                                 <label for=""> HP</label>
+                                 <label for=""> {{ucfirst($val->customer_group_name)}}</label>
                                  <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Lenov0</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> vaio</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for="">Nokia</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> mi</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for="">MSI</label>
-                                 <br>
+                                 @endforeach
                                  <br> </form>
                            </div>
                         </div>
-                        <div class="accordion-data">
-                           <input type="checkbox" id="accordion-3" class="checkbox-label">
-                           <label for="accordion-3">Screen size</label>
-                           <div class="accordion-content">
-                              <form action="/action_page.php">
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i5</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i3</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i7</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for="">Ryzen 7 Quad Core</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Ryzen 5 Quad Core</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i9</label>
-                                 <br>
-                                 <br> </form>
-                           </div>
-                        </div>
-                        <div class="accordion-data">
-                           <input type="checkbox" id="accordion-4" class="checkbox-label">
-                           <label for="accordion-4">Dedicated Graphics Memory</label>
-                           <div class="accordion-content">
-                              <form action="/action_page.php">
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i5</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i3</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i7</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for="">Ryzen 7 Quad Core</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Ryzen 5 Quad Core</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i9</label>
-                                 <br>
-                                 <br> </form>
-                           </div>
-                        </div>
-                        <div class="accordion-data">
-                           <input type="checkbox" id="accordion-5" class="checkbox-label">
-                           <label for="accordion-5">Operating system</label>
-                           <div class="accordion-content">
-                              <form action="/action_page.php">
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i5</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i3</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i7</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for="">Ryzen 7 Quad Core</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Ryzen 5 Quad Core</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i9</label>
-                                 <br>
-                                 <br> </form>
-                           </div>
-                        </div>
-                        <div class="accordion-data">
-                           <input type="checkbox" id="accordion-6" class="checkbox-label">
-                           <label for="accordion-6">Type </label>
-                           <div class="accordion-content">
-                              <form action="/action_page.php">
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i5</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i3</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i7</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for="">Ryzen 7 Quad Core</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Ryzen 5 Quad Core</label>
-                                 <br>
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> Core i9</label>
-                                 <br>
-                                 <br> </form>
-                           </div>
-                        </div>
+                        
+                        
                      </div>
                   </div>
                </div>
@@ -198,8 +72,8 @@
                      <div class="pagelinks">
                         <ul>
                            <li>Home <span><i class="fa fa-angle-right" aria-hidden="true"></i></span></li>
-                           <li>Electronics <span><i class="fa fa-angle-right" aria-hidden="true"></i></span></li>
-                           <li>Laptops</li>
+                           <li>{{ucfirst($catname)}} <span><i class="fa fa-angle-right" aria-hidden="true"></i></span></li>
+                           <li>{{ucfirst($name)}} </li>
                         </ul>
                      </div>
                   </div>
@@ -223,7 +97,7 @@
                            <a href="{{url('/productsubdetail').'/'.$name.'/'.$catname.'/'.$varient->variant_name}}"><img src="{{asset( (new \App\Helpers\Helper)->productVarBaseImage($varient->product_id,$varient->product_variant_id))}}"   width="50" ></a>
                         </div>
                         <div class="prdetails">
-                           <h3>{{$varient->variant_name}} </h3>
+                           <h3>{{ucfirst($varient->variant_name)}} </h3>
                            <ul>
                               
                               @if(isset($varient->Productvarients[0]->product_description))

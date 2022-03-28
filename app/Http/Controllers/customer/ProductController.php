@@ -9,6 +9,9 @@ use App\Models\admin\Mst_ProductVariant;
 use App\Models\admin\Mst_ItemSubCategory;
 use App\Models\admin\Mst_ItemLevelTwoSubCategory;
 use App\Models\admin\Mst_Product;
+use App\Models\admin\Mst_CustomerGroup;
+use App\Models\admin\Mst_Brand;
+
 use Request;
 
 class ProductController extends Controller
@@ -26,6 +29,8 @@ class ProductController extends Controller
         $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')->where('is_active', 1)->limit(5)->get();
         $category = Mst_ItemCategory::where('category_name', $name)->first();
         $product = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->get();
+        $brand = Mst_Brand::where('is_active', 1)->get();
+        $attribute = Mst_CustomerGroup::where('is_active', 1)->get();
         if ($product->isEmpty())
         {
             return view('customer.product.notfount', compact('navCategoryDetails'));
@@ -68,7 +73,7 @@ class ProductController extends Controller
 
         }
 
-        return view('customer.product.productlist', compact('navCategoryDetails', 'product', 'product_varient','min','max','name'));
+        return view('customer.product.productlist', compact('navCategoryDetails', 'product', 'product_varient','min','max','name','brand','attribute'));
      }
     }
 
@@ -87,6 +92,8 @@ class ProductController extends Controller
         $sub_category = Mst_ItemSubCategory::where('item_category_id', $category->item_category_id)
             ->first();
         $product = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->get();
+        $brand = Mst_Brand::where('is_active', 1)->get();
+        $attribute = Mst_CustomerGroup::where('is_active', 1)->get();
         if ($product->isEmpty())
         {
             return view('customer.product.notfount', compact('navCategoryDetails'));
@@ -133,7 +140,7 @@ class ProductController extends Controller
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->max('variant_price_offer');
             }
 
-            return view('customer.product.productcat1', compact('navCategoryDetails', 'product', 'subcat_product_varient','min','max','name','catname'));
+            return view('customer.product.productcat1', compact('navCategoryDetails', 'product', 'subcat_product_varient','min','max','name','catname','brand','attribute'));
 
         }
 
@@ -156,6 +163,8 @@ class ProductController extends Controller
         $mainsub_category = Mst_ItemLevelTwoSubCategory::where('item_sub_category_id', $sub_category->item_sub_category_id)
             ->first();
         $product = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('iltsc_id', $mainsub_category->iltsc_id)->get();
+        $brand = Mst_Brand::where('is_active', 1)->get();
+        $attribute = Mst_CustomerGroup::where('is_active', 1)->get();
 
         if ($product->isEmpty())
         {
@@ -205,7 +214,7 @@ class ProductController extends Controller
 
             }
 
-            return view('customer.product.productcat2', compact('navCategoryDetails', 'product', 'mainsub_product_varient','min','max','name','catname','mainsubcat'));
+            return view('customer.product.productcat2', compact('navCategoryDetails', 'product', 'mainsub_product_varient','min','max','name','catname','mainsubcat','brand','attribute'));
 
         }
     }
