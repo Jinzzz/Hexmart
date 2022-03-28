@@ -54,7 +54,7 @@
                                   @foreach($attribute as $val)
 
                                  <input type="checkbox" id="" name="" value="">
-                                 <label for=""> {{ucfirst($val->customer_group_name)}}</label>
+                                 <label for=""> {{ucfirst($val->attribute_group)}}</label>
                                  <br>
                                  @endforeach
                                  <br> </form>

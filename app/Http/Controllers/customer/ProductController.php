@@ -11,6 +11,7 @@ use App\Models\admin\Mst_ItemLevelTwoSubCategory;
 use App\Models\admin\Mst_Product;
 use App\Models\admin\Mst_CustomerGroup;
 use App\Models\admin\Mst_Brand;
+use App\Models\admin\Mst_AttributeGroup;
 
 use Request;
 
@@ -30,7 +31,7 @@ class ProductController extends Controller
         $category = Mst_ItemCategory::where('category_name', $name)->first();
         $product = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->get();
         $brand = Mst_Brand::where('is_active', 1)->get();
-        $attribute = Mst_CustomerGroup::where('is_active', 1)->get();
+        $attribute = Mst_AttributeGroup::where('is_active', 1)->get();
         if ($product->isEmpty())
         {
             return view('customer.product.notfount', compact('navCategoryDetails'));
@@ -93,7 +94,7 @@ class ProductController extends Controller
             ->first();
         $product = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->get();
         $brand = Mst_Brand::where('is_active', 1)->get();
-        $attribute = Mst_CustomerGroup::where('is_active', 1)->get();
+        $attribute = Mst_AttributeGroup::where('is_active', 1)->get();
         if ($product->isEmpty())
         {
             return view('customer.product.notfount', compact('navCategoryDetails'));
@@ -164,7 +165,7 @@ class ProductController extends Controller
             ->first();
         $product = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('iltsc_id', $mainsub_category->iltsc_id)->get();
         $brand = Mst_Brand::where('is_active', 1)->get();
-        $attribute = Mst_CustomerGroup::where('is_active', 1)->get();
+        $attribute = Mst_AttributeGroup::where('is_active', 1)->get();
 
         if ($product->isEmpty())
         {

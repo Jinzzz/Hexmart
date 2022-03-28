@@ -26,7 +26,7 @@
                 <div class="col-md-12 text-center"><button type="submit" class="btn btn-primary" id="pricefilter">Filter</button></div>
                   </form>
                </div>
-               <div class="">
+               
                   <div class="cccc">
                      <div class="accordion-wrap">
                         <div class="accordion-data">
@@ -36,7 +36,7 @@
                               <form action="/action_page.php">
                                   @foreach($brand as $val)
 
-                                 <input type="checkbox" id="" name="" value="">
+                                   <input class="checkbox"  type="checkbox" value="" >
                                  <label for=""> {{ucfirst($val->brand_name)}}</label>
                                  <br>
                                 @endforeach
@@ -51,7 +51,7 @@
                                   @foreach($attribute as $val)
 
                                  <input type="checkbox" id="" name="" value="">
-                                 <label for=""> {{ucfirst($val->customer_group_name)}}</label>
+                                 <label for=""> {{ucfirst($val->attribute_group)}}</label>
                                  <br>
                                  @endforeach
                                  <br> </form>
@@ -62,7 +62,7 @@
    
                      </div>
                   </div>
-               </div>
+               
             </div>
          </div>
          <div class="pagediv-main2">
