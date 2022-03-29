@@ -56,7 +56,7 @@ class CartController extends Controller
 
     public function show_Cart()
     {
-        // dd(Auth::user()->name);
+        // dd(Auth::guard('customers')->user()->name);
         if(Auth::check())
         {
         $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')->where('is_active', 1)->limit(5)->get();

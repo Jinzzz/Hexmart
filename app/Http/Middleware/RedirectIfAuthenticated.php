@@ -23,5 +23,19 @@ class RedirectIfAuthenticated
         }
 
         return $next($request);
+
+        // $guards = empty($guard) ? [null] : $guard;
+
+        // foreach ($guards as $guard) {
+        //     if (Auth::guard($guard)->check()) {
+        //         if($guards=='customers')
+        //         {
+        //          return redirect(RouteServiceProvider::CUSTOMER_HOME);
+        //         }
+        //         return redirect(RouteServiceProvider::HOME);
+        //     }
+        // }
+
+        // return $next($request);
     }
 }

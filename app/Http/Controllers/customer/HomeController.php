@@ -94,4 +94,15 @@ class HomeController extends Controller
         ));
     }
 
+
+    public function customerlogin()
+    {
+       return view('customer.login');
+    }
+
+    public function dashboard()
+    {
+        return view('customer.login.dashboard');
+    }
+
 }
