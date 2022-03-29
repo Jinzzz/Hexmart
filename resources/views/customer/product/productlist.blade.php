@@ -53,7 +53,14 @@
                         <label for="accordion-2">Attribute</label>
                         <div class="accordion-content">
                            @foreach($attribute as $value)
-                              <input type="checkbox" name="attribute[]" value="{{$value->attribute_group_id}}">
+                           @php
+                                $checkedval=[];
+                                if(isset($_GET['attribute']))
+                                {
+                                 $checkedval=$_GET['attribute'];
+                                }
+                            @endphp
+                              <input type="checkbox" name="attribute[]" value="{{$value->attribute_group_id}}"  @if(in_array($val->attribute_group_id,$checkedval)) checked @endif>
                               <label for=""> {{ucfirst($value->attribute_group)}}</label>
                               <br> @endforeach
                               <br> 

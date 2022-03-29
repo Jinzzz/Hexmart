@@ -37,6 +37,23 @@ class ProductController extends Controller
         $brand_datas[] = (array)$brand_ids;  
         }
         $brands=isset($_GET['brand']) ? $_GET['brand'] : $brand_datas;
+
+
+
+
+        // $attribute_datas=[];
+        // $attribute_table=Mst_Product::with('attribute_group')->where('item_category_id',$category->item_category_id)->get();
+
+        // foreach ($attribute_table as $val) {
+        // $brand_ids=$val->product_id;
+        // $attribute_datas[] = (array)$brand_ids;  
+        // }
+        // $attribute=isset($_GET['attribute']) ? $_GET['attribute'] : '';
+
+        // dd($attribute_table);
+
+
+
         $product = Mst_Product::with('itemCategoryData')->whereIn('brand_id',$brands)->where('item_category_id', $category->item_category_id)->get();
         $brand = Mst_Brand::where('is_active', 1)->get();
         $attribute = Mst_AttributeGroup::where('is_active', 1)->get();

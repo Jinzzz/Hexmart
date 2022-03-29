@@ -60,4 +60,9 @@ class Mst_Product extends Model
     {
         return $this->hasMany('App\Models\admin\Mst_ProductVariant', 'product_id', 'product_id');
     }
+
+    public function attribute_group()
+    {
+        return $this->belongsTo('App\Models\admin\Trn_ItemVariantAttribute', 'product_id', 'product_id');
+    }
 }
