@@ -24,44 +24,50 @@
                   </section>
                </br>
                </br>
-                <div class="col-md-12 text-center"><button type="submit" class="btn btn-primary" id="pricefilter">Filter</button></div>
+                <div class="col-md-12 text-center"><button type="submit" class="btn btn-primary" id="pricefilter">Price Filter</button></div>
                   </form>
                </div>
                <div class="">
-                  <div class="cccc">
-                     <div class="accordion-wrap">
-                        <div class="accordion-data">
-                           <input type="checkbox" id="accordion-1" class="checkbox-label">
-                           <label for="accordion-1">Brand</label>
-                           <div class="accordion-content">
-                              <form action="/action_page.php">
-                                  @foreach($brand as $val)
-
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> {{ucfirst($val->brand_name)}}</label>
-                                 <br>
-                                @endforeach
-                                 <br> </form>
-                           </div>
+                  <form action="{{URL::current('/')}}">
+               <div class="cccc">
+                  <div class="accordion-wrap">
+                     <div class="accordion-data">
+                        <input type="checkbox" id="accordion-1" class="checkbox-label">
+                        <label for="accordion-1">Brand</label>
+                        <div class="accordion-content">
+                            @foreach($brand as $val)
+                            @php
+                                $checked=[];
+                                if(isset($_GET['brand']))
+                                {
+                                 $checked=$_GET['brand'];
+                                }
+                            @endphp
+                              <input class="checkbox" type="checkbox" name="brand[]" value="{{$val->brand_id}}" @if(in_array($val->brand_id,$checked)) checked @endif>
+                              <label for=""> {{ucfirst($val->brand_name)}}</label>
+                              <br> @endforeach
+                              <br> 
                         </div>
-                        <div class="accordion-data">
-                           <input type="checkbox" id="accordion-2" class="checkbox-label">
-                           <label for="accordion-2">Attribute</label>
-                           <div class="accordion-content">
-                              <form action="/action_page.php">
-                                  @foreach($attribute as $val)
-
-                                 <input type="checkbox" id="" name="" value="">
-                                 <label for=""> {{ucfirst($val->attribute_group)}}</label>
-                                 <br>
-                                 @endforeach
-                                 <br> </form>
-                           </div>
-                        </div>
-                        
-                        
                      </div>
+                     <div class="accordion-data">
+                        <input type="checkbox" id="accordion-2" class="checkbox-label">
+                        <label for="accordion-2">Attribute</label>
+                        <div class="accordion-content">
+                           @foreach($attribute as $value)
+                              <input type="checkbox" name="attribute[]" value="{{$value->attribute_group_id}}">
+                              <label for=""> {{ucfirst($value->attribute_group)}}</label>
+                              <br> @endforeach
+                              <br> 
+                        </div>
+                     </div>
+
                   </div>
+
+                     <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary" id="pricefilter">Apply Filter</button>
+                     </div>
+               </div>
+               </form>
                </div>
             </div>
          </div>

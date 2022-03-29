@@ -12,7 +12,7 @@ use App\Models\admin\Mst_Product;
 use App\Models\admin\Mst_CustomerGroup;
 use App\Models\admin\Mst_Brand;
 use App\Models\admin\Mst_AttributeGroup;
-
+use DB;
 use Request;
 
 class ProductController extends Controller
@@ -29,7 +29,15 @@ class ProductController extends Controller
         $pageination = 4;
         $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')->where('is_active', 1)->limit(5)->get();
         $category = Mst_ItemCategory::where('category_name', $name)->first();
-        $product = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->get();
+        $brand_datas=[];
+        $brand_table=DB::table('mst__products')->where('item_category_id',$category->item_category_id)->get();
+
+        foreach ($brand_table as $val) {
+        $brand_ids=$val->brand_id;
+        $brand_datas[] = (array)$brand_ids;  
+        }
+        $brands=isset($_GET['brand']) ? $_GET['brand'] : $brand_datas;
+        $product = Mst_Product::with('itemCategoryData')->whereIn('brand_id',$brands)->where('item_category_id', $category->item_category_id)->get();
         $brand = Mst_Brand::where('is_active', 1)->get();
         $attribute = Mst_AttributeGroup::where('is_active', 1)->get();
         if ($product->isEmpty())
@@ -92,7 +100,14 @@ class ProductController extends Controller
         $category = Mst_ItemCategory::where('category_name', $catname)->first();
         $sub_category = Mst_ItemSubCategory::where('item_category_id', $category->item_category_id)
             ->first();
-        $product = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->get();
+        $brand_datas=[];
+        $brand_table=DB::table('mst__products')->where('item_category_id',$category->item_category_id)->get();
+        foreach ($brand_table as $val) {
+        $brand_ids=$val->brand_id;
+        $brand_datas[] = (array)$brand_ids;  
+        }
+        $brandvalues=isset($_GET['brand']) ? $_GET['brand'] : $brand_datas;  
+        $product = Mst_Product::with('itemCategoryData')->whereIn('brand_id',$brandvalues)->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->get();
         $brand = Mst_Brand::where('is_active', 1)->get();
         $attribute = Mst_AttributeGroup::where('is_active', 1)->get();
         if ($product->isEmpty())
@@ -163,7 +178,14 @@ class ProductController extends Controller
             ->first();
         $mainsub_category = Mst_ItemLevelTwoSubCategory::where('item_sub_category_id', $sub_category->item_sub_category_id)
             ->first();
-        $product = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('iltsc_id', $mainsub_category->iltsc_id)->get();
+        $brand_datas=[];
+        $brand_table=DB::table('mst__products')->where('item_category_id',$category->item_category_id)->get();
+        foreach ($brand_table as $val) {
+        $brand_ids=$val->brand_id;
+        $brand_datas[] = (array)$brand_ids;  
+        }
+        $brandvalues=isset($_GET['brand']) ? $_GET['brand'] : $brand_datas;     
+        $product = Mst_Product::with('itemCategoryData')->whereIn('brand_id',$brandvalues)->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('iltsc_id', $mainsub_category->iltsc_id)->get();
         $brand = Mst_Brand::where('is_active', 1)->get();
         $attribute = Mst_AttributeGroup::where('is_active', 1)->get();
 
