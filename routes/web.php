@@ -27,8 +27,15 @@ Route::group(['namespace' => 'customer'], function () {
     Route::get('/productsubdetail/{name}/{catname}/{variant_name}', 'ProductController@productsubdetail')->name('customer.productsubdetail');
     Route::get('/productmainsubdetail/{name}/{catname}/{variant_name}/{mainsub}', 'ProductController@productmainsubdetail')->name('customer.productmainsubdetail');
 
+    Route::middleware(['auth'])->group(function(){
+    Route::post('/add_to_cart','CartController@addcart')->name('customer.addtocart');
+    Route::get('/show_Cart','CartController@show_Cart')->name('customer.show_Cart');
+
+   });
 
 });
+
+
 
 
 Route::group(['namespace' => 'admin'], function () {

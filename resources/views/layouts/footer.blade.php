@@ -69,6 +69,7 @@
 <script type="text/javascript">
       var base_url = '{{ url('/')}}';
 </script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
 var slideIndex = 1;
 showDivs(slideIndex);

@@ -1,6 +1,9 @@
 @include('layouts.header')
 <!------------>
 <!----------->
+<head>
+   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+</head>
 <section class="linkpage">
    <div class="container-fluid">
       <div class="pagelinks">
@@ -88,13 +91,14 @@
             </div>
             <div class="product-detain-sub-div2">
                <div class="product-details-coontent"> <span class="bbb">
-                              <h3>{{ucwords($product_varient->variant_name)}}<span id="dots">...</span><span id="more"></span> </h3>
+                  <input type="hidden" class="productvariantid" name="productvariantid" id="productvariantid" value="{{$product_varient->product_variant_id}}">
+               <h3>{{ucwords($product_varient->variant_name)}}<span id="dots">...</span><span id="more"></span> </h3>
                   <button onclick="myFunction()" id="myBtn"> more</button>
                   </span>
                   <div class="rating"> <span class="rating-num">4.1 <i class="fa fa-star" aria-hidden="true"></i></span> <span class="rating-con">2,120 ratings</span> </div>
                   <div class="price-d-sec"> <span class="price-d">&#8377;{{$product_varient->variant_price_offer}} </span> <span class="cutprice"><s>134 500</s></span><span class="offer"> 8% off</span> </div>
                   <div class="addcart-sec">
-                     <button class="addbtn">ADD TO CART</button>
+                     <button class="addbtn addToButton">ADD TO CART</button>
                      <button class="buybtn">BUY NOW</button>
                   </div>
                   <div class="highlights-sec">
@@ -134,6 +138,11 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="{{URL::to('/assets/cart/js/cart.js')}} "></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+
 <script>
 var slideIndex = 1;
 showDivs(slideIndex);

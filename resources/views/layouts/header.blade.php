@@ -4,6 +4,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="csrf-token" content="{{ csrf_token() }}" />
    <link rel="stylesheet" href="{{URL::to('/assets/frontAssets/css/style.css')}}">
    <link rel="stylesheet" href="{{URL::to('/assets/frontAssets/css/bootstrap.css')}}">
    <link rel="stylesheet" href="{{URL::to('/assets/frontAssets/css/bootstrap.min.css')}}">
@@ -40,7 +41,7 @@
                </div>
             </div>
             <div class="">
-               <a href="" class="cart-head"> <i class="fa fa-shopping-cart" aria-hidden="true" class="cart-top"></i> Cart</a>
+               <a href="{{url('/show_Cart')}}" class="cart-head"> <i class="fa fa-shopping-cart" aria-hidden="true" class="cart-top"></i> Cart</a>
             </div>
          </div>
       </div>
