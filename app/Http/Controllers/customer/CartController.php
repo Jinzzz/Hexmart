@@ -25,8 +25,8 @@ class CartController extends Controller
     {
         $id = $request->product_id;
         $product_check = Mst_ProductVariant::where('product_variant_id', $id)->first();
-        if (Auth::check())
-        {
+        // if (Auth::check())
+        // {
             if (Trn_Cart::where('product_variant_id', $id)->exists())
             {
                 return response()->json(['status' => ucfirst($product_check->variant_name) . " " . "Already Added To Cart"]);
@@ -41,11 +41,11 @@ class CartController extends Controller
                 $cart->save();
                 return response()->json(['status' => ucfirst($product_check->variant_name) . " " . "Added To Cart"]);
             }
-        }
-        else
-        {
-            return response()->json(['status' => "Login to Continue"]);
-        }
+        // }
+        // else
+        // {
+        //     return response()->json(['status' => "Login to Continue"]);
+        // }
     }
 
     /*
@@ -66,7 +66,7 @@ class CartController extends Controller
         }
         else
         {
-        return view('customer.login');
+        return redirect()->route('customerlogin');
 
         }
        

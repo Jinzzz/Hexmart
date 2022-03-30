@@ -47,7 +47,7 @@ return [
             'hash' => false,
         ],
 
-        'customers' => [
+        'customer' => [
             'driver' => 'session',
             'provider' => 'customers',
         ],
@@ -102,6 +102,12 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'customers' => [
+            'provider' => 'customers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

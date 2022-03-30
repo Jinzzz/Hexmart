@@ -12,6 +12,7 @@ use App\Models\admin\Mst_Product;
 use App\Models\admin\Mst_CustomerGroup;
 use App\Models\admin\Mst_Brand;
 use App\Models\admin\Mst_AttributeGroup;
+use App\Models\admin\Trn_ItemVariantAttribute;
 use DB;
 use Request;
 
@@ -39,22 +40,24 @@ class ProductController extends Controller
         $brands=isset($_GET['brand']) ? $_GET['brand'] : $brand_datas;
 
 
-
-
-        // $attribute_datas=[];
-        // $attribute_table=Mst_Product::with('attribute_group')->where('item_category_id',$category->item_category_id)->get();
-
-        // foreach ($attribute_table as $val) {
-        // $brand_ids=$val->product_id;
-        // $attribute_datas[] = (array)$brand_ids;  
-        // }
-        // $attribute=isset($_GET['attribute']) ? $_GET['attribute'] : '';
-
-        // dd($attribute_table);
-
-
-
-        $product = Mst_Product::with('itemCategoryData')->whereIn('brand_id',$brands)->where('item_category_id', $category->item_category_id)->get();
+        $attribute=isset($_GET['attribute']) ? $_GET['attribute'] : '';
+        if( $attribute!='')
+        {
+           $attribute_table=Trn_ItemVariantAttribute::select('product_id')->with('product')->whereIn('attribute_group_id',$attribute)->get()->toArray();
+           $attribute_id=[];
+            foreach ($attribute_table as $values) {
+            $attribute_id[]= $values['product_id'];
+            }
+        }
+        else
+        {
+            $attribute_table=Mst_Product::select('product_id')->get()->toArray();
+            $attribute_id=[];
+            foreach ($attribute_table as $values) {
+            $attribute_id[]= $values['product_id'];
+            }
+        }
+        $product = Mst_Product::with('itemCategoryData')->whereIn('brand_id',$brands)->whereIn('product_id',$attribute_id)->where('item_category_id', $category->item_category_id)->get();
         $brand = Mst_Brand::where('is_active', 1)->get();
         $attribute = Mst_AttributeGroup::where('is_active', 1)->get();
         if ($product->isEmpty())
@@ -124,7 +127,24 @@ class ProductController extends Controller
         $brand_datas[] = (array)$brand_ids;  
         }
         $brandvalues=isset($_GET['brand']) ? $_GET['brand'] : $brand_datas;  
-        $product = Mst_Product::with('itemCategoryData')->whereIn('brand_id',$brandvalues)->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->get();
+        $attribute=isset($_GET['attribute']) ? $_GET['attribute'] : '';
+        if( $attribute!='')
+        {
+           $attribute_table=Trn_ItemVariantAttribute::select('product_id')->with('product')->whereIn('attribute_group_id',$attribute)->get()->toArray();
+           $attribute_id=[];
+            foreach ($attribute_table as $values) {
+            $attribute_id[]= $values['product_id'];
+            }
+        }
+        else
+        {
+            $attribute_table=Mst_Product::select('product_id')->get()->toArray();
+            $attribute_id=[];
+            foreach ($attribute_table as $values) {
+            $attribute_id[]= $values['product_id'];
+            }
+        }
+        $product = Mst_Product::with('itemCategoryData')->whereIn('brand_id',$brandvalues)->whereIn('product_id',$attribute_id)->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->get();
         $brand = Mst_Brand::where('is_active', 1)->get();
         $attribute = Mst_AttributeGroup::where('is_active', 1)->get();
         if ($product->isEmpty())
@@ -201,8 +221,25 @@ class ProductController extends Controller
         $brand_ids=$val->brand_id;
         $brand_datas[] = (array)$brand_ids;  
         }
-        $brandvalues=isset($_GET['brand']) ? $_GET['brand'] : $brand_datas;     
-        $product = Mst_Product::with('itemCategoryData')->whereIn('brand_id',$brandvalues)->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('iltsc_id', $mainsub_category->iltsc_id)->get();
+        $brandvalues=isset($_GET['brand']) ? $_GET['brand'] : $brand_datas; 
+         $attribute=isset($_GET['attribute']) ? $_GET['attribute'] : '';
+        if( $attribute!='')
+        {
+           $attribute_table=Trn_ItemVariantAttribute::select('product_id')->with('product')->whereIn('attribute_group_id',$attribute)->get()->toArray();
+           $attribute_id=[];
+            foreach ($attribute_table as $values) {
+            $attribute_id[]= $values['product_id'];
+            }
+        }
+        else
+        {
+            $attribute_table=Mst_Product::select('product_id')->get()->toArray();
+            $attribute_id=[];
+            foreach ($attribute_table as $values) {
+            $attribute_id[]= $values['product_id'];
+            }
+        }    
+        $product = Mst_Product::with('itemCategoryData')->whereIn('brand_id',$brandvalues)->whereIn('product_id',$attribute_id)->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('iltsc_id', $mainsub_category->iltsc_id)->get();
         $brand = Mst_Brand::where('is_active', 1)->get();
         $attribute = Mst_AttributeGroup::where('is_active', 1)->get();
 

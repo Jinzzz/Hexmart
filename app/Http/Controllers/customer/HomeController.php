@@ -10,7 +10,9 @@ use App\Models\admin\Mst_ProductVariant;
 use App\Models\admin\Mst_ItemSubCategory;
 use App\Models\admin\Mst_ItemLevelTwoSubCategory;
 use App\Models\admin\Mst_Product;
-// use Request;
+use Auth;
+use Illuminate\Session\Middleware\StartSession;
+
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -102,6 +104,8 @@ class HomeController extends Controller
 
     public function dashboard()
     {
+       
+        dd(Auth::guard('customer')->user());
         return view('customer.login.dashboard');
     }
 

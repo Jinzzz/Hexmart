@@ -26,18 +26,19 @@ Route::group(['namespace' => 'customer'], function () {
     Route::get('/productdetail/{name}/{catname}', 'ProductController@productdetail')->name('customer.productdetail');
     Route::get('/productsubdetail/{name}/{catname}/{variant_name}', 'ProductController@productsubdetail')->name('customer.productsubdetail');
     Route::get('/productmainsubdetail/{name}/{catname}/{variant_name}/{mainsub}', 'ProductController@productmainsubdetail')->name('customer.productmainsubdetail');
-
-    Route::middleware(['customers'])->group(function(){
     Route::post('/add_to_cart','CartController@addcart')->name('customer.addtocart');
     Route::get('/show_Cart','CartController@show_Cart')->name('customer.show_Cart');
-    Route::get('/customer/dashboard','HomeController@dashboard')->name('customer.dashboard');
 
-
+    Route::middleware(['guest:customer'])->group(function(){
+    Route::get('/customer-dashboard','HomeController@dashboard')->name('customerdashboard');
    });
+   Route::group(['prefix' => 'customer'],function(){
+
   Route::get('/customerlogin','HomeController@customerlogin')->name('customerlogin');
+  Route::post('/cust_store','LoginController@cust_store')->name('cust_store');
+  });
 
-
-});
+  });
 
 
 
