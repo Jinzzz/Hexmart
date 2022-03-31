@@ -12,10 +12,16 @@ use App\Models\admin\Mst_Product;
 use App\Models\admin\Trn_Cart;
 use App\Models\admin\Trn_WishList;
 use Auth;
+use Illuminate\Session\Middleware\StartSession;
+
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    protected function guard()
+    {
+        return Auth::guard('customer');
+    }
     /*
     Description : Add to cart details
     Date        : 29/3/2022
@@ -26,8 +32,8 @@ class CartController extends Controller
     {
         $id = $request->product_id;
         $product_check = Mst_ProductVariant::where('product_variant_id', $id)->first();
-        // if (Auth::check())
-        // {
+        if (Auth::guard('customer')->check())
+        {
         if (Trn_Cart::where('product_variant_id', $id)->exists())
         {
             return response()
@@ -36,19 +42,22 @@ class CartController extends Controller
         }
         else
         {
-            $cart = new Trn_Cart();
-            // $cart->customer_id=Auth::user()->id;
-            $cart->product_variant_id = $id;
-            $cart->quantity = 1;
-            $cart->save();
-            return response()
-                ->json(['status' => ucfirst($product_check->variant_name) . " " . "Added To Cart"]);
+            
+                $cart = new Trn_Cart();
+                $cart->customer_id=Auth::guard('customer')->user()->customer_id;
+                $cart->product_variant_id = $id;
+                $cart->quantity = 1;
+                $cart->save();
+                return response()
+                    ->json(['status' => ucfirst($product_check->variant_name) . " " . "Added To Cart"]);
+            
+            
         }
-        // }
-        // else
-        // {
-        //     return response()->json(['status' => "Login to Continue"]);
-        // }
+        }
+        else
+        {
+            return response()->json(['status' => "Login to Continue"]);
+        }
         
     }
 
@@ -62,13 +71,20 @@ class CartController extends Controller
     {
         $id = $request->product_id;
         $product_check = Mst_ProductVariant::where('product_variant_id', $id)->first();
-        
+            if(Auth::guard('customer')->check())
+            {
             $wishlist = new Trn_WishList();
             $wishlist->product_variant_id = $id;
-            // $wishlist->customer_id = '';
+            $wishlist->customer_id = Auth::guard('customer')->user()->customer_id;
             $wishlist->save();
             return response()
                 ->json(['status' => "success"]);
+            }
+            else
+            {
+             return response()
+                ->json(['status' => "After Login successfully product should be added to the wishlist"]);   
+            }    
        
         
     }
@@ -81,8 +97,17 @@ class CartController extends Controller
     public function remove_whishlist(Request $request)
     {
         $id = $request->product_id;
+        if(Auth::guard('customer')->check())
+        {
         $product_check = Trn_WishList::where('product_variant_id', $id)->delete();
         return response()->json(['status' => "successfully remove from wishlist"]);
+        }
+        else
+        {
+          return response()->json(['status' => "After Login successfully product should be removed to the wishlist"]);
+   
+        }
+
         
     }
 

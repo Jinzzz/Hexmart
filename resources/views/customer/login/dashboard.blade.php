@@ -1,4 +1,4 @@
-@include('customer.register.layouts.header') 
+@include('layouts.header') 
 
 <!DOCTYPE html>
 <html>
@@ -11,4 +11,4 @@
     Dashboard
 </body>
 </html>
-@include('customer.register.layouts.footer') 
+@include('layouts.footer') 

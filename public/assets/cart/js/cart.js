@@ -36,7 +36,7 @@ $('.wishcheckbox').on('click', function() {
          dataType:"json",
          success:function(response)
          {
-                 console.log(response);
+                  swal( response.status);
 
          }
         });
@@ -57,7 +57,7 @@ $('.wishcheckbox').on('click', function() {
          dataType:"json",
          success:function(response)
          {
-                 console.log(response);
+                  swal( response.status);
 
          }
         });
