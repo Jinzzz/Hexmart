@@ -10,6 +10,7 @@ use App\Models\admin\Mst_ItemSubCategory;
 use App\Models\admin\Mst_ItemLevelTwoSubCategory;
 use App\Models\admin\Mst_Product;
 use App\Models\admin\Trn_Cart;
+use App\Models\admin\Trn_WishList;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -50,6 +51,44 @@ class CartController extends Controller
         // }
         
     }
+
+     /*
+    Description : Add to Wish
+    Date        : 29/3/2022
+    
+    */
+
+    public function add_to_wishlist(Request $request)
+    {
+        $id = $request->product_id;
+        $product_check = Mst_ProductVariant::where('product_variant_id', $id)->first();
+        
+            $wishlist = new Trn_WishList();
+            $wishlist->product_variant_id = $id;
+            // $wishlist->customer_id = '';
+            $wishlist->save();
+            return response()
+                ->json(['status' => "success"]);
+       
+        
+    }
+
+
+ /*
+    Description : Remove wish list
+    Date        : 29/3/2022
+    
+    */
+
+    public function remove_whishlist(Request $request)
+    {
+        $id = $request->product_id;
+        $product_check = Trn_WishList::where('product_variant_id', $id)->delete();
+        return response()->json(['status' => "successfully remove from wishlist"]);
+        
+        
+    }
+
 
     /*
     Description : Add to cart listing for logged in users

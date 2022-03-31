@@ -34,6 +34,10 @@ Route::group(['namespace' => 'customer'], function ()
         ->name('customer.productmainsubdetail');
     Route::post('/add_to_cart', 'CartController@addcart')
         ->name('customer.addtocart');
+    Route::post('/add_to_wishlist', 'CartController@add_to_wishlist')
+        ->name('customer.add_to_wishlist');
+    Route::post('/remove_whishlist', 'CartController@remove_whishlist')
+        ->name('customer.remove_whishlist');        
     Route::get('/show-Cart', 'CartController@show_Cart')
         ->name('customer.show_Cart');
    //customer dashboard
