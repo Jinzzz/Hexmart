@@ -40,6 +40,7 @@ Route::group(['namespace' => 'customer'], function ()
         ->name('customer.remove_whishlist');        
     Route::get('/show-Cart', 'CartController@show_Cart')
         ->name('customer.show_Cart');
+        
    //customer dashboard
     Route::middleware(['customer'])->group(function ()
     {
