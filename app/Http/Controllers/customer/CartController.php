@@ -84,7 +84,6 @@ class CartController extends Controller
         $product_check = Trn_WishList::where('product_variant_id', $id)->delete();
         return response()->json(['status' => "successfully remove from wishlist"]);
         
-        
     }
 
     /*
