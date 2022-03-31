@@ -72,9 +72,7 @@ class CartController extends Controller
        
         
     }
-
-
- /*
+   /*
     Description : Remove wish list
     Date        : 29/3/2022
     
@@ -88,7 +86,6 @@ class CartController extends Controller
         
         
     }
-
 
     /*
     Description : Add to cart listing for logged in users

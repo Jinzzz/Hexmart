@@ -1,4 +1,4 @@
-@include('customer.register.layouts.header')
+@include('layouts.header')
 <!------------>
 <section class="order-confirmed-sec">
    <div class="container-fluid">
@@ -135,6 +135,6 @@
       </div>
    </div>
 </section>
-<!-------end----->@include('customer.register.layouts.footer') </body>
+<!-------end----->@include('layouts.footer') </body>
 
 </html>

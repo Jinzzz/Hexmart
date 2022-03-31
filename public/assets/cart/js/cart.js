@@ -22,9 +22,9 @@ $('.addToButton').click(function(e){
 
 
 $('.wishcheckbox').on('click', function() {
-if(this.checked){
- var product_id=document.getElementById('productvariantid').value;
-       $.ajax({
+        if(this.checked){
+        var product_id=document.getElementById('productvariantid').value;
+        $.ajax({
          method:"POST",
          url:base_url+"/add_to_wishlist",
          headers: {
@@ -39,9 +39,9 @@ if(this.checked){
                  console.log(response);
 
          }
- });
-}
-else{ 
+        });
+        }
+        else{ 
 
         var product_id=document.getElementById('productvariantid').value;
 
@@ -60,6 +60,6 @@ else{
                  console.log(response);
 
          }
- });
-}
+        });
+       }
 });
