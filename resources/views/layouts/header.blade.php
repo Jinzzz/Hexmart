@@ -37,7 +37,7 @@
             <div class="cart-account">
                <div class="dropdown d-down pt-3">
                   <button class="dropbtn">My Account <i class="fa fa-angle-down" aria-hidden="true"></i></button>
-                  <div class="dropdown-content drp-m"> <a href="#">My Account</a> <a href="#">My Account</a> <a href="#">My Account</a> </div>
+                  <div class="dropdown-content drp-m"> <a href="{{url('/customer/register')}}">Register</a> <a href="{{url('/customer/customerlogin')}}">Login</a> <a href="#">My Account</a> </div>
                </div>
             </div>
             <div class="">

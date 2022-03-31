@@ -96,12 +96,20 @@ class HomeController extends Controller
         ));
     }
 
-
+    /*
+    Description : Customer Login Page
+    Date        : 30/3/2022
+    
+    */
     public function customerlogin()
     {
        return view('customer.login');
     }
-
+    /*
+    Description : Customer Dashboard
+    Date        : 30/3/2022
+    
+    */
     public function dashboard()
     {
        

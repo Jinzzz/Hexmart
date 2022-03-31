@@ -29,10 +29,12 @@ Route::group(['namespace' => 'customer'], function () {
     Route::post('/add_to_cart','CartController@addcart')->name('customer.addtocart');
     Route::get('/show_Cart','CartController@show_Cart')->name('customer.show_Cart');
 
-    Route::middleware(['guest:customer'])->group(function(){
+    // Route::middleware(['guest:customer'])->group(function(){
     Route::get('/customer-dashboard','HomeController@dashboard')->name('customerdashboard');
-   });
+   // });
    Route::group(['prefix' => 'customer'],function(){
+   Route::get('/register','RegisterController@register')->name('register');
+   Route::post('/cust_register','RegisterController@cust_register')->name('cust_register');
 
   Route::get('/customerlogin','HomeController@customerlogin')->name('customerlogin');
   Route::post('/cust_store','LoginController@cust_store')->name('cust_store');

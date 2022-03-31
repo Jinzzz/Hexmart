@@ -18,7 +18,7 @@ class Mst_Customer extends Authenticatable
     protected $primaryKey = "customer_id";
 
     protected $fillable = [
-        'customer_id'.
+        'customer_id',
         'customer_name',
         'customer_email',
         'customer_mobile',

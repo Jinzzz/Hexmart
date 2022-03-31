@@ -48,12 +48,19 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         //logout from all other devices
-        //auth()->logoutOtherDevices($request->password);
+        // auth()->logoutOtherDevices($request->password);
     }
+
+    /*
+    Description : Customer login stored datas 
+    Date        : 30/3/2022
+    
+    */
+
+
 
     public function cust_store(Request $request)
     {
-         // dd($request);
         $this->validate($request, [
             'email'   => 'required|email',
             'password' => 'required|min:4'
@@ -73,11 +80,7 @@ class LoginController extends Controller
         else
         { 
           return redirect()->route('customerdashboard');
-            // if (Auth::guest('customer')->attempt(['customer_email' => $request->email, 'password' => 
-            // $request->password])) {
-            // return redirect()->intended(route('customerdashboard'));
-            // }
-
+           
         }
 
 
