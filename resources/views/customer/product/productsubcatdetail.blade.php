@@ -99,7 +99,7 @@
                   <div class="price-d-sec"> <span class="price-d">&#8377;{{$product_varient->variant_price_offer}} </span> <span class="cutprice"><s>134 500</s></span><span class="offer"> 8% off</span> </div>
                   <div class="addcart-sec">
                      <button class="addbtn addToButton">ADD TO CART</button>
-                     <button class="buybtn">BUY NOW</button>
+                     <button class="buybtn Buynow">BUY NOW</button>
                   </div>
                   <div class="highlights-sec">
                      <h5>Highlights</h5>

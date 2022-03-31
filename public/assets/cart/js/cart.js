@@ -63,3 +63,33 @@ $('.wishcheckbox').on('click', function() {
         });
        }
 });
+
+
+$('.Buynow').click(function(e){
+ e.preventDefault();
+ var product_id=document.getElementById('productvariantid').value;
+ $.ajax({
+         method:"POST",
+         url:base_url+"/Buynowproduct",
+         headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+         data:{
+              'product_id':product_id
+         },
+         dataType:"json",
+         success:function(response)
+         {
+              if(response.status=="Login to Continue")
+              {
+                window.location.href = "/customer/customer-login";
+
+              }
+              else if(response.status=="Success")
+              {
+               window.location.href = "/Buynowproduct-view";
+              }
+
+         }
+ });
+});

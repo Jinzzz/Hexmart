@@ -38,11 +38,9 @@ class CartController extends Controller
         {
             return response()
                 ->json(['status' => ucfirst($product_check->variant_name) . " " . "Already Added To Cart"]);
-
         }
         else
         {
-            
                 $cart = new Trn_Cart();
                 $cart->customer_id=Auth::guard('customer')->user()->customer_id;
                 $cart->product_variant_id = $id;
@@ -50,8 +48,6 @@ class CartController extends Controller
                 $cart->save();
                 return response()
                     ->json(['status' => ucfirst($product_check->variant_name) . " " . "Added To Cart"]);
-            
-            
         }
         }
         else
@@ -84,9 +80,7 @@ class CartController extends Controller
             {
              return response()
                 ->json(['status' => "After Login successfully product should be added to the wishlist"]);   
-            }    
-       
-        
+            }         
     }
    /*
     Description : Remove wish list
@@ -105,10 +99,8 @@ class CartController extends Controller
         else
         {
           return response()->json(['status' => "After Login successfully product should be removed to the wishlist"]);
-   
         }
 
-        
     }
 
     /*
@@ -119,7 +111,6 @@ class CartController extends Controller
 
     public function show_Cart()
     {
-        // dd(Auth::guard('customers')->user()->name);
         if (Auth::guard('customer')
             ->check())
         {
@@ -130,16 +121,50 @@ class CartController extends Controller
             $cart = Trn_Cart::with('productVariantData')->where('customer_id', Auth::guard('customer')->user()
                 ->customer_id)
                 ->get();
+            // dd($cart);
             return view('customer.cart.list', compact('navCategoryDetails', 'cart'));
         }
         else
         {
-            return redirect()
-                ->route('customerlogin');
+            return redirect() ->route('customerlogin');
+        }
+
+    }
+
+
+    /*
+    Description : Buy Now product purchase details
+    Date        : 29/3/2022
+    
+    */
+
+    public function by_now()
+    {
+        if (Auth::guard('customer')->check())
+        {
+           return response()->json(['status' => "Success"]);
+
+        }
+        else
+        {
+            return response()->json(['status' => "Login to Continue"]);
 
         }
 
     }
+
+    /*
+    Description : Buy Now product purchase list
+    Date        : 29/3/2022
+    
+    */
+
+    public function by_nowlist()
+    {
+        
+          return view('customer.cart.bynow');
+    }
+
 
 }
 
