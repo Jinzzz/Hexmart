@@ -27,25 +27,28 @@ class CartController extends Controller
         $product_check = Mst_ProductVariant::where('product_variant_id', $id)->first();
         // if (Auth::check())
         // {
-            if (Trn_Cart::where('product_variant_id', $id)->exists())
-            {
-                return response()->json(['status' => ucfirst($product_check->variant_name) . " " . "Already Added To Cart"]);
+        if (Trn_Cart::where('product_variant_id', $id)->exists())
+        {
+            return response()
+                ->json(['status' => ucfirst($product_check->variant_name) . " " . "Already Added To Cart"]);
 
-            }
-            else
-            {
-                $cart = new Trn_Cart();
-                // $cart->customer_id=Auth::user()->id;
-                $cart->product_variant_id = $id;
-                $cart->quantity = 1;
-                $cart->save();
-                return response()->json(['status' => ucfirst($product_check->variant_name) . " " . "Added To Cart"]);
-            }
+        }
+        else
+        {
+            $cart = new Trn_Cart();
+            // $cart->customer_id=Auth::user()->id;
+            $cart->product_variant_id = $id;
+            $cart->quantity = 1;
+            $cart->save();
+            return response()
+                ->json(['status' => ucfirst($product_check->variant_name) . " " . "Added To Cart"]);
+        }
         // }
         // else
         // {
         //     return response()->json(['status' => "Login to Continue"]);
         // }
+        
     }
 
     /*
@@ -57,22 +60,26 @@ class CartController extends Controller
     public function show_Cart()
     {
         // dd(Auth::guard('customers')->user()->name);
-        if(Auth::guard('customer')->check())
+        if (Auth::guard('customer')
+            ->check())
         {
-        $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')->where('is_active', 1)->limit(5)->get();
-        $cart = Trn_Cart::with('productVariantData')->where('customer_id', Auth::user()->id)->get();
-        // dd($cart);
-        return view('customer.cart.list', compact('navCategoryDetails', 'cart'));
+            $navCategoryDetails = Mst_ItemCategory::withCount('itemSubCategoryL1Data')->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')
+                ->where('is_active', 1)
+                ->limit(5)
+                ->get();
+            $cart = Trn_Cart::with('productVariantData')->where('customer_id', Auth::guard('customer')->user()
+                ->customer_id)
+                ->get();
+            return view('customer.cart.list', compact('navCategoryDetails', 'cart'));
         }
         else
         {
-        return redirect()->route('customerlogin');
+            return redirect()
+                ->route('customerlogin');
 
         }
-       
+
     }
-
-
 
 }
 

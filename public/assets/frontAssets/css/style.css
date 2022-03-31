@@ -1242,10 +1242,10 @@ i.fa.fa-shopping-cart {
     width: 46%;
     }
     .crt{
-         width: 10%;
+         width:3%;
     }
     .cart-account {
-    width: 20%;
+    width: 25%;
 }
 .dropdown.d-down {
     padding-top: 6px;
@@ -1303,7 +1303,21 @@ i.fa.fa-shopping-cart {
     background: #0370c4d4;
     z-index: 1;
     /* height: 100%; */
-    padding: 37px 0 4px 0 !important;
+    padding: 7px 0 4px 0 !important;
+}
+
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+    position: absolute;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: -61px;
+    z-index: 999;
+    background: #025391;
+    height: 50vh;
+    top: 3.5em;
+    position: static;
+    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
 }
     li.nav-item {
     padding: 0px 12px 0px 10px;
@@ -2406,14 +2420,14 @@ svg #main-circ {
 
 
 /******share*********/
-/** {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
   appearance: none;
-}*/
+}
 
 #box {
   position: relative;
@@ -4612,7 +4626,7 @@ button.mn-dorder {
 /**media query****/
 @media (max-width: 575.98px) { 
 .ordrconfrm-container {
-    padding: 2em 1em 2em 1em;
+   padding: 1em 0em 1em 0em;
 }
 .cart-top-loct {
     display: flex;
@@ -5249,4 +5263,328 @@ img.dlvry-imgmyor {
 }
 .orderdetal-date {
     display: flex;
-    width: 3
+    width: 30%;
+}
+}
+
+
+
+ /*****login form*****/
+ .login-frm form input {
+   border-radius: 0;
+    background-color: #fff;
+    width: 100%;
+    border: none;
+    margin-bottom: 1.5em;
+    padding: 14px;
+    border-bottom: 1px solid #ccc;
+}
+
+ .login-frm form input:focus {
+ 	outline:none;
+ 	box-shadow:none;
+ }
+  .login-frm form input::placeholder {
+  	font-size: 14px;
+  	color: #808080;
+  }
+
+  .btns button {
+    width: 100%;
+    border: none;
+    background: #f2e10f;
+    padding: 10px 0;
+    color: #000;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 5px;
+     box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+     	font-family: 'Roboto', sans-serif;
+}
+ .btns button:hover {
+    border: 1px solid #f2e10f;
+    background: #fff;
+    transition-duration: 1s;
+    transition-delay: .1s;
+}
+button.signupbtn{
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 10px 0;
+    color: #0370c4;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 3px;
+    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+    margin-bottom: 15px;
+
+    margin-top: 1em;
+    	font-family: 'Roboto', sans-serif;
+
+
+}
+button.signupbtn:hover {
+    background: #0370c4;
+    transition-duration: 1s;
+    transition-delay: .1s;
+    color: #fff;
+}
+a.frgt{ 
+    position: absolute;
+    display: inline-block;
+    bottom: 38px;
+    right: 24px;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    color: #2874f0 !important; }
+
+    .login-sec {
+      padding-left: 4em;
+    padding-right: 4em;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+   justify-content: space-between;
+}
+.loginimgdiv {
+    width: 50%;
+}
+.login-frm {
+    width: 50%;
+}
+@media (max-width: 575.98px) {
+    .loginimgdiv {
+    width: 100%;
+}
+.login-frm {
+    width: 100%;
+}
+.login-sec {
+    padding-left: 0em;
+    padding-right: 0em;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+img.login-img {
+    width: 50%;
+}
+ .btns button {
+       font-size: 14px;
+ }
+ button.signupbtn{
+     
+     font-size: 14px;
+ }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) { 
+    .loginimgdiv {
+    width: 50%;
+}
+.login-frm {
+    width: 50%;
+}
+   .login-sec {
+    padding-left: 0em;
+    padding-right: 0em;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+} 
+   a.cart-head span {
+    display: none;
+} 
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+    .loginimgdiv {
+    width: 50%;
+}
+.login-frm {
+    width: 50%;
+}
+   .login-sec {
+    padding-left: 0em;
+    padding-right: 0em;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+} 
+    a.cart-head span {
+    display: none;
+}
+    
+}
+
+
+/************sign up**************/
+
+.sign-up {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.signup-div{
+	width: 49%;
+}
+
+.signup-div-frm{
+	width: 49%;
+}
+.signup-div-frm input {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 8px;
+    margin-bottom: 1em;
+
+
+}
+.signup-div-frm input::placeholder{
+	color: #808080;
+	font-size: 14px;
+
+}
+
+.signup-div-frm  button.Search-btnfrm {
+    display: flex;
+    position: absolute;
+    right: 30px;
+    bottom: 28px;
+    border: none;
+        background: transparent;
+}
+.btn-signup-div-frm button  {
+    border: 1px solid #f2e10f;
+    background: #f2e10f;
+    color: #0a0a0a;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 8px 3px;
+    width: 100%;
+    text-align: center;
+    margin-top: 2em;
+    border-radius: 3px;
+}
+
+.btn-signup-div-frm button:hover{
+
+    background-color: transparent;
+    border: 1px solid #f2e10f;
+    transition-delay: .1s;
+    transition-duration: 1s;
+}
+
+
+@media (max-width: 575.98px) {  
+.sign-up {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.signup-div {
+    width: 100%;
+}
+.signup-div-frm {
+    width: 100%;
+}
+.signup-div-frm button.myloction {
+    border: none;
+    background: #0370c4;
+    color: #fff;
+    width: 100%;
+    padding: 10px 0;
+    margin: 1px 0 0 0;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-bottom: 1em;
+}
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) { 
+
+.sign-up {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+img.img-fluid.sign-up {
+    width: 100%;
+}
+.signup-div {
+    width: 50%;
+}
+.signup-div-frm {
+    width: 100%;
+}
+.signup-div-frm button.myloction {
+    border: none;
+    background: #0370c4;
+    color: #fff;
+    width: 100%;
+    padding: 10px 0;
+    margin: 1px 0 0 0;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-bottom: 1em;
+}
+
+ }
+
+
+@media (min-width: 768px) and (max-width: 991.98px) { 
+
+.sign-up {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+img.img-fluid.sign-up {
+    width: 100%;
+}
+.signup-div {
+    width: 50%;
+}
+.signup-div-frm {
+    width: 100%;
+}
+.ordrconfrm-container {
+    padding: 2em 2em 2em 2em;
+}
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+.sign-up {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+img.img-fluid.sign-up {
+    width: 100%;
+}
+.signup-div {
+    width: 50%;
+}
+.signup-div-frm {
+    width: 100%;
+}
+.ordrconfrm-container {
+    padding: 2em 2em 2em 2em;
+}
+
+
+ }

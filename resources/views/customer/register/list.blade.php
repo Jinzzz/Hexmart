@@ -1,141 +1,61 @@
-<!doctype html>
-<html lang="en" dir="ltr">
-   <head>
-      <head>
-         <!-- META DATA -->
-         <meta charset="UTF-8">
-         <meta name="csrf-token" content="{{ csrf_token() }}">
-         <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
-         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-         <!-- FAVICON -->
-         <link rel="shortcut icon" type="image/x-icon" href="{{URL::to('/assets/uploads/favicon.png')}}" />
-         <!-- TITLE -->
-         <title>{{ __('Hex Mart | Administration') }}</title>
-         <!-- BOOTSTRAP CSS -->
-         <link href="{{URL::to('/assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" />
-         <!-- STYLE CSS -->
-         <link href="{{URL::to('/assets/css/style.css')}}" rel="stylesheet"/>
-         <link href="{{URL::to('/assets/css/skin-modes.css')}}" rel="stylesheet"/>
-         <!-- SIDE-MENU CSS -->
-         <link href="{{URL::to('/assets/plugins/sidemenu/closed-sidemenu.css')}}" rel="stylesheet">
-         <!-- SINGLE-PAGE CSS -->
-         <link href="{{URL::to('/assets/plugins/single-page/css/main.css')}}" rel="stylesheet" type="text/css">
-         <!--C3 CHARTS CSS -->
-         <link href="{{URL::to('/assets/plugins/charts-c3/c3-chart.css')}}" rel="stylesheet"/>
-         <!-- CUSTOM SCROLL BAR CSS-->
-         <link href="{{URL::to('/assets/plugins/scroll-bar/jquery.mCustomScrollbar.css')}}" rel="stylesheet"/>
-         <!--- FONT-ICONS CSS -->
-         <link href="{{URL::to('/assets/css/icons.css')}}" rel="stylesheet"/>
-         <!-- COLOR SKIN CSS -->
-         <link id="theme" rel="stylesheet" type="text/css" media="all" href="{{URL::to('/assets/colors/color1.css')}}" />
-      </head>
-   </head>
-   <body>
-      <!-- BACKGROUND-IMAGE -->
-      <div class="login-img">
-         <!-- GLOABAL LOADER -->
-         <div id="global-loader">
-            <img src="{{URL::to('/assets/images/loader.svg')}}" class="loader-img" alt="Loader">
-         </div>
-         <!-- /GLOABAL LOADER -->
-         <!-- PAGE -->
-         <div class="page">
-            <div class="">
-               <!-- CONTAINER OPEN -->
-               <div class="col col-login mx-auto">
-                  <div class="text-center">
-                     <img src="{{URL::to('/assets/front-end/image/logo-white.png')}}" class="header-brand-img" alt="">
-                  </div>
+@include('layouts.header')
+<!------------>
+<section class="order-confirmed-sec">
+   <div class="container-fluid">
+      <div class="ordrconfrm-container">
+         <div class="ordrconfrm">
+            <div class="sign-up">
+               <div class="signup-div text-center"> <img src="{{URL::to('/assets/frontAssets/image/sign-up.png')}}" class="img-fluid sign-up" alt=""> </div>
+               <div class="signup-div-frm">
+                  <form>
+                     <div class="row">
+                        <div class="col-lg-12">
+                           <input type="text" placeholder="Full Name (Required)*" name="uname" required=""> </div>
+                        <div class="col-lg-12">
+                           <input type="tel" placeholder="Phone number (Required)*" name="phonenumber" required=""> </div>
+                        <div class="col-lg-6 col-12">
+                           <input type="text" placeholder="Pincode (Required)*" name="uname" required=""> </div>
+                        <div class="col-lg-6 col-12">
+                           <button class="myloction"><i class="fa fa-compass" aria-hidden="true"></i> Use my location</button>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                           <input type="text" placeholder="State (Required)*" name="uname" required=""> </div>
+                        <div class="col-lg-6 col-12">
+                           <input type="text" placeholder="City (Required)*" name="uname" required="">
+                           <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button>
+                        </div>
+                        <div class="col-lg-12">
+                           <input type="text" placeholder="House No, Building Name (Required)*" name="uname" required=""> </div>
+                        <div class="col-lg-12">
+                           <input type="text" placeholder="Road name, Area, Colony (Required)*" name="uname" required="">
+                           <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button>
+                        </div>
+                        <div class="col-lg-6">
+                           <p class="tadd">Types of address</p>
+                           <div class="row">
+                              <div class="col-lg-6 col-6 disc-radio">
+                                 <input type="radio" id="" name="Home" value="">
+                                 <label for="Home"><i class="fa fa-home" aria-hidden="true"></i> Home</label>
+                              </div>
+                              <div class="col-lg-6  col-6 disc-radio rty">
+                                 <input type="radio" id="" name="Work" value="">
+                                 <label for="Work"><i class="fa fa-building" aria-hidden="true"></i> Work</label>
+                                 <br> </div>
+                           </div>
+                        </div>
+                        <div class="col-lg-12 text-center">
+                           <div class="btn-signup-div-frm">
+                              <button>Save Address</button>
+                           </div>
+                        </div>
+                     </div>
+                  </form>
                </div>
-               <div class="container-login100">
-                  <div class="wrap-login100 p-6" style="width:400px;">
-                     <form method="POST" action="{{ url('/customer/Customer-Register') }}" >
-                        @csrf
-                        <span class="login100-form-title">
-                           {{ __('Customer Register') }}
-                        </span>
-                        @if(session('status'))
-                        <div class="alert alert-success" id="err_msg">
-                           <p>{{session('status')}}</p>
-                        </div>
-                        @endif
-                        @if (count($errors) > 0)
-                        @foreach ($errors->all() as $error)
-                        <p class="alert alert-danger">{{ $error }}</p>
-                        @endforeach
-                        @endif
-                        @if (session()->has('message'))
-                        <p class="alert alert-success">{{ session('message') }}</p>
-                        @endif
-                        <div class="wrap-input100 validate-input">
-                           <input class="input100" id="name" type="text" name="name" placeholder="Name"  required autocomplete="off" >
-                           @error('name')
-                           <span class="invalid-feedback" role="alert">
-                              <strong>{{ $message }}</strong>
-                           </span>
-                           @enderror
-                        </div>
-                        <div class="wrap-input100 validate-input">
-                           <input class="input100" id="customer_email" type="email" name="customer_email" placeholder="Email"  required autocomplete="off" >
-                           @error('customer_email')
-                           <span class="invalid-feedback" role="alert">
-                              <strong>{{ $message }}</strong>
-                           </span>
-                           @enderror
-                        </div>
-                        <div class="wrap-input100 validate-input">
-                           <input class="input100" type="password" name="password" placeholder="Password" id="password" type="password" required autocomplete="off">
-                           @error('password')
-                           <span class="invalid-feedback" role="alert">
-                              <strong>{{ $message }}</strong>
-                           </span>
-                           @enderror
-                           <span class="focus-input100"></span>
-                        </div>
-                         <div class="wrap-input100 validate-input">
-                           <input class="input100" type="password" name="confirm_password" placeholder="Confirm Password" id="confirm_password" type="password" required autocomplete="off">
-                           @error('confirm_password')
-                           <span class="invalid-feedback" role="alert">
-                              <strong>{{ $message }}</strong>
-                           </span>
-                           @enderror
-                           <span class="focus-input100"></span>
-                        </div>
-                        <div class="container-login100-form-btn">
-                           <button type="submit" class="login100-form-btn btn-primary">
-                           {{ __('Register') }}
-                           </button>
-                        </div>
-                        <!-- <div class="container-login100-form-btn">
-                           <button type="reset" class="login100-form-btn btn-danger">
-                           {{ __('Clear') }}
-                           </button><br>
-                        </div> -->
-                     </form>
-                  </div>
-               </div>
-               <!-- CONTAINER CLOSED -->
             </div>
          </div>
-         <!-- End PAGE -->
       </div>
-      <!-- BACKGROUND-IMAGE CLOSED -->
-      <!-- JQUERY JS -->
-      <script src="{{URL::to('/assets/js/jquery-3.4.1.min.js')}}"></script>
-      <!-- BOOTSTRAP JS -->
-      <script src="{{URL::to('/assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-      <script src="{{URL::to('/assets/plugins/bootstrap/js/popper.min.js')}}"></script>
-      <!-- SPARKLINE JS -->
-      <script src="{{URL::to('/assets/js/jquery.sparkline.min.js')}}"></script>
-      <!-- CHART-CIRCLE JS -->
-      <script src="{{URL::to('/assets/js/circle-progress.min.js')}}"></script>
-      <!-- RATING STAR JS -->
-      <script src="{{URL::to('/assets/plugins/rating/jquery.rating-stars.js')}}"></script>
-      <!-- INPUT MASK JS -->
-      <script src="{{URL::to('/assets/plugins/input-mask/jquery.mask.min.js')}}"></script>
-      <!-- CUSTOM SCROLL BAR JS-->
-      <script src="{{URL::to('/assets/plugins/scroll-bar/jquery.mCustomScrollbar.concat.min.js')}}"></script>
-      <!-- CUSTOM JS-->
-      <script src="{{URL::to('/assets/js/custom.js')}}"></script>
-   </body>
+   </div>
+</section>
+<!-------end----->@include('layouts.footer') </body>
+
 </html>

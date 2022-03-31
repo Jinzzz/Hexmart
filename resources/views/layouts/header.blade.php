@@ -49,6 +49,14 @@
       <nav class="main-nav-sec navbar navbar-expand-lg navbar-dark ">
          <div class="container-fluid">
             <button class="navbar-toggler menu-btn" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+            @inject('project', 'App\Models\admin\Mst_ItemCategory')
+
+               <?php
+               $navCategoryDetails = $project->select('item_category_id', 'category_name_slug', 'category_name', 'category_icon', 'category_description')
+                ->where('is_active', 1)
+                ->limit(5)
+                ->get();
+               ?>
             <div class="container collapse navbar-collapse" id="navbarNavDropdown">
                <ul class="navbar-nav">
                   <li class="nav-item active"> <a class="nav-link" href="#">TopOffers </a> </li> {{--

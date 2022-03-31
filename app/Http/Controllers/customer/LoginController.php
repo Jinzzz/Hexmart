@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\customer;
 
 use App\Http\Controllers\Controller;
@@ -25,7 +24,6 @@ class LoginController extends Controller
     |
     */
 
-
     use AuthenticatesUsers;
 
     /**
@@ -41,21 +39,18 @@ class LoginController extends Controller
      * @return void
      */
 
-
     public function showLoginForm()
     {
         return view('customer.login');
     }
 
-
     public function usrlogin(Request $request)
     {
-       
-        
+
         $this->validateLogin($request);
 
-        if ($this->attemptLogin($request)) {
-
+        if ($this->attemptLogin($request))
+        {
 
             return $this->sendLoginResponse($request);
         }
@@ -64,39 +59,34 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        
-        $this->validate($request, [
-        $this->username() => 'required|email',
-                'password' => 'required|string',
-        ]);
+
+        $this->validate($request, [$this->username() => 'required|email', 'password' => 'required|string', ]);
     }
-    
+
     public function username()
     {
         return 'customer_email';
     }
 
-
     protected function credentials(Request $request)
     {
-        
-        $customer = Mst_Customer::where('customer_email',$request->customer_email)->first();
-       
-        if ($customer) {
-                return [
-                    'customer_email'=>$request->customer_email,
-                    'password'=>$request->password,
-                ];
-            }
 
-        return $request->only($this->username(), 'password');
+        $customer = Mst_Customer::where('customer_email', $request->customer_email)
+            ->first();
+
+        if ($customer)
+        {
+            return ['customer_email' => $request->customer_email, 'password' => $request->password, ];
+        }
+
+        return $request->only($this->username() , 'password');
     }
-    
 
     public function __construct()
     {
         //$this->middleware('guest');
-        $this->middleware('guest:customer')->except('logout');
+        $this->middleware('guest:customer')
+            ->except('logout');
     }
 
     protected function guard()
@@ -104,17 +94,15 @@ class LoginController extends Controller
         return Auth::guard('customer');
     }
 
-     public function logout(Request $request)
+    public function logout(Request $request)
     {
-        $customer_id  = Auth::guard('customer')->user()->customer_id;
+        $customer_id = Auth::guard('customer')->user()->customer_id;
 
-       
-
-        Auth::guard('customer')->logout();
-        
+        Auth::guard('customer')
+            ->logout();
 
         return redirect('customerlogin');
     }
 
-
 }
+
