@@ -32,6 +32,10 @@ class Mst_Customer extends Authenticatable
         'otp_genarated_time',
         'is_otp_verified',
         'is_active',
+        'pin',
+        'state',
+        'city',
+        'road',
     ];
 
     public function addresses()

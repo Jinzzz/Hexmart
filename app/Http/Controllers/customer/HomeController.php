@@ -107,7 +107,11 @@ class HomeController extends Controller
          // dd(Auth::guard('customer')->user()->customer_id);
         return view('customer.login.dashboard');
     }
-
+    /*
+    Description : Guard Details
+    Date        : 29/3/2022
+    
+    */
     protected function guard()
     {
         return Auth::guard('customer');

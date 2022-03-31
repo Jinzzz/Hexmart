@@ -41,6 +41,8 @@ Route::group(['namespace' => 'customer'], function ()
     {
         Route::get('/customer-dashboard', 'HomeController@dashboard')
             ->name('customerdashboard');
+        Route::get('/customer/logout', 'LoginController@logout')
+            ->name('logout');    
     });
     //customer login register details
     Route::group(['prefix' => 'customer'], function ()

@@ -44,7 +44,13 @@ class RegisterController extends Controller
     {
       $request->validate([
             'name' => 'required|string|max:255',
+            'customer_mobile'=>'required|min:10|numeric|unique:mst__customers',
             'customer_email' =>'required|string|email|max:255|unique:mst__customers',
+            'pin'=>'required|numeric',
+            'state'=>'required',
+            'city'=>'required',
+            'place'=>'required',
+            'road'=>'required',
             'password' => 'required|min:6|required_with:confirm_password|same:confirm_password',
             'confirm_password' => 'required|min:6',
         ]);
@@ -52,6 +58,12 @@ class RegisterController extends Controller
         $user = Mst_Customer::create([
             'customer_name' => $request->name,
             'customer_email' => $request->customer_email,
+            'customer_mobile' => $request->customer_mobile,
+            'pin' => $request->pin,
+            'state' => $request->state,
+            'city' => $request->city,
+            'place' => $request->place,
+            'road' => $request->road,
             'password' => Hash::make($request->password),
         ]);
 

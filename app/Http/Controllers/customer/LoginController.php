@@ -10,6 +10,7 @@ use Crypt;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 use App\Models\admin\Mst_Customer;
+use Redirect;
 
 class LoginController extends Controller
 {
@@ -38,12 +39,20 @@ class LoginController extends Controller
      *
      * @return void
      */
-
+    /*
+    Description : Customer login page
+    Date        : 29/3/2022
+    
+    */
     public function showLoginForm()
     {
         return view('customer.login');
     }
-
+    /*
+    Description : customer logged in redirect to home page
+    Date        : 29/3/2022
+    
+    */
     public function usrlogin(Request $request)
     {
 
@@ -56,7 +65,11 @@ class LoginController extends Controller
         }
         return $this->sendFailedLoginResponse($request);
     }
-
+    /*
+    Description : customer login validation
+    Date        : 29/3/2022
+    
+    */
     protected function validateLogin(Request $request)
     {
 
@@ -84,7 +97,6 @@ class LoginController extends Controller
 
     public function __construct()
     {
-        //$this->middleware('guest');
         $this->middleware('guest:customer')
             ->except('logout');
     }
@@ -93,15 +105,20 @@ class LoginController extends Controller
     {
         return Auth::guard('customer');
     }
-
-    public function logout(Request $request)
+    /*
+    Description : Customer Logout 
+    Date        : 29/3/2022
+    
+    */
+    public function logout()
     {
-        $customer_id = Auth::guard('customer')->user()->customer_id;
+       if (Auth::guest('customer')==true)
+       {
+         $customer_id = Auth::guard('customer')->user()->customer_id;
+        Auth::guard('customer')->logout();
+        } 
+       return redirect('/customer/customer-login');
 
-        Auth::guard('customer')
-            ->logout();
-
-        return redirect('customerlogin');
     }
 
 }
