@@ -49,7 +49,7 @@
                </div>
                <div class="container-login100">
                   <div class="wrap-login100 p-6" style="width:400px;">
-                     <form method="POST" action="{{ url('/customer/cust_store') }}" >
+                     <form method="POST" action="{{ url('/customer/customer-store') }}" >
                         @csrf
                         <span class="login100-form-title">
                            {{ __('Customer Login') }}
@@ -68,7 +68,7 @@
                         <p class="alert alert-success">{{ session('message') }}</p>
                         @endif
                         <div class="wrap-input100 validate-input">
-                           <input class="input100" id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" required autocomplete="email" >
+                           <input class="input100" id="email" type="email" name="customer_email" placeholder="Email" value="{{ old('email') }}" required autocomplete="email" >
                            @error('name')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>

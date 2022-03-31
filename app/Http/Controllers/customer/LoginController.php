@@ -5,10 +5,13 @@ namespace App\Http\Controllers\customer;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Crypt;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
 use App\Models\admin\Mst_Customer;
-use Hash;
+
 class LoginController extends Controller
 {
     /*
@@ -22,7 +25,8 @@ class LoginController extends Controller
     |
     */
 
-     // use AuthenticatesUsers;
+
+    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -30,61 +34,87 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/customer-dashboard';
-    // protected $redirectTo = RouteServiceProvider::CUSTOMER_HOME;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+
+
+    public function showLoginForm()
+    {
+        return view('customer.login');
+    }
+
+
+    public function usrlogin(Request $request)
+    {
+       
+        
+        $this->validateLogin($request);
+
+        if ($this->attemptLogin($request)) {
+
+
+            return $this->sendLoginResponse($request);
+        }
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        
+        $this->validate($request, [
+        $this->username() => 'required|email',
+                'password' => 'required|string',
+        ]);
+    }
+    
+    public function username()
+    {
+        return 'customer_email';
+    }
+
+
+    protected function credentials(Request $request)
+    {
+        
+        $customer = Mst_Customer::where('customer_email',$request->customer_email)->first();
+       
+        if ($customer) {
+                return [
+                    'customer_email'=>$request->customer_email,
+                    'password'=>$request->password,
+                ];
+            }
+
+        return $request->only($this->username(), 'password');
+    }
+    
+
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        //$this->middleware('guest');
         $this->middleware('guest:customer')->except('logout');
-
-
     }
 
-    protected function authenticated(Request $request, $user)
+    protected function guard()
     {
-        //logout from all other devices
-        // auth()->logoutOtherDevices($request->password);
+        return Auth::guard('customer');
     }
 
-    /*
-    Description : Customer login stored datas 
-    Date        : 30/3/2022
-    
-    */
-
-
-
-    public function cust_store(Request $request)
+     public function logout(Request $request)
     {
-        $this->validate($request, [
-            'email'   => 'required|email',
-            'password' => 'required|min:4'
-        ]);
+        $customer_id  = Auth::guard('customer')->user()->customer_id;
 
-        // if (Auth::guard('customer')->attempt(['customer_email' => $request->email, 'password' => $request->password])) {
+       
 
-        //     return redirect()->intended('/customer-dashboard');
-        // }
-        //  return back()->withInput($request->only('email'));
-        // return redirect()->intended(RouteServiceProvider::CUSTOMER_HOME);
-        $user=Mst_Customer::where('customer_email',$request->email)->first();
-        if(!$user || !Hash::check($request->password,$user->password))
-        {
-            return "Username or Password is not matched.";
-        }
-        else
-        { 
-          return redirect()->route('customerdashboard');
-           
-        }
-
-
-      
+        Auth::guard('customer')->logout();
         
+
+        return redirect('customerlogin');
     }
+
+
 }

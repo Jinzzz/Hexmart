@@ -97,15 +97,6 @@ class HomeController extends Controller
     }
 
     /*
-    Description : Customer Login Page
-    Date        : 30/3/2022
-    
-    */
-    public function customerlogin()
-    {
-       return view('customer.login');
-    }
-    /*
     Description : Customer Dashboard
     Date        : 30/3/2022
     
@@ -113,8 +104,13 @@ class HomeController extends Controller
     public function dashboard()
     {
        
-        dd(Auth::guard('customer')->user());
+         // dd(Auth::guard('customer')->user()->customer_id);
         return view('customer.login.dashboard');
+    }
+
+    protected function guard()
+    {
+        return Auth::guard('customer');
     }
 
 }

@@ -49,7 +49,7 @@
                </div>
                <div class="container-login100">
                   <div class="wrap-login100 p-6" style="width:400px;">
-                     <form method="POST" action="{{ url('/customer/cust_register') }}" >
+                     <form method="POST" action="{{ url('/customer/Customer-Register') }}" >
                         @csrf
                         <span class="login100-form-title">
                            {{ __('Customer Register') }}

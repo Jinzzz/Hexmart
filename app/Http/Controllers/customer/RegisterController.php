@@ -42,7 +42,6 @@ class RegisterController extends Controller
 
     public function cust_register(Request $request)
     {
-      // dd($request->name);
       $request->validate([
             'name' => 'required|string|max:255',
             'customer_email' =>'required|string|email|max:255|unique:mst__customers',
@@ -56,10 +55,15 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // event(new Registered($user));
+        event(new Registered($user));
 
-        // Auth::guard('customer')->login($user);
+        Auth::guard('customer')->login($user);
 
         return redirect(RouteServiceProvider::CUSTOMER_HOME);
+    }
+
+     protected function guard()
+    {
+        return Auth::guard('customer');
     }
 }
