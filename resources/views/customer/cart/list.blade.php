@@ -6,7 +6,7 @@
          <div class="cart-div1-sec">
             <div class="cart-top-loct">
                <div class="mycart">
-                  <h6>My Cart(2)</h6> </div>
+                  <h6>My Cart({{$count}})</h6> </div>
                <div class="deliverto">
                   <form> <img src="{{URL::to('/assets/frontAssets/image/location.svg')}}">
                      <label for="cars">Deliver to</label>
@@ -18,14 +18,13 @@
                   </form>
                </div>
             </div>
+            @foreach($cart as $val)
             <div class="cartproduct-sec">
                <div class="productname-sec">
-                  <h4>HP 15 Ryzen 3 Dual Core 3200U - (4 GB/1 TB
-                              HDD/Windows 10 Home) 15-db1069 AU Laptop
-                           </h4> <span class="color-prdct">Black</span>
-                  <div class="cartprice-pdct"> <span>&#8377; 8,002</span> </div>
+                  <h4>{{$val->productVariantData->variant_name}}</h4> 
+                  <div class="cartprice-pdct"> <span>&#8377;{{$val->productVariantData->variant_price_offer}}</span> </div>
                </div>
-               <div class="productimage-sec"> <img src="{{URL::to('/assets/frontAssets/image/lap1.png')}}" class="img-fluid" alt=""> </div>
+               <div class="productimage-sec"> <img src="{{asset( (new \App\Helpers\Helper)->productVarBaseImage($val->productVariantData->product_id,$val->productVariantData->product_variant_id))}}" class="img-fluid"> </div>
             </div>
             <!---------quantity remove----------->
             <div class="qunty-remove-sec">
@@ -44,7 +43,7 @@
                   <button><i class="fa fa-trash" aria-hidden="true"></i> <span>Remove</span></button>
                </div>
             </div>
-            
+            @endforeach
             <!----------------->
          </div>
          <div class="cart-div2-sec">
@@ -52,10 +51,12 @@
                <h4>PRICE DETAILS</h4>
                <table class="table tbl-sec">
                   <thead> </thead>
+
                   <tbody>
+                     
                      <tr>
-                        <td>Price (2 items)</td>
-                        <td>&#8377;40,771</td>
+                        <td>Price ({{$count}} items)</td>
+                        <td>&#8377;{{$total_price}}</td>
                      </tr>
                      <tr>
                         <td>Discount</td>
@@ -67,14 +68,14 @@
                      </tr>
                      <tr>
                         <td>Total Amount</td>
-                        <td>&#8377;40,771</td>
+                        <td>&#8377;{{$total_price}}</td>
                      </tr>
                   </tbody>
                </table>
             </div>
             <div class="placeorder-sec">
                <div class="prizetot">
-                  <p>&#8377;40,771</p> <span class="pricdtail"><a href="">View price details</a></span> </div>
+                  <p>&#8377;{{$total_price}}</p> <span class="pricdtail"><a href="">View price details</a></span> </div>
                <div class="placeholbtn">
                   <button type="button" class="btn " data-toggle="modal" data-target="#exampleModal">Place Order</button>
                </div>
