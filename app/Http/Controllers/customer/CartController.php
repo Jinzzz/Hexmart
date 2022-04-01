@@ -12,6 +12,7 @@ use App\Models\admin\Mst_Product;
 use App\Models\admin\Trn_Cart;
 use App\Models\admin\Trn_WishList;
 use App\Models\admin\Mst_Customer;
+use App\Models\CustomerPhone;
 use Auth;
 use Illuminate\Session\Middleware\StartSession;
 
@@ -234,6 +235,15 @@ class CartController extends Controller
                 $customer->place = $request->place;
                 $customer->road = $request->road;
                 $customer->update();
+
+        // $altphone_arry=array();
+        // foreach($request->option as $key=>$option)
+        // {
+        //     $altphone_arry[$key]['customer_id']=$customer->customer_id;
+        //     $altphone_arry[$key]['phone']=$option;
+
+        // }
+        //  CustomerPhone::insert($altphone_arry);        
         return redirect()->back()->with('msg', 'Customer Data Updated successfully');;
 
     }

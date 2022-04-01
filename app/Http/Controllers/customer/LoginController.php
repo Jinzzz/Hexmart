@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 use App\Models\admin\Mst_Customer;
 use Redirect;
-
+use Mail;
 class LoginController extends Controller
 {
     /*
@@ -120,6 +120,51 @@ class LoginController extends Controller
        return redirect('/customer/customer-login');
 
     }
+
+    /*
+    Description : Customer Forget-Password Page 
+    Date        : 1/4/2022
+    
+    */
+    public function forgot_password()
+    {
+    
+       return view('customer.login.forgotpassword');
+
+    }
+    /*
+    Description : Customer Forget-Password Store 
+    Date        : 1/4/2022
+    
+    */
+
+    public function forgotpassword_store(Request $request)
+    {
+        $request->validate([
+            'customer_email' => 'required|email',
+        ]);
+        $email=Mst_Customer::where('customer_email',$request->customer_email)->exists();
+        if($email==true)
+        {
+        $details = [
+        'title' => 'Mail from test',
+        'body' => 'This is for testing email using smtp'
+        ];
+
+        \Mail::to('bincysoja2017@gmail.com')->send(new \App\Mail\MyTestMail($details));
+
+        dd("Email is Sent.");
+        }
+        else
+        {
+            return redirect()->back()->withInput()->with('error','no  matching records.');
+        }
+        return view('customer.login.forgot_email');
+
+    }
+
+
+
 
 }
 

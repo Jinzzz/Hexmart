@@ -49,7 +49,8 @@ Route::group(['namespace' => 'customer'], function ()
     Route::get('/remove_pcart/{id}', 'CartController@remove_pcart')
         ->name('customer.remove_pcart');  
      Route::post('/Customer-checkout', 'CartController@Customer_checkout')
-        ->name('customer.Customer-checkout');               
+        ->name('customer.Customer-checkout'); 
+                     
 
    //customer dashboard
     Route::middleware(['customer'])->group(function ()
@@ -71,6 +72,10 @@ Route::group(['namespace' => 'customer'], function ()
             ->name('customerlogin');
         Route::post('/customer-store', 'LoginController@usrlogin')
             ->name('cust_store');
+        Route::get('/forgot-password', 'LoginController@forgot_password')
+        ->name('customer.forgot_password');  
+        Route::post('/forgot-password-store', 'LoginController@forgotpassword_store')
+        ->name('customer.forgotpassword_store');     
     });
 
 });

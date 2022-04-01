@@ -39,7 +39,7 @@
                            </span>
                            @enderror
                            <span class="focus-input100"></span>
-                            <a class="frgt"><span>forgot? </span></a> </div>
+                            <a class="frgt" href="{{url('/customer/forgot-password')}}"><span>forgot? </span></a> </div>
                      </div>
                   
                   <div class="btns">
