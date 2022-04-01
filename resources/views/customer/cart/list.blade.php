@@ -30,8 +30,11 @@
             <div class="qunty-remove-sec">
                <div class="qunty">
                   <form>
+                     <input type="hidden" name="product_id" value="{{$val->productVariantData->product_variant_id}}" id="product_id">
+                     <input type="hidden" name="product_id" value="{{$val->productVariantData->product_id}}" id="product_id">
+                     <input type="hidden" name="product_id" value="{{$val->productVariantData->variant_price_offer}}" id="product_id">
                      <div class="sss">
-                        <select id="" class="form-group">
+                        <select id="quantity" class="form-group quantity" name="quantity">
                            <option value="1">Qty: 1</option>
                            <option value="2">Qty: 2</option>
                            <option value="3">Qty: 3</option>
