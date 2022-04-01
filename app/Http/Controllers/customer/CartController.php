@@ -58,7 +58,7 @@ class CartController extends Controller
         
     }
 
-     /*
+    /*
     Description : Add to Wish
     Date        : 29/3/2022
     
@@ -190,7 +190,7 @@ class CartController extends Controller
     
          // dd($checkout_user);
     
-          return view('customer.cart.bynow',compact('count','cart','total_price','checkout_user'));
+        return view('customer.cart.bynow',compact('count','cart','total_price','checkout_user'));
     }
     /*
     Description : remove product from addtocart page
