@@ -39,9 +39,13 @@
                      </div>
                   </form>
                </div>
+               
                <div class="remove">
-                  <button><i class="fa fa-trash" aria-hidden="true"></i> <span>Remove</span></button>
+                  <input type="hidden" name="product_id" value="{{$val->productVariantData->product_variant_id}}" id="product_id">
+                  <a href="{{url('/remove_pcart').'/'.$val->productVariantData->product_variant_id}}">
+                  <button class="CartRemove" type="submit"  id="removecartdetails"><i class="fa fa-trash" aria-hidden="true"></i> <span>Remove</span></button></a>
                </div>
+               <!-- </form> -->
             </div>
             @endforeach
             <!----------------->
@@ -85,6 +89,15 @@
    </div>
 </section>
 <!-------end----->
+<script>
+$(document).ready(function(){
+  $(".CartRemove").click(function(){
+    alert("The paragraph was clicked.");
+  });
+});
+    </script>
+
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-dialog-centered" role="document">
@@ -114,6 +127,7 @@
          </div>
       </div>
    </div>
-</div> @include('layouts.footer') </body>
+</div> 
+@include('layouts.footer') </body>
 
 </html>

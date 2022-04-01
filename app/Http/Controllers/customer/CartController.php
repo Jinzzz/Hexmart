@@ -174,6 +174,20 @@ class CartController extends Controller
         
           return view('customer.cart.bynow');
     }
+    /*
+    Description : remove product from addtocart page
+    Date        : 29/3/2022
+    
+    */
+    public function remove_pcart($id)
+    {
+       $delete=Trn_Cart::where('customer_id', Auth::guard('customer')->user()
+                ->customer_id)->where('product_variant_id',$id)
+                ->delete();
+       return redirect()->back();
+
+
+    }
 
 
 }
