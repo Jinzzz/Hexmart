@@ -11,6 +11,7 @@ use App\Models\admin\Mst_ItemLevelTwoSubCategory;
 use App\Models\admin\Mst_Product;
 use App\Models\admin\Trn_Cart;
 use App\Models\admin\Trn_WishList;
+use App\Models\admin\Mst_Customer;
 use Auth;
 use Illuminate\Session\Middleware\StartSession;
 
@@ -171,8 +172,24 @@ class CartController extends Controller
 
     public function by_nowlist()
     {
-        
-          return view('customer.cart.bynow');
+        $cart = Trn_Cart::with('productVariantData','customerData')->where('customer_id', Auth::guard('customer')->user()
+                ->customer_id)
+                ->get();
+        $checkout_user = Trn_Cart::with('customerData')->where('customer_id', Auth::guard('customer')->user()
+                ->customer_id)
+                ->first();        
+        $count = Trn_Cart::where('customer_id', Auth::guard('customer')->user()
+            ->customer_id)
+            ->count();  
+
+         $details=[];
+        foreach($cart as $key=>$val)
+        {
+            $details[]=$val->productVariantData->variant_price_offer;
+            $total_price=array_sum($details);
+        }
+    
+          return view('customer.cart.bynow',compact('count','cart','total_price','checkout_user'));
     }
     /*
     Description : remove product from addtocart page
@@ -186,6 +203,35 @@ class CartController extends Controller
                 ->delete();
        return redirect()->back();
 
+
+    }
+     /*
+    Description : Customer Checkout store address data
+    Date        : 1/4/2022
+    
+    */
+    public function Customer_checkout(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'customer_mobile'=>'required|min:10|numeric',
+            'pin'=>'required|numeric',
+            'state'=>'required',
+            'city'=>'required',
+            'place'=>'required',
+            'road'=>'required',
+        ]);
+        $id=$request->id;
+        $customer = Mst_Customer::find($id);
+                $customer->customer_name = $request->name;
+                $customer->customer_mobile = $request->customer_mobile;
+                $customer->pin = $request->pin;
+                $customer->state = $request->state;
+                $customer->city = $request->city;
+                $customer->place = $request->place;
+                $customer->road = $request->road;
+                $customer->update();
+        return redirect()->back()->with('msg', 'Customer Data Updated successfully');;
 
     }
 

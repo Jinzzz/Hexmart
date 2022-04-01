@@ -45,7 +45,9 @@ Route::group(['namespace' => 'customer'], function ()
     Route::get('/Buynowproduct-view', 'CartController@by_nowlist')
         ->name('customer.Buy-Nowview'); 
     Route::get('/remove_pcart/{id}', 'CartController@remove_pcart')
-        ->name('customer.remove_pcart');            
+        ->name('customer.remove_pcart');  
+     Route::post('/Customer-checkout', 'CartController@Customer_checkout')
+        ->name('customer.Customer-checkout');               
 
    //customer dashboard
     Route::middleware(['customer'])->group(function ()

@@ -19,33 +19,55 @@
                      </div>
                      <!-------------------->
                      <div class="checkout-frm">
-                        <form>
+                        <form method="POST" action="{{ url('/Customer-checkout') }}">
+                           <input type="hidden" name="id" value="{{$checkout_user->customerData->customer_id}}">
+                           @csrf
+                        @if(session('status'))
+                        <div class="alert alert-success" id="err_msg">
+                           <p>{{session('status')}}</p>
+                        </div>
+                        @endif
+                        @if (count($errors) > 0)
+                        @foreach ($errors->all() as $error)
+                        <p class="alert alert-danger">{{ $error }}</p>
+                        @endforeach
+                        @endif
+                        @if (session()->has('message'))
+                        <p class="alert alert-success">{{ session('message') }}</p>
+                        @endif
                            <div class="row">
                               <div class="col-lg-6">
-                                 <input type="text" placeholder="Full Name" name="uname" required="">
+                                 <label>Name</label>
+                                 <input type="text" placeholder="Full Name" name="name" required="" autocomplete="off" value="{{$checkout_user->customerData->customer_name}}">
                               </div>
                               <div class="col-lg-6">
-                                 <input type="tel" placeholder="Phone number" name="phonenumber" required="">
+                                 <label>Phone Number</label>
+                                 <input type="tel" placeholder="Phone number" name="customer_mobile" required="" autocomplete="off" value="{{$checkout_user->customerData->customer_mobile}}">
                                  <a href="" class="addnumber"><span><i class="fa fa-plus" aria-hidden="true"></i> Add Alternate Phone Number</span></a>
                               </div >
                               <div class="col-lg-6 col-6">
-                                 <input type="text" placeholder="Pincode" name="uname" required="">
+                                 <label>Pin Code</label>
+                                 <input type="text" placeholder="Pincode" name="pin" required="" autocomplete="off" value="{{$checkout_user->customerData->pin}}">
                               </div>
                               <div class="col-lg-6 col-6">
                                  <button class="myloction"><i class="fa fa-compass" aria-hidden="true"></i> Use my location</button>
                               </div>
                               <div class="col-lg-6 col-6">
-                                 <input type="text" placeholder="State" name="uname" required="">
+                                 <label>State</label>
+                                 <input type="text" placeholder="State" name="state" required="" autocomplete="off" value="{{$checkout_user->customerData->state}}">
                               </div >
                               <div class="col-lg-6 col-6">
-                                 <input type="text" placeholder="City" name="uname" required="">
+                                 <label>City</label>
+                                 <input type="text" placeholder="City" name="city" required="" autocomplete="off" value="{{$checkout_user->customerData->city}}">
                                  <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button>
                               </div >
                               <div class="col-lg-6">
-                                 <input type="text" placeholder="House No, Building Name" name="uname" required="">
+                                 <label>Address</label>
+                                 <input type="text" placeholder="House No, Building Name" name="place" required="" autocomplete="off" value="{{$checkout_user->customerData->place}}">
                               </div >
                               <div class="col-lg-6">
-                                 <input type="text" placeholder="Road name, Area, Colony" name="uname" required="">
+                                 <label>Landmark</label>
+                                 <input type="text" placeholder="Road name, Area, Colony" name="road" required="" autocomplete="off" value="{{$checkout_user->customerData->road}}">
                                  <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button>
                                  <a href="" class="addnear"><span><i class="fa fa-plus" aria-hidden="true"></i> Add Nearby Famous Shop/Landmark</span></a>
                               </div >
@@ -69,7 +91,7 @@
 
                            </div>
                            <div class="text-center">
-                              <button class="savebtn">Save Address</button>
+                              <button class="savebtn" type="submit">Save Address</button>
                            </div>
                         </form>
                      </div>
@@ -83,8 +105,8 @@
                            </thead>
                            <tbody>
                               <tr>
-                                 <td>Price (2 items)</td>
-                                 <td>&#8377;40,771</td>
+                                 <td>Price ({{$count}} items)</td>
+                                 <td>&#8377;{{$total_price}}</td>
                               </tr>
                               <tr>
                                  <td>Discount</td>
@@ -96,14 +118,14 @@
                               </tr>
                               <tr>
                                  <td>Total Amount</td>
-                                 <td>&#8377;40,771</td>
+                                 <td>&#8377;{{$total_price}}</td>
                               </tr>
                            </tbody>
                         </table>
                      </div>
                      <div class="placeorder-sec">
                         <div class="prizetot">
-                           <p>&#8377;40,771</p>
+                           <p>&#8377;{{$total_price}}</p>
                            <span class="pricdtail"><a href="">View price details</a></span>
                         </div>
                         <div class="placeholbtn">
