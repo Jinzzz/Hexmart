@@ -155,10 +155,11 @@ class CartController extends Controller
     
     */
 
-    public function by_now()
+    public function by_now(Request $request)
     {
         if (Auth::guard('customer')->check())
         {
+
            return response()->json(['status' => "Success"]);
 
         }
@@ -176,24 +177,18 @@ class CartController extends Controller
     
     */
 
-    public function by_nowlist()
+    public function by_nowlist($id)
     {
-        $cart = Trn_Cart::with('productVariantData','customerData')->where('customer_id', Auth::guard('customer')->user()
-                ->customer_id)
-                ->get();
+        $cart = Mst_ProductVariant::where('product_variant_id', $id)
+                ->first();
         $checkout_user = Trn_Cart::with('customerData')->where('customer_id', Auth::guard('customer')->user()
                 ->customer_id)
                 ->first();        
-        $count = Trn_Cart::where('customer_id', Auth::guard('customer')->user()
-            ->customer_id)
-            ->count();  
+        $count = Mst_ProductVariant::where('product_variant_id', $id)->count();  
 
-         $details=[];
-        foreach($cart as $key=>$val)
-        {
-            $details[]=$val->productVariantData->variant_price_offer;
-            $total_price=array_sum($details);
-        }
+        $total_price=$cart->variant_price_offer;
+    
+         // dd($checkout_user);
     
           return view('customer.cart.bynow',compact('count','cart','total_price','checkout_user'));
     }

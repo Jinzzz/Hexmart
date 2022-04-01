@@ -87,7 +87,7 @@ $('.Buynow').click(function(e){
               }
               else if(response.status=="Success")
               {
-               window.location.href = "/Buynowproduct-view";
+               window.location.href = "/Checkout"+"/"+product_id;
               }
 
          }

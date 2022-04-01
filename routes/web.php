@@ -33,7 +33,7 @@ Route::group(['namespace' => 'customer'], function ()
     Route::get('/productmainsubdetail/{name}/{catname}/{variant_name}/{mainsub}', 'ProductController@productmainsubdetail')
         ->name('customer.productmainsubdetail');
 
-        
+
     Route::post('/add_to_cart', 'CartController@addcart')
         ->name('customer.addtocart');
     Route::post('/add_to_wishlist', 'CartController@add_to_wishlist')
@@ -44,7 +44,7 @@ Route::group(['namespace' => 'customer'], function ()
         ->name('customer.show_Cart');
     Route::post('/Buynowproduct', 'CartController@by_now')
         ->name('customer.Buy-Now'); 
-    Route::get('/Buynowproduct-view', 'CartController@by_nowlist')
+    Route::get('/Checkout/{id}', 'CartController@by_nowlist')
         ->name('customer.Buy-Nowview'); 
     Route::get('/remove_pcart/{id}', 'CartController@remove_pcart')
         ->name('customer.remove_pcart');  
