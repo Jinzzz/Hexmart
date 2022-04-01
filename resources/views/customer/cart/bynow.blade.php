@@ -42,7 +42,8 @@
                               </div>
                               <div class="col-lg-6">
                                  <label>Phone Number</label>
-                                 <input type="tel" placeholder="Phone number" name="customer_mobile" required="" autocomplete="off" value="{{$checkout_user->customerData->customer_mobile}}">
+                                 <input type="tel" pattern="[789][0-9]{9}" 
+                                 title="Phone number with 7-9 and remaing 9 digit with 0-9" placeholder="Phone number" name="customer_mobile" required="" autocomplete="off" value="{{$checkout_user->customerData->customer_mobile}}">
                                  <a href="" class="addnumber"><span><i class="fa fa-plus" aria-hidden="true"></i> Add Alternate Phone Number</span></a>
                               </div >
                               <div class="col-lg-6 col-6">

@@ -32,6 +32,8 @@ Route::group(['namespace' => 'customer'], function ()
         ->name('customer.productsubdetail');
     Route::get('/productmainsubdetail/{name}/{catname}/{variant_name}/{mainsub}', 'ProductController@productmainsubdetail')
         ->name('customer.productmainsubdetail');
+
+        
     Route::post('/add_to_cart', 'CartController@addcart')
         ->name('customer.addtocart');
     Route::post('/add_to_wishlist', 'CartController@add_to_wishlist')
