@@ -8,7 +8,7 @@
 	<title></title>
 </head>
 <body>
-    Dashboard
+    Dashboard  {{$name}}
 </body>
 </html>
 @include('layouts.footer') 

@@ -20,7 +20,7 @@
                      <!-------------------->
                      <div class="checkout-frm">
                         <form method="POST" action="{{ url('/Customer-checkout') }}">
-                           <input type="hidden" name="id" value="{{$checkout_user->customerData->customer_id}}">
+                           <input type="hidden" name="id" value="{{$checkout_user->customer_id}}">
                            @csrf
                         @if(session('status'))
                         <div class="alert alert-success" id="err_msg">
@@ -38,37 +38,37 @@
                            <div class="row">
                               <div class="col-lg-6">
                                  <label>Name</label>
-                                 <input type="text" placeholder="Full Name" name="name" required="" autocomplete="off" value="{{$checkout_user->customerData->customer_name}}">
+                                 <input type="text" placeholder="Full Name" name="name" required="" autocomplete="off" value="{{$checkout_user->customer_name}}">
                               </div>
                               <div class="col-lg-6">
                                  <label>Phone Number</label>
                                  <input type="tel" pattern="[789][0-9]{9}" 
-                                 title="Phone number with 7-9 and remaing 9 digit with 0-9" placeholder="Phone number" name="customer_mobile" required="" autocomplete="off" value="{{$checkout_user->customerData->customer_mobile}}">
+                                 title="Phone number with 7-9 and remaing 9 digit with 0-9" placeholder="Phone number" name="customer_mobile" required="" autocomplete="off" value="{{$checkout_user->customer_mobile}}">
                                  <a href="" class="addnumber"><span><i class="fa fa-plus" aria-hidden="true"></i> Add Alternate Phone Number</span></a>
                               </div >
                               <div class="col-lg-6 col-6">
                                  <label>Pin Code</label>
-                                 <input type="text" placeholder="Pincode" name="pin" required="" autocomplete="off" value="{{$checkout_user->customerData->pin}}">
+                                 <input type="text" placeholder="Pincode" name="pin" required="" autocomplete="off" value="{{$checkout_user->pin}}">
                               </div>
                               <div class="col-lg-6 col-6">
                                  <button class="myloction"><i class="fa fa-compass" aria-hidden="true"></i> Use my location</button>
                               </div>
                               <div class="col-lg-6 col-6">
                                  <label>State</label>
-                                 <input type="text" placeholder="State" name="state" required="" autocomplete="off" value="{{$checkout_user->customerData->state}}">
+                                 <input type="text" placeholder="State" name="state" required="" autocomplete="off" value="{{$checkout_user->state}}">
                               </div >
                               <div class="col-lg-6 col-6">
                                  <label>City</label>
-                                 <input type="text" placeholder="City" name="city" required="" autocomplete="off" value="{{$checkout_user->customerData->city}}">
+                                 <input type="text" placeholder="City" name="city" required="" autocomplete="off" value="{{$checkout_user->city}}">
                                  <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button>
                               </div >
                               <div class="col-lg-6">
                                  <label>Address</label>
-                                 <input type="text" placeholder="House No, Building Name" name="place" required="" autocomplete="off" value="{{$checkout_user->customerData->place}}">
+                                 <input type="text" placeholder="House No, Building Name" name="place" required="" autocomplete="off" value="{{$checkout_user->place}}">
                               </div >
                               <div class="col-lg-6">
                                  <label>Landmark</label>
-                                 <input type="text" placeholder="Road name, Area, Colony" name="road" required="" autocomplete="off" value="{{$checkout_user->customerData->road}}">
+                                 <input type="text" placeholder="Road name, Area, Colony" name="road" required="" autocomplete="off" value="{{$checkout_user->road}}">
                                  <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button>
                                  <a href="" class="addnear"><span><i class="fa fa-plus" aria-hidden="true"></i> Add Nearby Famous Shop/Landmark</span></a>
                               </div >

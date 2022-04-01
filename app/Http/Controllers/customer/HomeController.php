@@ -104,8 +104,8 @@ class HomeController extends Controller
     public function dashboard()
     {
        
-         // dd(Auth::guard('customer')->user()->customer_id);
-        return view('customer.login.dashboard');
+        $name=Auth::guard('customer')->user()->customer_name;
+        return view('customer.login.dashboard',compact('name'));
     }
     /*
     Description : Guard Details

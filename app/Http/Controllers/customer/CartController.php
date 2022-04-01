@@ -35,7 +35,9 @@ class CartController extends Controller
         $product_check = Mst_ProductVariant::where('product_variant_id', $id)->first();
         if (Auth::guard('customer')->check())
         {
-        if (Trn_Cart::where('product_variant_id', $id)->exists())
+        $customerid=Auth::guard('customer')->user()->customer_id;
+
+        if (Trn_Cart::where('customer_id', $customerid)->where('product_variant_id', $id)->exists())
         {
             return response()
                 ->json(['status' => ucfirst($product_check->variant_name) . " " . "Already Added To Cart"]);
@@ -181,14 +183,14 @@ class CartController extends Controller
     {
         $cart = Mst_ProductVariant::where('product_variant_id', $id)
                 ->first();
-        $checkout_user = Trn_Cart::with('customerData')->where('customer_id', Auth::guard('customer')->user()
+        $checkout_user = Mst_Customer::where('customer_id', Auth::guard('customer')->user()
                 ->customer_id)
                 ->first();        
         $count = Mst_ProductVariant::where('product_variant_id', $id)->count();  
 
         $total_price=$cart->variant_price_offer;
     
-         // dd($checkout_user);
+          // dd($checkout_user);
     
         return view('customer.cart.bynow',compact('count','cart','total_price','checkout_user'));
     }
