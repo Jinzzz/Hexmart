@@ -120,17 +120,23 @@ class CartController extends Controller
                 ->limit(5)
                 ->get();
             $cart = Trn_Cart::with('productVariantData')->where('customer_id', Auth::guard('customer')->user()
-                ->customer_id)
+                ->customer_id)->orderBy('created_at','desc')
                 ->get();
             $count = Trn_Cart::where('customer_id', Auth::guard('customer')->user()
                 ->customer_id)
                 ->count();  
-
-             $details=[];
+            if($cart->isEmpty())
+            {
+              $total_price=0;
+            }
+            else
+            {
+              $details=[];
             foreach($cart as $key=>$val)
             {
                 $details[]=$val->productVariantData->variant_price_offer;
                 $total_price=array_sum($details);
+            }
             }
     
             return view('customer.cart.list', compact('navCategoryDetails', 'cart','count','total_price'));

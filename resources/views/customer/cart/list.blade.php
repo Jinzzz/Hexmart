@@ -6,7 +6,7 @@
          <div class="cart-div1-sec">
             <div class="cart-top-loct">
                <div class="mycart">
-                  <h6>My Cart({{$count}})</h6> </div>
+                  <h6>My Cart(@if(isset($count)){{$count}}@endif)</h6> </div>
                <div class="deliverto">
                   <form> <img src="{{URL::to('/assets/frontAssets/image/location.svg')}}">
                      <label for="cars">Deliver to</label>
@@ -21,8 +21,8 @@
             @foreach($cart as $val)
             <div class="cartproduct-sec">
                <div class="productname-sec">
-                  <h4>{{$val->productVariantData->variant_name}}</h4> 
-                  <div class="cartprice-pdct"> <span>&#8377;{{$val->productVariantData->variant_price_offer}}</span> </div>
+                  <h4>@if(isset($val->productVariantData->variant_name)){{$val->productVariantData->variant_name}}@endif</h4> 
+                  <div class="cartprice-pdct"> <span>&#8377;@if(isset($val->productVariantData->variant_price_offer)){{$val->productVariantData->variant_price_offer}}@endif</span> </div>
                </div>
                <div class="productimage-sec"> <img src="{{asset( (new \App\Helpers\Helper)->productVarBaseImage($val->productVariantData->product_id,$val->productVariantData->product_variant_id))}}" class="img-fluid"> </div>
             </div>
@@ -59,8 +59,8 @@
                   <tbody>
                      
                      <tr>
-                        <td>Price ({{$count}} items)</td>
-                        <td>&#8377;{{$total_price}}</td>
+                        <td>Price (@if(isset($count)){{$count}}@endif items)</td>
+                        <td>&#8377;@if(isset($total_price)){{$total_price}}@endif</td>
                      </tr>
                      <tr>
                         <td>Discount</td>
@@ -72,14 +72,14 @@
                      </tr>
                      <tr>
                         <td>Total Amount</td>
-                        <td>&#8377;{{$total_price}}</td>
+                        <td>&#8377;@if(isset($total_price)){{$total_price}}@endif</td>
                      </tr>
                   </tbody>
                </table>
             </div>
             <div class="placeorder-sec">
                <div class="prizetot">
-                  <p>&#8377;{{$total_price}}</p> <span class="pricdtail"><a href="">View price details</a></span> </div>
+                  <p>&#8377;@if(isset($total_price)){{$total_price}}@endif</p> <span class="pricdtail"><a href="">View price details</a></span> </div>
                <div class="placeholbtn">
                   <button type="button" class="btn " data-toggle="modal" data-target="#exampleModal">Place Order</button>
                </div>

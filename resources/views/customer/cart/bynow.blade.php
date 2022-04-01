@@ -106,8 +106,8 @@
                            </thead>
                            <tbody>
                               <tr>
-                                 <td>Price ({{$count}} items)</td>
-                                 <td>&#8377;{{$total_price}}</td>
+                                 <td>Price (@if(isset($count)){{$count}}@endif items)</td>
+                                 <td>&#8377;@if(isset($total_price)){{$total_price}}@endif</td>
                               </tr>
                               <tr>
                                  <td>Discount</td>
@@ -119,14 +119,14 @@
                               </tr>
                               <tr>
                                  <td>Total Amount</td>
-                                 <td>&#8377;{{$total_price}}</td>
+                                 <td>&#8377;@if(isset($total_price)){{$total_price}}@endif</td>
                               </tr>
                            </tbody>
                         </table>
                      </div>
                      <div class="placeorder-sec">
                         <div class="prizetot">
-                           <p>&#8377;{{$total_price}}</p>
+                           <p>&#8377;@if(isset($total_price)){{$total_price}}@endif</p>
                            <span class="pricdtail"><a href="">View price details</a></span>
                         </div>
                         <div class="placeholbtn">
