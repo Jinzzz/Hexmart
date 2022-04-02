@@ -72,31 +72,31 @@ class ProductController extends Controller
         }
         if (Request::get('sort') == 'price_newest')
         {
-            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$minval, $maxval])->orderBy('created_at', 'desc')->paginate($pageination);
+            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$minval, $maxval])->where('stock_count','!=',null)->orderBy('created_at', 'desc')->paginate($pageination);
             $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('created_at', 'desc')->min('variant_price_offer');
             $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('created_at', 'desc')->max('variant_price_offer');
         }
         elseif (Request::get('sort') == 'price_asc')
         {
-            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$minval, $maxval])->orderBy('variant_price_offer', 'asc')->paginate($pageination);
+            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$minval, $maxval])->where('stock_count','!=',null)->orderBy('variant_price_offer', 'asc')->paginate($pageination);
             $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_price_offer', 'asc')->min('variant_price_offer');
             $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_price_offer', 'asc')->max('variant_price_offer');
         }
         elseif (Request::get('sort') == 'price_dsc')
         {
-            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$minval, $maxval])->orderBy('variant_price_offer', 'desc')->paginate($pageination);
+            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$minval, $maxval])->where('stock_count','!=',null)->orderBy('variant_price_offer', 'desc')->paginate($pageination);
             $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_price_offer', 'desc')->min('variant_price_offer');
             $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_price_offer', 'desc')->max('variant_price_offer');
         }
         elseif (Request::get('sort') == 'price_popularity')
         {
-            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$minval, $maxval])->where('is_active', 1)->paginate($pageination);
+            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->whereBetween('variant_price_offer', [$minval, $maxval])->where('stock_count','!=',null)->where('is_active', 1)->paginate($pageination);
             $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->where('is_active', 1)->min('variant_price_offer');
             $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->where('is_active', 1)->max('variant_price_offer');
         }
         else
         {
-            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_name', 'asc')->whereBetween('variant_price_offer', [$minval, $maxval])->take(2)->paginate($pageination);
+            $product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->orderBy('variant_name', 'asc')->where('stock_count','!=',null)->whereBetween('variant_price_offer', [$minval, $maxval])->take(2)->paginate($pageination);
             $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->min('variant_price_offer');
             $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $data)->max('variant_price_offer');
 
@@ -160,35 +160,35 @@ class ProductController extends Controller
             }
             if (Request::get('sort') == 'price_newest')
             {
-                $subcat_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$minvalue, $maxvalue])->orderBy('created_at', 'desc') ->paginate($pageinationval);
+                $subcat_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$minvalue, $maxvalue])->where('stock_count','!=',null)->orderBy('created_at', 'desc') ->paginate($pageinationval);
                 $min = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('created_at', 'desc') ->min('variant_price_offer');
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('created_at', 'desc') ->max('variant_price_offer');
 
             }
             elseif (Request::get('sort') == 'price_asc')
             {
-                $subcat_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$minvalue, $maxvalue])->orderBy('variant_price_offer', 'asc') ->paginate($pageinationval);
+                $subcat_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$minvalue, $maxvalue])->where('stock_count','!=',null)->orderBy('variant_price_offer', 'asc') ->paginate($pageinationval);
                 $min = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('variant_price_offer', 'asc')->min('variant_price_offer');
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('variant_price_offer', 'asc')->max('variant_price_offer');
 
             }
             elseif (Request::get('sort') == 'price_dsc')
             {
-                $subcat_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$minvalue, $maxvalue])->orderBy('variant_price_offer', 'desc') ->paginate($pageinationval);
+                $subcat_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$minvalue, $maxvalue])->where('stock_count','!=',null)->orderBy('variant_price_offer', 'desc') ->paginate($pageinationval);
                 $min = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('variant_price_offer', 'desc')->min('variant_price_offer');
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('variant_price_offer', 'desc')->max('variant_price_offer');
 
             }
             elseif (Request::get('sort') == 'price_popularity')
             {
-                $subcat_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$minvalue, $maxvalue])->where('is_active', 1) ->paginate($pageinationval);
+                $subcat_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$minvalue, $maxvalue])->where('stock_count','!=',null)->where('is_active', 1) ->paginate($pageinationval);
                 $min = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->where('is_active', 1)->min('variant_price_offer');
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->where('is_active', 1)->max('variant_price_offer');
 
             }
             else
             {
-                $subcat_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$minvalue, $maxvalue])->orderBy('variant_name', 'asc')->take(2)->paginate($pageinationval);
+                $subcat_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$minvalue, $maxvalue])->where('stock_count','!=',null)->orderBy('variant_name', 'asc')->take(2)->paginate($pageinationval);
                 $min = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->min('variant_price_offer');
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->max('variant_price_offer');
             }
@@ -257,35 +257,35 @@ class ProductController extends Controller
 
             if (Request::get('sort') == 'price_newest')
             {
-                $mainsub_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$min_price, $max_price])->orderBy('created_at', 'desc')->paginate($main_pageinationval);
+                $mainsub_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$min_price, $max_price])->where('stock_count','!=',null)->orderBy('created_at', 'desc')->paginate($main_pageinationval);
                 $min = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('created_at', 'desc')->min('variant_price_offer');
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('created_at', 'desc')->max('variant_price_offer');
 
             }
             elseif (Request::get('sort') == 'price_asc')
             {
-                $mainsub_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$min_price, $max_price])->orderBy('variant_price_offer', 'asc')->paginate($main_pageinationval);
+                $mainsub_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$min_price, $max_price])->where('stock_count','!=',null)->orderBy('variant_price_offer', 'asc')->paginate($main_pageinationval);
                 $min = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('variant_price_offer', 'asc')->min('variant_price_offer');
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('variant_price_offer', 'asc')->max('variant_price_offer');
 
             }
             elseif (Request::get('sort') == 'price_dsc')
             {
-                $mainsub_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$min_price, $max_price])->orderBy('variant_price_offer', 'desc')->paginate($main_pageinationval);
+                $mainsub_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$min_price, $max_price])->where('stock_count','!=',null)->orderBy('variant_price_offer', 'desc')->paginate($main_pageinationval);
                 $min = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('variant_price_offer', 'desc')->min('variant_price_offer');
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('variant_price_offer', 'desc')->max('variant_price_offer');
 
             }
             elseif (Request::get('sort') == 'price_popularity')
             {
-                $mainsub_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$min_price, $max_price])->where('is_active', 1)->paginate($main_pageinationval);
+                $mainsub_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$min_price, $max_price])->where('stock_count','!=',null)->where('is_active', 1)->paginate($main_pageinationval);
                 $min = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->where('is_active', 1)->min('variant_price_offer');
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->where('is_active', 1)->max('variant_price_offer');
 
             }
             else
             {
-                $mainsub_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$min_price, $max_price])->orderBy('variant_name', 'asc')->take(2)->paginate($main_pageinationval);
+                $mainsub_product_varient = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->whereBetween('variant_price_offer', [$min_price, $max_price])->where('stock_count','!=',null)->orderBy('variant_name', 'asc')->take(2)->paginate($main_pageinationval);
                 $min = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('variant_name', 'asc')->min('variant_price_offer');
                 $max = Mst_ProductVariant::with('Productvarients')->whereIn('variant_name', $data)->orderBy('variant_name', 'asc')->max('variant_price_offer');
 
