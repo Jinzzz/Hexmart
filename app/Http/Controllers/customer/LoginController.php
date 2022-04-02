@@ -144,26 +144,57 @@ class LoginController extends Controller
             'customer_email' => 'required|email',
         ]);
         $email=Mst_Customer::where('customer_email',$request->customer_email)->exists();
+        $contactEmail=$request->customer_email;
         if($email==true)
         {
-        $details = [
-        'title' => 'Mail from test',
-        'body' => 'This is for testing email using smtp'
-        ];
+            $data = array('email'=>$request->customer_email);
+            Mail::send('customer.login.forgot_email', $data, function($message)
+            {   
+            $message->from('bincyhexeam@gmail.com');
+            $message->to('bincyhexeam@gmail.com', 'bincy')->subject('Reset Password');
+            });
 
-        \Mail::to('bincysoja2017@gmail.com')->send(new \App\Mail\MyTestMail($details));
-
-        dd("Email is Sent.");
         }
         else
         {
             return redirect()->back()->withInput()->with('error','no  matching records.');
         }
-        return view('customer.login.forgot_email');
+        
+
+    }
+    /*
+    Description : Customer Reset-Password Page 
+    Date        : 1/4/2022
+    
+    */
+
+    public function Reset_Passwordlink($email)
+    {
+       $email=Mst_Customer::where('customer_email',$email)->first();
+       return view('customer.login.passwordreset',compact('email'));
 
     }
 
+    /*
+    Description : Customer Reset Password stored for mst_customer table 
+    Date        : 1/4/2022
+    
+    */
 
+     public function Password_Reset(Request $request)
+    {
+       $request->validate([
+            'customer_email' =>'required|email',
+            'password' => 'required|min:6|required_with:confirm_password|same:confirm_password',
+            'confirm_password' => 'required|min:6',
+        ]);
+
+       $customer = Mst_Customer::find($request->customer_id);
+       $customer->password = Hash::make($request->password);
+       $customer->update();
+
+       return redirect()->route('customer-login');
+   }
 
 
 }

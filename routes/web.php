@@ -75,7 +75,11 @@ Route::group(['namespace' => 'customer'], function ()
         Route::get('/forgot-password', 'LoginController@forgot_password')
         ->name('customer.forgot_password');  
         Route::post('/forgot-password-store', 'LoginController@forgotpassword_store')
-        ->name('customer.forgotpassword_store');     
+        ->name('customer.forgotpassword_store'); 
+        Route::get('/Reset-Passwordlink/{email}', 'LoginController@Reset_Passwordlink')
+        ->name('customer.Reset_Passwordlink');   
+        Route::post('/Password-Reset', 'LoginController@Password_Reset')
+        ->name('customer.Password_Reset');     
     });
 
 });
