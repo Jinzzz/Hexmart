@@ -229,6 +229,7 @@ class CartController extends Controller
         $customer = Mst_Customer::find($id);
                 $customer->customer_name = $request->name;
                 $customer->customer_mobile = $request->customer_mobile;
+                $customer->altcustomer_mobile=$request->altcustomer_mobile;
                 $customer->pin = $request->pin;
                 $customer->state = $request->state;
                 $customer->city = $request->city;

@@ -22,6 +22,7 @@ class Mst_Customer extends Authenticatable
         'customer_name',
         'customer_email',
         'customer_mobile',
+        'altcustomer_mobile',
         'customer_dob',
         'customer_gender',
         'password',
