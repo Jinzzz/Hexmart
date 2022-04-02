@@ -18,6 +18,9 @@
                   </form>
                </div>
             </div>
+            @php
+            $total=0;
+            @endphp
             @foreach($cart as $val)
             <div class="cartproduct-sec">
                <div class="productname-sec">
@@ -33,27 +36,22 @@
                      <input type="hidden" name="product_id" value="{{$val->productVariantData->product_variant_id}}" id="product_id">
                      <input type="hidden" name="product_id" value="{{$val->productVariantData->product_id}}" id="product_id">
                      <input type="hidden" name="product_id" value="{{$val->productVariantData->variant_price_offer}}" id="product_id">
-                     <!-- <div class="sss">
-                        <select id="quantity" class="form-group quantity" name="quantity">
-                           <option value="1">Qty: 1</option>
-                           <option value="2">Qty: 2</option>
-                           <option value="3">Qty: 3</option>
-                           <option value="4">Qty: 4</option>
-                           <option value="5">Qty: 5</option>
-                           <option value="6">Qty: 6</option>
-                           <option value="7">Qty: 7</option>
-                           <option value="8">Qty: 8</option>
-                           <option value="9">Qty: 9</option>
-                           <option value="10">Qty: 10</option>
-                        </select>
-                     </div> -->
                      <label>Quantity</label>
-                     <div class="container">
-
-                     <input type="button" onclick="decrementValue()" value="-" />
-                     <input type="text" name="quantity" value="1" maxlength="2" max="10" size="1" id="number" />
-                     <input type="button" onclick="incrementValue()" value="+" />
+                     <div class="sss">
+                        <select id="quantity" class="form-group quantity" name="quantity" onclick="mycartFunction()">
+                           <option value="1" <?php if($val->quantity==1) { echo "selected";}?>>Qty: 1</option>
+                           <option value="2" <?php if($val->quantity==2) { echo "selected";}?>>Qty: 2</option>
+                           <option value="3" <?php if($val->quantity==3) { echo "selected";}?>>Qty: 3</option>
+                           <option value="4" <?php if($val->quantity==4) { echo "selected";}?>>Qty: 4</option>
+                           <option value="5" <?php if($val->quantity==5) { echo "selected";}?>>Qty: 5</option>
+                           <option value="6" <?php if($val->quantity==6) { echo "selected";}?>>Qty: 6</option>
+                           <option value="7" <?php if($val->quantity==7) { echo "selected";}?>>Qty: 7</option>
+                           <option value="8" <?php if($val->quantity==8) { echo "selected";}?>>Qty: 8</option>
+                           <option value="9" <?php if($val->quantity==9) { echo "selected";}?>>Qty: 9</option>
+                           <option value="10" <?php if($val->quantity==10) { echo "selected";}?>>Qty: 10</option>
+                        </select>
                      </div>
+                    
                   </form>
                </div>
 
@@ -66,6 +64,9 @@
                </div>
                <!-- </form> -->
             </div>
+            @php
+            $total +=$val->productVariantData->variant_price_offer * $val->quantity;
+            @endphp
             @endforeach
             <!----------------->
          </div>
@@ -76,11 +77,10 @@
                   <thead> </thead>
 
                   <tbody>
-                     @foreach($cart as $val)
-                     @endforeach
+                     
                      <tr>
                         <td>Price (@if(isset($count)){{$count}}@endif items)</td>
-                        <td>&#8377;@if(isset($total_price)){{$total_price}}@endif</td>
+                        <td>&#8377;@if(isset($total)){{$total}}@endif</td>
                      </tr>
                      <tr>
                         <td>Discount</td>
@@ -92,14 +92,14 @@
                      </tr>
                      <tr>
                         <td>Total Amount</td>
-                        <td>&#8377;@if(isset($total_price)){{$total_price}}@endif</td>
+                        <td>&#8377;@if(isset($total)){{$total}}@endif</td>
                      </tr>
                   </tbody>
                </table>
             </div>
             <div class="placeorder-sec">
                <div class="prizetot">
-                  <p>&#8377;@if(isset($total_price)){{$total_price}}@endif</p> <span class="pricdtail"><a href="">View price details</a></span> </div>
+                  <p>&#8377;@if(isset($total)){{$total}}@endif</p> <span class="pricdtail"><a href="">View price details</a></span> </div>
                <div class="placeholbtn">
                   <button type="button" class="btn " data-toggle="modal" data-target="#exampleModal">Place Order</button>
                </div>
@@ -109,14 +109,6 @@
    </div>
 </section>
 <!-------end----->
-<script>
-$(document).ready(function(){
-  $(".CartRemove").click(function(){
-    alert("The paragraph was clicked.");
-  });
-});
-    </script>
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -149,25 +141,13 @@ $(document).ready(function(){
    </div>
 </div> 
 
-<script type="text/javascript">
-function incrementValue()
-{
-    var value = parseInt(document.getElementById('number').value, 10);
-    value = isNaN(value) ? 0 : value;
-    if(value<10){
-        value++;
-            document.getElementById('number').value = value;
-    }
-}
-function decrementValue()
-{
-    var value = parseInt(document.getElementById('number').value, 10);
-    value = isNaN(value) ? 0 : value;
-    if(value>1){
-        value--;
-            document.getElementById('number').value = value;
-    }
-
+<script>
+$(document).ready(function() {
+mycartFunction()
+});
+function mycartFunction() {
+let tokenAmount = document.getElementById("quantity").value;
+alert(tokenAmount);
 }
 </script>
 @include('layouts.footer') </body>
