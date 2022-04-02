@@ -1,5 +1,7 @@
 @include('layouts.header')
 <!------------>
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+
 <section class="cart-section">
    <div class="container-fluid">
       <div class="cart-main-sec">
@@ -33,12 +35,13 @@
             <div class="qunty-remove-sec">
                <div class="qunty">
                   <form>
-                     <input type="hidden" name="product_id" value="{{$val->productVariantData->product_variant_id}}" id="product_id">
+                     <input type="hidden" name="userid" value="{{$val->customer_id}}" id="userid">
                      <input type="hidden" name="product_id" value="{{$val->productVariantData->product_id}}" id="product_id">
+                     <input type="hidden" name="product_variant_id" value="{{$val->productVariantData->product_variant_id}}" id="product_variant_id">
                      <input type="hidden" name="product_id" value="{{$val->productVariantData->variant_price_offer}}" id="product_id">
                      <label>Quantity</label>
                      <div class="sss">
-                        <select id="quantity" class="form-group quantity" name="quantity" onclick="mycartFunction()">
+                        <select id="quantity" class="form-group" name="quantity" onclick="mycartFunction()">
                            <option value="1" <?php if($val->quantity==1) { echo "selected";}?>>Qty: 1</option>
                            <option value="2" <?php if($val->quantity==2) { echo "selected";}?>>Qty: 2</option>
                            <option value="3" <?php if($val->quantity==3) { echo "selected";}?>>Qty: 3</option>
@@ -146,8 +149,32 @@ $(document).ready(function() {
 mycartFunction()
 });
 function mycartFunction() {
-let tokenAmount = document.getElementById("quantity").value;
-alert(tokenAmount);
+let quantity = document.getElementById("quantity").value;
+let userid = document.getElementById("userid").value;
+let product_variant_id= document.getElementById("product_variant_id").value;
+
+// alert(quantity);
+// alert(userid);
+// alert(product_variant_id);
+$.ajax({
+         method:"POST",
+         url:base_url+"/update_cart_quantity",
+         headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+         data:{
+            'quantity':quantity,
+            'userid':userid,
+            'product_variant_id':product_variant_id
+         },
+         dataType:"json",
+         success:function(response)
+         {
+             window.location.reload();
+
+
+         }
+ });
 }
 </script>
 @include('layouts.footer') </body>

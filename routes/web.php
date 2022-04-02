@@ -48,8 +48,10 @@ Route::group(['namespace' => 'customer'], function ()
         ->name('customer.Buy-Nowview'); 
     Route::get('/remove_pcart/{id}', 'CartController@remove_pcart')
         ->name('customer.remove_pcart');  
-     Route::post('/Customer-checkout', 'CartController@Customer_checkout')
+    Route::post('/Customer-checkout', 'CartController@Customer_checkout')
         ->name('customer.Customer-checkout'); 
+    Route::post('/update_cart_quantity', 'CartController@update_cart_quantity')
+        ->name('customer.update_cart_quantity');    
                      
 
    //customer dashboard
