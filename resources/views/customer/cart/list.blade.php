@@ -33,7 +33,7 @@
                      <input type="hidden" name="product_id" value="{{$val->productVariantData->product_variant_id}}" id="product_id">
                      <input type="hidden" name="product_id" value="{{$val->productVariantData->product_id}}" id="product_id">
                      <input type="hidden" name="product_id" value="{{$val->productVariantData->variant_price_offer}}" id="product_id">
-                     <div class="sss">
+                     <!-- <div class="sss">
                         <select id="quantity" class="form-group quantity" name="quantity">
                            <option value="1">Qty: 1</option>
                            <option value="2">Qty: 2</option>
@@ -46,9 +46,18 @@
                            <option value="9">Qty: 9</option>
                            <option value="10">Qty: 10</option>
                         </select>
+                     </div> -->
+                     <label>Quantity</label>
+                     <div class="container">
+
+                     <input type="button" onclick="decrementValue()" value="-" />
+                     <input type="text" name="quantity" value="1" maxlength="2" max="10" size="1" id="number" />
+                     <input type="button" onclick="incrementValue()" value="+" />
                      </div>
                   </form>
                </div>
+
+               
                
                <div class="remove">
                   <input type="hidden" name="product_id" value="{{$val->productVariantData->product_variant_id}}" id="product_id">
@@ -67,7 +76,8 @@
                   <thead> </thead>
 
                   <tbody>
-                     
+                     @foreach($cart as $val)
+                     @endforeach
                      <tr>
                         <td>Price (@if(isset($count)){{$count}}@endif items)</td>
                         <td>&#8377;@if(isset($total_price)){{$total_price}}@endif</td>
@@ -138,6 +148,28 @@ $(document).ready(function(){
       </div>
    </div>
 </div> 
+
+<script type="text/javascript">
+function incrementValue()
+{
+    var value = parseInt(document.getElementById('number').value, 10);
+    value = isNaN(value) ? 0 : value;
+    if(value<10){
+        value++;
+            document.getElementById('number').value = value;
+    }
+}
+function decrementValue()
+{
+    var value = parseInt(document.getElementById('number').value, 10);
+    value = isNaN(value) ? 0 : value;
+    if(value>1){
+        value--;
+            document.getElementById('number').value = value;
+    }
+
+}
+</script>
 @include('layouts.footer') </body>
 
 </html>
