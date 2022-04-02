@@ -258,15 +258,16 @@ class CartController extends Controller
 
     public function update_cart_quantity(Request $request)
     {
-        // dd($request); 
         $id=$request->product_variant_id;
         $customerid=Auth::guard('customer')->user()->customer_id;
 
-        $Trn_Cart = Trn_Cart::where('customer_id',$customerid)->find($id);
-                $Trn_Cart->customer_id = $request->userid;
-                $Trn_Cart->product_variant_id = $request->product_variant_id;
-                $Trn_Cart->quantity=$request->quantity;
-                $Trn_Cart->update();       
+        $Trn_Cart = Trn_Cart::where('product_variant_id',$id)->where('customer_id',$customerid)->first();
+        $Trn_Cart->customer_id = $request->customer_id;
+        $Trn_Cart->product_variant_id = $request->product_variant_id;
+        $Trn_Cart->quantity=$request->quantity;
+        $Trn_Cart->update(); 
+        return response()->json(['status' => $Trn_Cart]);
+      
     }
 
 

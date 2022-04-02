@@ -35,7 +35,7 @@
             <div class="qunty-remove-sec">
                <div class="qunty">
                   <form>
-                     <input type="hidden" name="userid" value="{{$val->customer_id}}" id="userid">
+                     <input type="hidden" name="customer_id" value="{{$val->customer_id}}" id="customer_id">
                      <input type="hidden" name="product_id" value="{{$val->productVariantData->product_id}}" id="product_id">
                      <input type="hidden" name="product_variant_id" value="{{$val->productVariantData->product_variant_id}}" id="product_variant_id">
                      <input type="hidden" name="product_id" value="{{$val->productVariantData->variant_price_offer}}" id="product_id">
@@ -150,7 +150,7 @@ mycartFunction()
 });
 function mycartFunction() {
 let quantity = document.getElementById("quantity").value;
-let userid = document.getElementById("userid").value;
+let customer_id = document.getElementById("customer_id").value;
 let product_variant_id= document.getElementById("product_variant_id").value;
 
 // alert(quantity);
@@ -164,15 +164,14 @@ $.ajax({
          },
          data:{
             'quantity':quantity,
-            'userid':userid,
+            'customer_id':customer_id,
             'product_variant_id':product_variant_id
          },
          dataType:"json",
          success:function(response)
          {
-             window.location.reload();
-
-
+            console.log(response);
+            // location.reload();
          }
  });
 }
