@@ -149,7 +149,6 @@ $(document).ready(function() {
 mycartFunction()
 });
 function mycartFunction() {
-   
 let quantity = document.getElementById("quantity").value;
 let customer_id = document.getElementById("customer_id").value;
 let product_variant_id= document.getElementById("product_variant_id").value;

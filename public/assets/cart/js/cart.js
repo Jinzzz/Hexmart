@@ -1,3 +1,5 @@
+$(document).ready(function()
+{
 $('.addToButton').click(function(e){
  e.preventDefault();
  var product_id=document.getElementById('productvariantid').value;
@@ -92,4 +94,5 @@ $('.Buynow').click(function(e){
 
          }
  });
+});
 });

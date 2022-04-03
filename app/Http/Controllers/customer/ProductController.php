@@ -13,8 +13,10 @@ use App\Models\admin\Mst_CustomerGroup;
 use App\Models\admin\Mst_Brand;
 use App\Models\admin\Mst_AttributeGroup;
 use App\Models\admin\Trn_ItemVariantAttribute;
+use App\Models\admin\Trn_WishList;
 use DB;
 use Request;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -309,7 +311,22 @@ class ProductController extends Controller
        $category = Mst_ItemCategory::where('category_name', $name)->first();
        $product_Category = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('product_name', $catname)->first();
        $product_varient = Mst_ProductVariant::with('Productvarients')->where('variant_name',$catname)->where('is_active', 1)->first();
-       return view('customer.product.productdetail',compact('navCategoryDetails','product','product_varient'));
+       $customerid=isset(Auth::guard('customer')->user()->customer_id) ? Auth::guard('customer')->user()->customer_id : '' ;
+       $product_detail=$product_varient->product_variant_id;
+       $whishlists=Trn_WishList::select('product_variant_id')->where('customer_id',$customerid)->where('product_variant_id',$product_detail)->first();
+       
+       $wish=isset($whishlists->product_variant_id) ? $whishlists->product_variant_id : '';
+
+       if($customerid==true && $product_detail===$wish)
+       {
+          $check="True";
+       }
+       else
+       {
+           $check='False';
+          
+       }
+       return view('customer.product.productdetail',compact('navCategoryDetails','product','product_varient','check'));
     }
 
     /*
@@ -327,7 +344,22 @@ class ProductController extends Controller
             ->first();
        $product_Category = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('product_name', $variant_name)->first();
        $product_varient = Mst_ProductVariant::with('Productvarients')->where('variant_name',$variant_name)->where('is_active', 1)->first();
-       return view('customer.product.productsubcatdetail',compact('navCategoryDetails','product','product_varient'));
+       $customerid=isset(Auth::guard('customer')->user()->customer_id) ? Auth::guard('customer')->user()->customer_id : '' ;
+       $product_detail=$product_varient->product_variant_id;
+       $whishlists=Trn_WishList::select('product_variant_id')->where('customer_id',$customerid)->where('product_variant_id',$product_detail)->first();
+       
+       $wish=isset($whishlists->product_variant_id) ? $whishlists->product_variant_id : '';
+
+       if($customerid==true && $product_detail===$wish)
+       {
+          $check="True";
+       }
+       else
+       {
+           $check='False';
+          
+       }
+       return view('customer.product.productsubcatdetail',compact('navCategoryDetails','product','product_varient','check'));
     }
 
 
@@ -348,7 +380,22 @@ class ProductController extends Controller
             ->first();   
        $product_Category = Mst_Product::with('itemCategoryData')->where('item_category_id', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('iltsc_id', $mainsub_category->iltsc_id)->where('product_name', $variant_name)->first();
        $product_varient = Mst_ProductVariant::with('Productvarients')->where('variant_name',$variant_name)->where('is_active', 1)->first();
-       return view('customer.product.productsubcatdetail',compact('navCategoryDetails','product','product_varient'));
+       $customerid=isset(Auth::guard('customer')->user()->customer_id) ? Auth::guard('customer')->user()->customer_id : '' ;
+       $product_detail=$product_varient->product_variant_id;
+       $whishlists=Trn_WishList::select('product_variant_id')->where('customer_id',$customerid)->where('product_variant_id',$product_detail)->first();
+       
+       $wish=isset($whishlists->product_variant_id) ? $whishlists->product_variant_id : '';
+
+       if($customerid==true && $product_detail===$wish)
+       {
+          $check="True";
+       }
+       else
+       {
+           $check='False';
+          
+       }
+       return view('customer.product.productmainsubdetail',compact('navCategoryDetails','product','product_varient','check'));
     }
 
 }

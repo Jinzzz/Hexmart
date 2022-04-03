@@ -24,7 +24,19 @@
                   <div class="like-sec">
                      <div id="main-content">
                         <div>
-                           <input type="checkbox" id="checkbox"  class="wishcheckbox" />
+                           <input type="checkbox" id="checkbox"  class="wishcheckbox" 
+                            <?php 
+                           if($check=="True")
+                           {
+                              echo "checked";
+                           }
+                           else
+                           {
+                              echo "unchecked";
+
+                           }
+                           ?> 
+                           />
                            <label for="checkbox">
                               <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
                                  <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
