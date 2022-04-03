@@ -78,7 +78,7 @@ class CartController extends Controller
             $wishlist->customer_id = Auth::guard('customer')->user()->customer_id;
             $wishlist->save();
             return response()
-                ->json(['status' => "success"]);
+                ->json(['status' => "Product saved in your wishlist"]);
             }
             else
             {
@@ -98,7 +98,7 @@ class CartController extends Controller
         if(Auth::guard('customer')->check())
         {
         $product_check = Trn_WishList::where('product_variant_id', $id)->delete();
-        return response()->json(['status' => "successfully remove from wishlist"]);
+        return response()->json(['status' => "Product removed from your wishlist"]);
         }
         else
         {
