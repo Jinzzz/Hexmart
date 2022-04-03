@@ -35,13 +35,14 @@
             <div class="qunty-remove-sec">
                <div class="qunty">
                   <form>
-                     <input type="hidden" name="customer_id" value="{{$val->customer_id}}" id="customer_id">
-                     <input type="hidden" name="product_id" value="{{$val->productVariantData->product_id}}" id="product_id">
-                     <input type="hidden" name="product_variant_id" value="{{$val->productVariantData->product_variant_id}}" id="product_variant_id">
-                     <input type="hidden" name="product_id" value="{{$val->productVariantData->variant_price_offer}}" id="product_id">
+                     
                      <label>Quantity</label>
                      <div class="sss">
-                        <select id="quantity" class="form-group" name="quantity" onclick="mycartFunction()">
+                        <input type="hidden" name="customer_id" value="{{$val->customer_id}}" id="customer_id">
+                        <input type="hidden" name="product_id" value="{{$val->productVariantData->product_id}}" id="product_id">
+                        <input type="hidden" name="product_variant_id" value="{{$val->productVariantData->product_variant_id}}" id="product_variant_id">
+                        <input type="hidden" name="product_price_id" value="{{$val->productVariantData->variant_price_offer}}" id="product_price_id">
+                        <select id="quantity" class="form-group" name="quantity" onclick="mycartFunction(this.value)">
                            <option value="1" <?php if($val->quantity==1) { echo "selected";}?>>Qty: 1</option>
                            <option value="2" <?php if($val->quantity==2) { echo "selected";}?>>Qty: 2</option>
                            <option value="3" <?php if($val->quantity==3) { echo "selected";}?>>Qty: 3</option>
@@ -148,13 +149,12 @@
 $(document).ready(function() {
 mycartFunction()
 });
-function mycartFunction() {
-let quantity = document.getElementById("quantity").value;
+function mycartFunction(getquantity) {
+let quantity = getquantity;
 let customer_id = document.getElementById("customer_id").value;
 let product_variant_id= document.getElementById("product_variant_id").value;
-
 // alert(quantity);
-// alert(userid);
+// alert(customer_id);
 // alert(product_variant_id);
 $.ajax({
          method:"POST",
