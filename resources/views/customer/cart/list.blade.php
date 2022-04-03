@@ -39,10 +39,8 @@
                      <label>Quantity</label>
                      <div class="sss">
                         <input type="hidden" name="customer_id" value="{{$val->customer_id}}" id="customer_id">
-                        <input type="hidden" name="product_id" value="{{$val->productVariantData->product_id}}" id="product_id">
                         <input type="hidden" name="product_variant_id" value="{{$val->productVariantData->product_variant_id}}" id="product_variant_id">
-                        <input type="hidden" name="product_price_id" value="{{$val->productVariantData->variant_price_offer}}" id="product_price_id">
-                        <select id="quantity" class="form-group" name="quantity" onclick="mycartFunction(this.value)">
+                        <select id="quantity" class="form-group" name="quantity"  value="{{$val->productVariantData->product_variant_id}}}" onclick="mycartFunction(this.value)" >
                            <option value="1" <?php if($val->quantity==1) { echo "selected";}?>>Qty: 1</option>
                            <option value="2" <?php if($val->quantity==2) { echo "selected";}?>>Qty: 2</option>
                            <option value="3" <?php if($val->quantity==3) { echo "selected";}?>>Qty: 3</option>
@@ -62,7 +60,6 @@
                
                
                <div class="remove">
-                  <input type="hidden" name="product_id" value="{{$val->productVariantData->product_variant_id}}" id="product_id">
                   <a href="{{url('/remove_pcart').'/'.$val->productVariantData->product_variant_id}}">
                   <button class="CartRemove" type="submit"  id="removecartdetails"><i class="fa fa-trash" aria-hidden="true"></i> <span>Remove</span></button></a>
                </div>
