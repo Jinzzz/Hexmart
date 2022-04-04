@@ -40,7 +40,8 @@
                      <div class="sss">
                         <input type="hidden" name="customer_id" value="{{$val->customer_id}}" id="customer_id">
                         <input type="hidden" name="product_variant_id" value="{{$val->productVariantData->product_variant_id}}" id="product_variant_id">
-                        <select id="quantity" class="form-group" name="quantity" onclick="mycartFunction(this.value)">
+                        <input type="hidden" name="cart_id" value="{{$val->cart_id}}" id="cart_id">
+                        <select id="quantity" class="form-group" name="quantity" onchange="mycartFunction(this.value,<?php echo $val->cart_id?>)">
                            <option value="1" <?php if($val->quantity==1) { echo "selected";}?>>Qty: 1</option>
                            <option value="2" <?php if($val->quantity==2) { echo "selected";}?>>Qty: 2</option>
                            <option value="3" <?php if($val->quantity==3) { echo "selected";}?>>Qty: 3</option>
@@ -147,13 +148,9 @@
 $(document).ready(function() {
 mycartFunction()
 });
-function mycartFunction(getquantity) {
+function mycartFunction(getquantity,cart_id) {
 let quantity = getquantity;
 let customer_id = document.getElementById("customer_id").value;
-let product_variant_id= document.getElementById("product_variant_id").value;
-// alert(quantity);
-// alert(customer_id);
-// alert(product_variant_id);
 $.ajax({
          method:"POST",
          url:base_url+"/update_cart_quantity",
@@ -163,13 +160,12 @@ $.ajax({
          data:{
             'quantity':quantity,
             'customer_id':customer_id,
-            'product_variant_id':product_variant_id
+            'cart_id':cart_id,
          },
          dataType:"json",
          success:function(response)
          {
             console.log(response);
-            // location.reload();
          }
  });
 }

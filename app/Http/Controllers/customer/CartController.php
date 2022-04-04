@@ -261,9 +261,7 @@ class CartController extends Controller
         $id=$request->product_variant_id;
         $customerid=Auth::guard('customer')->user()->customer_id;
 
-        $Trn_Cart = Trn_Cart::where('product_variant_id',$id)->where('customer_id',$customerid)->first();
-        $Trn_Cart->customer_id = $request->customer_id;
-        $Trn_Cart->product_variant_id = $request->product_variant_id;
+        $Trn_Cart = Trn_Cart::where('cart_id',$request->cart_id)->where('customer_id',$customerid)->first();
         $Trn_Cart->quantity=$request->quantity;
         $Trn_Cart->update(); 
         return response()->json(['status' => $Trn_Cart]);
