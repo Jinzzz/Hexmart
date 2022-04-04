@@ -44,13 +44,13 @@ Route::group(['namespace' => 'customer'], function ()
         ->name('customer.show_Cart');
     Route::post('/Buynowproduct', 'CartController@by_now')
         ->name('customer.Buy-Now'); 
-    Route::get('/Checkout', 'CartController@by_nowlist')
+    Route::get('/Checkout/{id}', 'CartController@by_nowlist')
         ->name('customer.Buy-Nowview'); 
     Route::get('/remove_pcart/{id}', 'CartController@remove_pcart')
         ->name('customer.remove_pcart');  
     Route::post('/Customer-checkout', 'CartController@Customer_checkout')
         ->name('customer.Customer-checkout'); 
-    Route::get('/OrderSummary', 'CartController@OrderSummary')
+    Route::get('/OrderSummary/{id}', 'CartController@OrderSummary')
         ->name('Order_Summary');     
     Route::post('/update_cart_quantity', 'CartController@update_cart_quantity')
         ->name('customer.update_cart_quantity');    

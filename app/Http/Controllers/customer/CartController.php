@@ -162,11 +162,7 @@ class CartController extends Controller
     {
         if (Auth::guard('customer')->check())
         {
-                $cart = new Trn_Cart();
-                $cart->customer_id=Auth::guard('customer')->user()->customer_id;
-                $cart->product_variant_id = $request->product_id;
-                $cart->quantity = 1;
-                $cart->save();
+
            return response()->json(['status' => "Success"]);
 
         }
@@ -184,24 +180,20 @@ class CartController extends Controller
     
     */
 
-    public function by_nowlist()
+    public function by_nowlist($id)
     {
-
+        $cart = Mst_ProductVariant::where('product_variant_id', $id)
+                ->first();
         $checkout_user = Mst_Customer::where('customer_id', Auth::guard('customer')->user()
                 ->customer_id)
                 ->first();        
-        $count = Trn_Cart::where('customer_id', $checkout_user->customer_id)->count();  
-        $product = Trn_Cart::with('productVariantData')->where('customer_id', $checkout_user->customer_id)->get();  
-        $price=[];
-        foreach($product as $key=>$value)
-        {
-           $price[]=$value->productVariantData->variant_price_offer;
-        }
+        $count = Mst_ProductVariant::where('product_variant_id', $id)->count();  
 
+        $total_price=$cart->variant_price_offer;
     
-        $total_price=array_sum($price);
+          // dd($checkout_user);
     
-        return view('customer.cart.bynow',compact('checkout_user','count','total_price'));
+        return view('customer.cart.bynow',compact('count','cart','total_price','checkout_user'));
     }
     /*
     Description : remove product from addtocart page
@@ -252,8 +244,8 @@ class CartController extends Controller
         //     $altphone_arry[$key]['phone']=$option;
 
         // }
-        //  CustomerPhone::insexrt($altphone_arry);        
-        return \Redirect::route('Order_Summary');
+        //  CustomerPhone::insert($altphone_arry);        
+        return \Redirect::route('Order_Summary', [$request->product_id]);
 
     }
 
@@ -283,21 +275,13 @@ class CartController extends Controller
     Date        : 4/4/2022
     
     */
-    public function OrderSummary()
+    public function OrderSummary($id)
     {
         $loggedin=Auth::guard('customer')->user()->customer_id;
         $customer=Mst_Customer::where('customer_id',$loggedin)->first();
-        $count = Trn_Cart::where('customer_id', $customer->customer_id)->count();  
-        $product = Trn_Cart::with('productVariantData')->where('customer_id', $customer->customer_id)->get();  
-        $price=[];
-        foreach($product as $key=>$value)
-        {
-           $price[]=$value->productVariantData->variant_price_offer;
-        }
-
-    
-        $total_price=array_sum($price);
-        return view('customer.checkout.order_summary',compact('customer','count','total_price'));
+        $product=Mst_ProductVariant::where('product_variant_id',$id)->first();
+        $count=Mst_ProductVariant::where('product_variant_id',$id)->count();
+        return view('customer.checkout.order_summary',compact('product','customer','count'));
     }
 
 

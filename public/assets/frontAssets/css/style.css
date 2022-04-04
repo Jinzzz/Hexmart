@@ -2420,6 +2420,7 @@ svg #main-circ {
 
 
 /******share*********/
+/*
 * {
   margin: 0;
   padding: 0;
@@ -2427,7 +2428,7 @@ svg #main-circ {
   list-style: none;
   text-decoration: none;
   appearance: none;
-}
+}*/
 
 #box {
   position: relative;
