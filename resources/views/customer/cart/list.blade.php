@@ -40,7 +40,7 @@
                      <div class="sss">
                         <input type="hidden" name="customer_id" value="{{$val->customer_id}}" id="customer_id">
                         <input type="hidden" name="product_variant_id" value="{{$val->productVariantData->product_variant_id}}" id="product_variant_id">
-                        <select id="quantity" class="form-group" name="quantity"  value="{{$val->productVariantData->product_variant_id}}}" onclick="mycartFunction(this.value)" >
+                        <select id="quantity" class="form-group" name="quantity" onclick="mycartFunction(this.value)">
                            <option value="1" <?php if($val->quantity==1) { echo "selected";}?>>Qty: 1</option>
                            <option value="2" <?php if($val->quantity==2) { echo "selected";}?>>Qty: 2</option>
                            <option value="3" <?php if($val->quantity==3) { echo "selected";}?>>Qty: 3</option>
