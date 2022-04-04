@@ -36,6 +36,9 @@ Route::post('customer/edit-address', 'Api\CustomerController@editAddress');
 Route::get('customer/remove-address', 'Api\CustomerController@removeAddress');
 Route::get('customer/view-address', 'Api\CustomerController@ViewAddress');
 Route::get('customer/address-list', 'Api\CustomerController@listAddress');
+Route::get('customer/forgot-password', 'Api\CustomerController@forgotpassword');
+Route::post('customer/reset-password', 'Api\CustomerController@reset_password');
+
 http: //yellowstore.hexeam.org/api/store/otp-verify?store_id=1&otp_status=accepted
 
 Route::group(['middleware' => 'auth:api'], function () {

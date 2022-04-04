@@ -761,4 +761,114 @@ class CustomerController extends Controller
             return response($response);
         }
     }
+/*
+   Description : Forgot-password 
+   Date        : 4/4/2022
+
+*/
+
+    public function forgotpassword(Request $request)
+    {
+        $data = array();
+        try {
+                $validator = Validator::make($request->all(),
+                [
+
+                'customer_email' => 'required|email',
+
+                ],
+                [
+                'customer_email.required'        => 'Customer Email required',
+                ]
+                );
+
+                if (!$validator->fails()) {
+                $email = Mst_Customer::where('customer_email', '=', $request->customer_email)->first();
+
+                if ($email!='') {
+                   
+                    $data['status'] = 1;
+                    $data['message'] = "Send Reset Password link through email.";
+                    return response($data);
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "No Matching Records Fount.";
+                    return response($data);
+                }
+                } 
+                else {
+                    $data['status'] = 0;
+                    $data['message'] = "No Records Fount.";
+                    return response($data);
+                }                          
+            } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            }
+
+
+
+    } 
+
+/*
+   Description : Reset Password
+   Date        : 4/4/2022
+
+*/
+
+    public function reset_password(Request $request)
+    {
+        $data = array();
+        try {
+                $validator = Validator::make($request->all(),
+                [
+                'customer_id'      => 'required',
+                'customer_email'   => 'required|email',
+                'password'         => 'required|min:6|required_with:confirm_password|same:confirm_password',
+                'confirm_password' => 'required|min:6',
+
+                ],
+                [
+                'customer_id.required'     => 'Customer ID required',
+
+                'customer_email.required'  => 'Customer Email required',
+                'password.required'        => 'Password required',
+                'confirm_password.required'=> 'Confirm Password required',
+
+                ]
+                );
+
+                if (!$validator->fails()) {
+                $cust_id = Mst_Customer::where('customer_id', '=', $request->customer_id)->where('customer_email', '=', $request->customer_email)->first();
+
+                if ($cust_id!='') {
+                    $cust_id->customer_email = $request->customer_email;
+                    $cust_id->password = Hash::make($request->password);
+                    $cust_id->update();
+                    $data['status'] = 1;
+                    $data['message'] = "successfully Updated the password.";
+                    return response($data);
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "No Matching Records Fount.";
+                    return response($data);
+                }
+                } 
+                else {
+                    $data['status'] = 0;
+                    $data['message'] = "No Records Fount.";
+                    return response($data);
+                }                          
+            } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            }
+
+    }
 }
