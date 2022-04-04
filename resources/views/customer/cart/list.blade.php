@@ -102,7 +102,8 @@
                <div class="prizetot">
                   <p>&#8377;@if(isset($total)){{$total}}@endif</p> <span class="pricdtail"><a href="">View price details</a></span> </div>
                <div class="placeholbtn">
-                  <button type="button" class="btn " data-toggle="modal" data-target="#exampleModal">Place Order</button>
+                  <button type="button" class="btn "><a href="{{url('/Checkout')}}">Place Order</a></button>
+                  <!-- <button type="button" class="btn " data-toggle="modal" data-target="#exampleModal">Place Order</button> -->
                </div>
             </div>
          </div>
@@ -150,9 +151,7 @@ function mycartFunction(getquantity) {
 let quantity = getquantity;
 let customer_id = document.getElementById("customer_id").value;
 let product_variant_id= document.getElementById("product_variant_id").value;
-// alert(quantity);
-// alert(customer_id);
-// alert(product_variant_id);
+
 $.ajax({
          method:"POST",
          url:base_url+"/update_cart_quantity",
