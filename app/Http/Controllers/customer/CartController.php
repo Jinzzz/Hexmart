@@ -260,11 +260,20 @@ class CartController extends Controller
     {
         $id=$request->product_variant_id;
         $customerid=Auth::guard('customer')->user()->customer_id;
-
+        $product_id=Mst_ProductVariant::select('stock_count')->where('product_variant_id',$id)->first();
+        if($product_id->stock_count!==1)
+        {
         $Trn_Cart = Trn_Cart::where('cart_id',$request->cart_id)->where('customer_id',$customerid)->first();
         $Trn_Cart->quantity=$request->quantity;
         $Trn_Cart->update(); 
         return response()->json(['status' => $Trn_Cart]);
+        }
+
+        else
+        {
+         return response()->json(['status' => "limited stock count"]);
+
+        }
       
     }
 
