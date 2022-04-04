@@ -798,7 +798,7 @@ class CustomerController extends Controller
                 } 
                 else {
                     $data['status'] = 0;
-                    $data['message'] = "No Records Fount.";
+                    $data['errors'] = $validator->errors();
                     return response($data);
                 }                          
             } catch (\Exception $e) {
@@ -859,7 +859,7 @@ class CustomerController extends Controller
                 } 
                 else {
                     $data['status'] = 0;
-                    $data['message'] = "No Records Fount.";
+                    $data['errors'] = $validator->errors();
                     return response($data);
                 }                          
             } catch (\Exception $e) {
