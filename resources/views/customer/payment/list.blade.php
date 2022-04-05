@@ -36,7 +36,7 @@
             <label for="usr" style="font-weight: bold;">Payment Type:</label>
             </br>
             @foreach($payment_type as $value)
-           <input type="radio" id="Payment" name="Payment" value="{{$value->payment_type_id}}" required>{{$value->payment_type}}
+           <input type="radio" id="Payment" name="Payment" value="{{$value->payment_type_id}}" required checked>{{$value->payment_type}}
            </br>
            @endforeach
             </div>

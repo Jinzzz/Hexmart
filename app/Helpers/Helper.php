@@ -444,4 +444,5 @@ class Helper
         $stockSum = Mst_ProductVariant::where('product_id', $product_id)->sum('stock_count');
         return $stockSum;
     }
+
 }

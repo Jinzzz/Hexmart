@@ -17,8 +17,8 @@ use App\Models\admin\Trn_Order;
 use App\Models\admin\Trn_OrderItem;
 use App\Models\CustomerPhone;
 use Auth;
+use App\Helpers\Helper;
 use Illuminate\Session\Middleware\StartSession;
-
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -53,7 +53,9 @@ class PaymentController extends Controller
         $customer=Mst_Customer::where('customer_id',$request->customer_id)->first();
         $product = Trn_Cart::with('productVariantData')->where('customer_id', $customer->customer_id)->where('product_variant_id', $request->p_id)->first(); 
         $order = new Trn_Order();
+        $Order_start=0;
                 $order->customer_id=$customer->customer_id;
+                $order->order_number='#'.str_pad($Order_start+ 1, 8, "0", STR_PAD_LEFT);;
                 $order->payment_type_id = $request->Payment;
                 $order->order_total_amount = $product->productVariantData->variant_price_offer;
                 $order->save();
@@ -61,6 +63,7 @@ class PaymentController extends Controller
         $trm_order = new Trn_OrderItem();
                 $trm_order->customer_id=$customer->customer_id;
                 $trm_order->order_id = $orderid->order_id;
+                $trm_order->order_number=$orderid->order_number;
                 $trm_order->quantity = $product->quantity;
                 $trm_order->product_id=$product->productVariantData->product_id;
                 $trm_order->product_variant_id = $product->productVariantData->product_variant_id;
