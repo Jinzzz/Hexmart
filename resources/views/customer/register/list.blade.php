@@ -157,5 +157,4 @@ var long = place.geometry.location.lng();
 
 </script>
 <!-------end----->@include('layouts.footer') </body>
-
 </html>
