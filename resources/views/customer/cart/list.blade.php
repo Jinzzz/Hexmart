@@ -1,6 +1,10 @@
 @include('layouts.header')
 <!------------>
-<meta name="csrf-token" content="{{ csrf_token() }}" />
+<head>
+   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+   <meta name="csrf-token" content="{{ csrf_token() }}" />
+
+</head>
 
 <section class="cart-section">
    <div class="container-fluid">
@@ -143,11 +147,14 @@
       </div>
    </div>
 </div> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="{{URL::to('/assets/cart/js/cart.js')}} "></script>
 
 <script>
-$(document).ready(function() {
-mycartFunction()
-});
 function mycartFunction(getquantity,cart_id,product_variant_id) {
 let quantity = getquantity;
 let customer_id = document.getElementById("customer_id").value;
@@ -166,7 +173,16 @@ $.ajax({
          dataType:"json",
          success:function(response)
          {  
+            // console.log(response.status)
+            if(response.status=="Availabile only one Product")
+            {
+             swal(response.status);
+
+            }
+            else
+            {
             window.location.reload();
+            }
          }
  });
 }

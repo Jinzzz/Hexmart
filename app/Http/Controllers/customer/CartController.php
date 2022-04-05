@@ -61,6 +61,21 @@ class CartController extends Controller
         
     }
 
+
+     /*
+    Description : cart count details shows for the nav bar
+    Date        : 29/3/2022
+    
+    */
+
+    public function Dcart_count()
+    {
+        $customerid=Auth::guard('customer')->user()->customer_id;
+        $count=Trn_Cart::where('customer_id', $customerid)->count();
+        return response()->json(['count' => $count]);
+    
+    }
+
     /*
     Description : Add to Wish
     Date        : 29/3/2022
@@ -271,7 +286,7 @@ class CartController extends Controller
 
         else
         {
-         return response()->json(['status' => "limited stock count"]);
+         return response()->json(['status' => "Availabile only one Product"]);
 
         }
       

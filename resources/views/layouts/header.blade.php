@@ -40,7 +40,7 @@
             @if (Auth::guard('customer')->check())
             <div class="cart-account">
                <div class="dropdown d-down pt-3">
-                  <button class="dropbtn">My Afccount <i class="fa fa-angle-down" aria-hidden="true"></i></button>
+                  <button class="dropbtn">My Account <i class="fa fa-angle-down" aria-hidden="true"></i></button>
                   <div class="dropdown-content drp-m"> 
 
                      <a href="{{url('/customer/logout')}}" >logout</a> 
@@ -61,7 +61,7 @@
             </div>
             @endif
             <div class="">
-               <a href="{{url('/show-Cart')}}" class="cart-head"> <i class="fa fa-shopping-cart" aria-hidden="true" class="cart-top"></i> Cart</a>
+               <a href="{{url('/show-Cart')}}" class="cart-head"> <i class="fa fa-shopping-cart" aria-hidden="true" class="cart-top"></i>Cart<span class="badge badge-danger Cart-count"></span></a>
             </div>
          </div>
       </div>
@@ -145,3 +145,4 @@
          <!-- container-fluid.// -->
       </nav>
       <!------------>
+   <script src="{{URL::to('/assets/cart/js/cart.js')}} "></script>

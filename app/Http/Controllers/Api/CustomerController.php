@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use App\Models\admin\Mst_Coupon;
 use App\Models\admin\Trn_CustomerAddress;
+use App\Models\admin\Mst_ItemCategory;
+use App\Models\admin\Mst_Product;
+use App\Models\admin\Mst_ProductVariant;
+use App\Models\admin\Mst_ItemLevelTwoSubCategory;
+use App\Models\admin\Mst_ItemSubCategory;
 use Response;
 use Image;
 use DB;
@@ -871,4 +876,183 @@ class CustomerController extends Controller
             }
 
     }
+
+
+   /*
+   Description : Category wise product filter
+   Date        : 4/4/2022
+
+   */
+
+    public function productfilter_list(Request $request)
+    {
+        $data = array();
+        try {
+              $validator = Validator::make($request->all(),
+                [
+                'category_id'     => 'required',
+
+                ],
+                [
+                'category_id.required'  => 'Category ID required',
+
+                ]
+                );
+
+                if (!$validator->fails()) {
+                $category = Mst_ItemCategory::where('item_category_id', '=', $request->category_id)->first();
+                $product = Mst_Product::where('item_category_id', '=', $category->item_category_id)->get();
+                foreach ($product as $val)
+                {
+                    $product_data[] = [$val->product_id];
+                }
+                $pageNumber=4;
+                $product_varient = Mst_ProductVariant::whereIn('product_id', $product_data)->orderBy('variant_name', 'asc')->where('stock_count','!=',null)->paginate($pageNumber);
+
+                if ($category!=''&& $product!=''&& $product_varient!='') {
+                    $data['status'] = 1;
+                    $data['message'] = "Products.";
+                    return response($product_varient);
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "No Product Records Fount.";
+                    return response($data);
+                }
+                } 
+                else {
+                    $data['status'] = 0;
+                    $data['errors'] = $validator->errors();
+                    return response($data);
+                }
+            } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            }   
+}
+
+
+
+   /*
+   Description : Sub-Category wise product filter
+   Date        : 4/4/2022
+
+   */
+
+    public function subcatproductfilter_list(Request $request)
+    {
+        $data = array();
+        try {
+              $validator = Validator::make($request->all(),
+                [
+                'category_id'     => 'required',
+
+                ],
+                [
+                'category_id.required'  => 'Category ID required',
+
+                ]
+                );
+
+                if (!$validator->fails()) {
+                $category = Mst_ItemCategory::where('item_category_id', '=', $request->category_id)->first();
+                $sub_category = Mst_ItemSubCategory::where('item_category_id', $category->item_category_id)
+                 ->first();
+                $product = Mst_Product::where('item_category_id', '=', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->get();
+                foreach ($product as $val)
+                {
+                    $product_data[] = [$val->product_id];
+                }
+                $pageNumber=4;
+                $product_varient = Mst_ProductVariant::whereIn('product_id', $product_data)->orderBy('variant_name', 'asc')->where('stock_count','!=',null)->paginate($pageNumber);
+
+                if ($category!=''&& $product!=''&& $sub_category!='') {
+                    $data['status'] = 1;
+                    $data['message'] = "Products.";
+                    return response($product_varient);
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "No Product Records Fount.";
+                    return response($data);
+                }
+                } 
+                else {
+                    $data['status'] = 0;
+                    $data['errors'] = $validator->errors();
+                    return response($data);
+                }
+            } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            }   
+}
+
+
+
+  /*
+   Description : Main Sub Category wise product filter
+   Date        : 4/4/2022
+
+   */
+
+    public function mainsubproductfilter_list(Request $request)
+    {
+        $data = array();
+        try {
+              $validator = Validator::make($request->all(),
+                [
+                'category_id'     => 'required',
+
+                ],
+                [
+                'category_id.required'  => 'Category ID required',
+
+                ]
+                );
+
+                if (!$validator->fails()) {
+                $category = Mst_ItemCategory::where('item_category_id', '=', $request->category_id)->first();
+                $sub_category = Mst_ItemSubCategory::where('item_category_id', $category->item_category_id)
+                 ->first();
+                $multi_Cat = Mst_ItemLevelTwoSubCategory::where('item_sub_category_id', $sub_category->item_sub_category_id)
+                 ->first();
+                $product = Mst_Product::where('item_category_id', '=', $category->item_category_id)->where('item_sub_category_id', $sub_category->item_sub_category_id)->where('iltsc_id', $multi_Cat->iltsc_id)->get();
+                foreach ($product as $val)
+                {
+                    $product_data[] = [$val->product_id];
+                }
+                $pageNumber=4;
+                $product_varient = Mst_ProductVariant::whereIn('product_id', $product_data)->orderBy('variant_name', 'asc')->where('stock_count','!=',null)->paginate($pageNumber);
+
+                if ($category!=''&& $product!=''&& $sub_category!='') {
+                    $data['status'] = 1;
+                    $data['message'] = "Products.";
+                    return response($product_varient);
+                } else {
+                    $data['status'] = 0;
+                    $data['message'] = "No Product Records Fount.";
+                    return response($data);
+                }
+                } 
+                else {
+                    $data['status'] = 0;
+                    $data['errors'] = $validator->errors();
+                    return response($data);
+                }
+            } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            }     
+}
+
+
+
 }

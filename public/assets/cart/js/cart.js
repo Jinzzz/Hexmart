@@ -1,5 +1,25 @@
 $(document).ready(function()
 {
+loadcartcount();
+function  loadcartcount()
+{
+    $.ajax({
+         method:"GET",
+         url:base_url+"/Dcart_count",
+         headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+         dataType:"json",
+         success:function(response)
+         {
+             $('.Cart-count').html('');
+             $('.Cart-count').html(response.count);
+
+         }
+ });
+}
+
+
 $('.addToButton').click(function(e){
  e.preventDefault();
  var product_id=document.getElementById('productvariantid').value;
@@ -16,6 +36,7 @@ $('.addToButton').click(function(e){
          success:function(response)
          {
          	 swal( response.status);
+             loadcartcount();
 
          }
  });

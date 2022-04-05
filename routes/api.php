@@ -36,8 +36,13 @@ Route::post('customer/edit-address', 'Api\CustomerController@editAddress');
 Route::get('customer/remove-address', 'Api\CustomerController@removeAddress');
 Route::get('customer/view-address', 'Api\CustomerController@ViewAddress');
 Route::get('customer/address-list', 'Api\CustomerController@listAddress');
+//forgot and reset password api
 Route::get('customer/forgot-password', 'Api\CustomerController@forgotpassword');
 Route::post('customer/reset-password', 'Api\CustomerController@reset_password');
+//product pageination filter api
+Route::get('customer/prodcut-list', 'Api\CustomerController@productfilter_list');
+Route::get('customer/subcatprodcut-list', 'Api\CustomerController@subcatproductfilter_list');
+Route::get('customer/mainsubprodcut-list', 'Api\CustomerController@mainsubproductfilter_list');
 
 http: //yellowstore.hexeam.org/api/store/otp-verify?store_id=1&otp_status=accepted
 

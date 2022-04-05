@@ -36,6 +36,8 @@ Route::group(['namespace' => 'customer'], function ()
 
     Route::post('/add_to_cart', 'CartController@addcart')
         ->name('customer.addtocart');
+    Route::get('/Dcart_count', 'CartController@Dcart_count')
+        ->name('customer.Dcart_count');    
     Route::post('/add_to_wishlist', 'CartController@add_to_wishlist')
         ->name('customer.add_to_wishlist');
     Route::post('/remove_whishlist', 'CartController@remove_whishlist')
