@@ -20,7 +20,7 @@ use Auth;
 use App\Helpers\Helper;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Http\Request;
-
+use DB;
 class PaymentController extends Controller
 {
     protected function guard()
@@ -127,21 +127,19 @@ class PaymentController extends Controller
         $order_array[$key]['order_total_amount']=$option->productVariantData->variant_price_offer;
         }
         Trn_Order::insert($order_array);
-        // $order_id=Trn_Order::where('customer_id',$customer->customer_id)->get();
-        
-        // $trmorder_array=array();
-        // foreach($product as $key=>$option)
-        // {
-        // $trmorder_array[$key]['customer_id']=$customer->customer_id;
+        $order_id=Trn_Order::where('customer_id',$customer->customer_id)->where('created_at',null)->get();
+        $trmorder_array=array();
+        foreach($product as $key=>$option)
+        {
+        $trmorder_array[$key]['customer_id']=$customer->customer_id;
         // $trmorder_array[$key]['order_number']=$order_id->order_number;
         // $trmorder_array[$key]['order_id']=$order_id->order_id;
-        // $trmorder_array[$key]['quantity']=$option->quantity;
-        // $trmorder_array[$key]['product_id']=$option->productVariantData->product_id;
-        // $trmorder_array[$key]['product_variant_id']=$option->productVariantData->product_variant_id;
-        // $trmorder_array[$key]['total_amount']=$option->productVariantData->variant_price_offer;
-        // }
-    
-        // Trn_OrderItem::insert($trmorder_array); 
+        $trmorder_array[$key]['quantity']=$option->quantity;
+        $trmorder_array[$key]['product_id']=$option->productVariantData->product_id;
+        $trmorder_array[$key]['product_variant_id']=$option->productVariantData->product_variant_id;
+        $trmorder_array[$key]['total_amount']=$option->quantity * $option->productVariantData->variant_price_offer;
+        }
+        Trn_OrderItem::insert($trmorder_array); 
         $cart_delete = Trn_Cart::where('customer_id', $customer->customer_id)->delete();  
         return redirect()->route('customer.home');
 
