@@ -68,13 +68,13 @@
                            @enderror
                         </div>
                         <div class="col-lg-6 col-12">
-                           <input type="text" placeholder="City (Required)*" name="city" required="" autocomplete="off">
+                           <input type="text" placeholder="City (Required)*" name="city" required="" autocomplete="off" id="City">
                            @error('city')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
                            </span>
                            @enderror
-                           <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button>
+                           <!-- <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button> -->
                         </div>
                         <div class="col-lg-12">
                            <input type="text" placeholder="House No, Building Name (Required)*" name="place" required="" autocomplete="off">
@@ -85,13 +85,13 @@
                            @enderror
                             </div>
                         <div class="col-lg-12">
-                           <input type="text" placeholder="Road name, Area, Colony (Required)*" name="road" required="" autocomplete="off">
+                           <input type="text" placeholder="Road name, Area, Colony (Required)*" name="road" required="" autocomplete="off" id="Road">
                            @error('road')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
                            </span>
                            @enderror
-                           <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button>
+                           <!-- <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button> -->
                         </div>
                          <div class="col-lg-12">
                            <input type="password" placeholder="Password (Required)*" name="password" required="" autocomplete="off"> 
@@ -135,6 +135,27 @@
       </div>
    </div>
 </section>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClnXS4nZ1kcYja_YlOQaEpl-U3AOxBJlw&libraries=places&sensor=false"></script>
+
+<script>
+var input = document.getElementById('City');
+var autocomplete = new google.maps.places.Autocomplete(input);
+google.maps.event.addListener(autocomplete, 'place_changed',   function () {
+var place = autocomplete.getPlace();
+var lat = place.geometry.location.lat();
+var long = place.geometry.location.lng();
+});
+
+var inputvalue = document.getElementById('Road');
+var autocomplete = new google.maps.places.Autocomplete(inputvalue);
+google.maps.event.addListener(autocomplete, 'place_changed',   function () {
+var place = autocomplete.getPlace();
+var lat = place.geometry.location.lat();
+var long = place.geometry.location.lng();
+// alert(lat + ", " + long);
+});
+
+</script>
 <!-------end----->@include('layouts.footer') </body>
 
 </html>
