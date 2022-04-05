@@ -56,6 +56,10 @@ Route::group(['namespace' => 'customer'], function ()
         ->name('Order_Summary');     
     Route::post('/update_cart_quantity', 'CartController@update_cart_quantity')
         ->name('customer.update_cart_quantity');    
+    Route::get('/Payment/{id}', 'PaymentController@order_payment')
+        ->name('payment');
+    Route::post('/Payment_Store', 'PaymentController@Payment_Store')
+        ->name('Payment_Store');    
                      
 
    //customer dashboard

@@ -177,9 +177,23 @@ class CartController extends Controller
     {
         if (Auth::guard('customer')->check())
         {
+            $id=Auth::guard('customer')->user()->customer_id;
+            $cart_Details=Trn_Cart::select('cart_id')->where('customer_id',$id)->where('product_variant_id',$request->product_id)->exists();
+            if($cart_Details=="true")
+            {
+              return response()->json(['status' => "Success"]);
 
-           return response()->json(['status' => "Success"]);
-
+            }
+            else
+            {
+                $cart = new Trn_Cart();
+                $cart->customer_id=$id;
+                $cart->product_variant_id = $request->product_id;
+                $cart->quantity = 1;
+                $cart->save();
+                return response()->json(['status' => "Success"]);
+            }
+           
         }
         else
         {
@@ -205,9 +219,7 @@ class CartController extends Controller
         $count = Mst_ProductVariant::where('product_variant_id', $id)->count();  
 
         $total_price=$cart->variant_price_offer;
-    
-          // dd($checkout_user);
-    
+        
         return view('customer.cart.bynow',compact('count','cart','total_price','checkout_user'));
     }
     /*

@@ -7,13 +7,13 @@
             <div class="cart-top-loct">
                <div class="mycart">
                   <h6>Checkout</h6> </div>
-               <div class="checkoutstp ord-sum">
+               <div class="checkoutstp">
                   <ol class="checkout-steps">
                      <li class="step step1 "><span class="number-chk"><i class="fa fa-check" aria-hidden="true"></i></span>Address</li>
                      <li class="divider"></li>
-                     <li class="step step2 active"><span class="number-chk">2</span>Order Summary</li>
+                     <li class="step step2 "><span class="number-chk"><i class="fa fa-check" aria-hidden="true"></i></span>Order Summary</li>
                      <li class="divider"></li>
-                     <li class="step step3"><span class="number-chk">3</span>Payment</li>
+                     <li class="step step3 active"><span class="number-chk">3</span>Payment</li>
                   </ol>
                </div>
             </div>
@@ -26,27 +26,30 @@
                            <p>{{$customer->road}}</p>
                         </address> </div>
                <div class="add-phn"> <span>+91 {{$customer->customer_mobile}}</span> </div>
-               <div class="chng-or-add-addrs ">
-                  <button>Change or Add Address</button>
-               </div>
+              
             </div>
-          </br>
-            <div class="container">
+            <form  action="{{url('/Payment_Store')}}" method="POST">
+               @csrf
+               <input type="hidden" name="customer_id" value="{{$customer->customer_id}}">
                <input type="hidden" name="p_id" value="{{$product->product_variant_id}}">
-               <div class="addcart-sec">
-                  <button class="buybtn Buynow" style="width:100%"><a href="{{ url('/Payment/'.$product->product_variant_id) }}">Proceed To Pay</a></button>
-               </div>
+            <div class="form-check">
+            <label for="usr" style="font-weight: bold;">Payment Type:</label>
+            </br>
+            @foreach($payment_type as $value)
+           <input type="radio" id="Payment" name="Payment" value="{{$value->payment_type_id}}" required>{{$value->payment_type}}
+           </br>
+           @endforeach
             </div>
+           </br>
+
+            <div class="placeholbtn" style="width:100%">
+            <button type="submit" class="PaymentOrderdetail">Continue</button>
+            </div>
+           </form>
+           
             <!----------------->
          </div>
          <div class="order-summ-right">
-            <div class="discount-sec">
-               <h5>Discount Code</h5>
-               <form>
-                  <input type="text" name="" placeholder="Enter Coupon codes">
-                  <button class="aply-code">Apply</button>
-               </form>
-            </div>
             <div class="table-sec">
                <h4>PRICE DETAILS</h4>
                <table class="table tbl-sec">
@@ -54,7 +57,7 @@
                   <tbody>
                      <tr>
                         <td>Price (@if(isset($count)){{$count}}@endif items)</td>
-                        <td>&#8377;@if(isset($product->variant_price_offer)){{$product->variant_price_offer}}@endif</td>
+                        <td>&#8377;@if(isset($total_price)){{$total_price}}@endif</td>
                      </tr>
                      <tr>
                         <td>Discount</td>
@@ -66,22 +69,18 @@
                      </tr>
                      <tr>
                         <td>Total Amount</td>
-                        <td>&#8377;@if(isset($product->variant_price_offer)){{$product->variant_price_offer}}@endif</td>
+                        <td>&#8377;@if(isset($total_price)){{$total_price}}@endif</td>
                      </tr>
                   </tbody>
                </table>
             </div>
-            <div class="placeorder-sec ckout">
-               <div class="prizetot">
-                  <p>&#8377;@if(isset($product->variant_price_offer)){{$product->variant_price_offer}}@endif</p> <span class="pricdtail"><a href="">View price details</a></span> </div>
-               <div class="placeholbtn">
-                  <button>CHECKOUT</button>
-               </div>
-            </div>
+            
          </div>
       </div>
    </div>
 </section>
+<script src="{{URL::to('/assets/cart/js/cart.js')}} "></script>
+
 <!-------end----->@include('layouts.footer') </body>
 
 </html>
