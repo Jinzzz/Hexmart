@@ -44,6 +44,12 @@ Route::get('customer/prodcut-list', 'Api\CustomerController@productfilter_list')
 Route::get('customer/subcatprodcut-list', 'Api\CustomerController@subcatproductfilter_list');
 Route::get('customer/mainsubprodcut-list', 'Api\CustomerController@mainsubproductfilter_list');
 
+//product-brand filter api
+Route::get('customer/prodcut-filter', 'Api\CustomerController@product_brandfilter');
+Route::get('customer/prodcut-subcatfilter', 'Api\CustomerController@product_subactbrandfilter');
+Route::get('customer/prodcut-mainsubcatfilter', 'Api\CustomerController@product_mainsubcatbrandfilter');
+
+
 http: //yellowstore.hexeam.org/api/store/otp-verify?store_id=1&otp_status=accepted
 
 Route::group(['middleware' => 'auth:api'], function () {

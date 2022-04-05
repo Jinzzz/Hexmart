@@ -14,6 +14,7 @@ class Mst_Brand extends Model
     protected $primaryKey = "brand_id";
 
     protected $fillable = [
+        'brand_id',
         'brand_name',
         'brand_name_slug',
         'brand_icon',

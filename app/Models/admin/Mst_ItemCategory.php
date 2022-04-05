@@ -13,6 +13,7 @@ class Mst_ItemCategory extends Model
     protected $primaryKey = "item_category_id";
 
     protected $fillable = [
+        'item_category_id',
         'category_name',
         'category_name_slug',
         'category_icon',
