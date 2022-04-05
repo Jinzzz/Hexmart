@@ -54,7 +54,7 @@ class PaymentController extends Controller
         $product = Trn_Cart::with('productVariantData')->where('customer_id', $customer->customer_id)->where('product_variant_id', $request->p_id)->first(); 
         $order = new Trn_Order();
                 $order->customer_id=$customer->customer_id;
-                $order->order_number=random_int(100000, 999999);
+                $order->order_number=random_int(1000000000000, 9999999999999);
                 $order->payment_type_id = $request->Payment;
                 $order->order_total_amount = $product->productVariantData->variant_price_offer;
                 $order->save();
@@ -121,7 +121,7 @@ class PaymentController extends Controller
         foreach($product as $key=>$option)
         {
         $order_array[$key]['customer_id']=$customer->customer_id;
-        $order_array[$key]['order_number']=random_int(100000, 999999);
+        $order_array[$key]['order_number']=random_int(1000000000000, 9999999999999);
 
         $order_array[$key]['payment_type_id']=$request->Payment;
         $order_array[$key]['order_total_amount']=$option->productVariantData->variant_price_offer;
