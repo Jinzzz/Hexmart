@@ -262,6 +262,37 @@ class CartController extends Controller
                 $customer->city = $request->city;
                 $customer->place = $request->place;
                 $customer->road = $request->road;
+                $customer->update();       
+        return \Redirect::route('Order_Summary', [$request->product_id]);
+
+    }
+    
+     /*
+    Description : Customer add to cart Checkout store address data
+    Date        : /4/2022
+    
+    */
+    public function Customer_addresscheckout(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'customer_mobile'=>'required|min:10|numeric',
+            'pin'=>'required|numeric',
+            'state'=>'required',
+            'city'=>'required',
+            'place'=>'required',
+            'road'=>'required',
+        ]);
+        $id=$request->id;
+        $customer = Mst_Customer::find($id);
+                $customer->customer_name = $request->name;
+                $customer->customer_mobile = $request->customer_mobile;
+                $customer->altcustomer_mobile=$request->altcustomer_mobile;
+                $customer->pin = $request->pin;
+                $customer->state = $request->state;
+                $customer->city = $request->city;
+                $customer->place = $request->place;
+                $customer->road = $request->road;
                 $customer->update();
 
         // $altphone_arry=array();
@@ -272,10 +303,9 @@ class CartController extends Controller
 
         // }
         //  CustomerPhone::insert($altphone_arry);        
-        return \Redirect::route('Order_Summary', [$request->product_id]);
+        return \Redirect::route('CartOrder_Summary');
 
     }
-
 
     /*
     Description : Update cart quantity details
@@ -319,5 +349,72 @@ class CartController extends Controller
     }
 
 
+    /*
+    Description : Cart Order Summary details
+    Date        : 4/4/2022
+    
+    */
+    public function CartOrder_Summary()
+    {
+        $loggedin=Auth::guard('customer')->user()->customer_id;
+        $customer=Mst_Customer::where('customer_id',$loggedin)->first();        
+        $count = Trn_Cart::where('customer_id', $loggedin)->count(); 
+        $cart = Trn_Cart::with('productVariantData')->where('customer_id', $loggedin)->get();
+        $total_price=0;
+        if($cart->isEmpty())
+        {
+          $total_price;
+        }
+        else
+        {
+         
+        foreach($cart as $key=>$val)
+        {
+            $details[]=[
+                $details['price']=$val->productVariantData->variant_price_offer,
+                $details['quantity']=$val->quantity,
+            ];
+            $total_price+=$details['price']*$details['quantity'];
+
+        }
+        }
+    
+        return view('customer.checkout.cartordersummary',compact('customer','count','total_price','cart'));
+    }
+
+
+    /*
+    Description : Place order details
+    Date        : 4/4/2022
+    
+    */
+
+    public function Placeorder_Cart()
+    {
+        $loggedin=Auth::guard('customer')->user()->customer_id;
+        $checkout_user=Mst_Customer::where('customer_id',$loggedin)->first();        
+        $count = Trn_Cart::where('customer_id', $loggedin)->count(); 
+        $cart = Trn_Cart::with('productVariantData')->where('customer_id', $loggedin)->get();
+        $total_price=0;
+        if($cart->isEmpty())
+        {
+          $total_price;
+        }
+        else
+        {
+         
+        foreach($cart as $key=>$val)
+        {
+            $details[]=[
+                $details['price']=$val->productVariantData->variant_price_offer,
+                $details['quantity']=$val->quantity,
+            ];
+            $total_price+=$details['price']*$details['quantity'];
+
+        }
+        }
+    
+        return view('customer.cart.cartcheckout',compact('checkout_user','count','total_price','cart'));
+    }
 }
 

@@ -51,15 +51,25 @@ Route::group(['namespace' => 'customer'], function ()
     Route::get('/remove_pcart/{id}', 'CartController@remove_pcart')
         ->name('customer.remove_pcart');  
     Route::post('/Customer-checkout', 'CartController@Customer_checkout')
-        ->name('customer.Customer-checkout'); 
+        ->name('customer.Customer-checkout');
+    Route::post('/Customer-Addresscheckout', 'CartController@Customer_addresscheckout')
+        ->name('customer.Customer-Addresscheckout');     
     Route::get('/OrderSummary/{id}', 'CartController@OrderSummary')
-        ->name('Order_Summary');     
+        ->name('Order_Summary'); 
+    Route::get('/CartOrder_Summary', 'CartController@CartOrder_Summary')
+        ->name('CartOrder_Summary');         
     Route::post('/update_cart_quantity', 'CartController@update_cart_quantity')
         ->name('customer.update_cart_quantity');    
     Route::get('/Payment/{id}', 'PaymentController@order_payment')
         ->name('payment');
+    Route::get('/CartPayment', 'PaymentController@CartPayment')
+        ->name('CartPayment'); 
+    Route::post('/CartPayment_store', 'PaymentController@CartPayment_store')
+        ->name('CartPayment_store');        
     Route::post('/Payment_Store', 'PaymentController@Payment_Store')
-        ->name('Payment_Store');    
+        ->name('Payment_Store'); 
+    Route::get('/Placeorder-Cart', 'CartController@Placeorder_Cart')
+        ->name('customer.Placeorder-Cart');       
                      
 
    //customer dashboard

@@ -53,9 +53,8 @@ class PaymentController extends Controller
         $customer=Mst_Customer::where('customer_id',$request->customer_id)->first();
         $product = Trn_Cart::with('productVariantData')->where('customer_id', $customer->customer_id)->where('product_variant_id', $request->p_id)->first(); 
         $order = new Trn_Order();
-        $Order_start=0;
                 $order->customer_id=$customer->customer_id;
-                $order->order_number='#'.str_pad($Order_start+ 1, 8, "0", STR_PAD_LEFT);;
+                $order->order_number=random_int(100000, 999999);
                 $order->payment_type_id = $request->Payment;
                 $order->order_total_amount = $product->productVariantData->variant_price_offer;
                 $order->save();
@@ -74,6 +73,82 @@ class PaymentController extends Controller
         return redirect()->route('customer.home');
 
     }
+
+    
+     /*
+    Description : Cart-Order Payment details
+    Date        : 4/4/2022
+    
+    */
+    public function CartPayment()
+    {
+        $loggedin=Auth::guard('customer')->user()->customer_id;
+        $customer=Mst_Customer::where('customer_id',$loggedin)->first();        
+        $count = Trn_Cart::where('customer_id', $loggedin)->count(); 
+        $cart = Trn_Cart::with('productVariantData')->where('customer_id', $loggedin)->get();
+        $total_price=0;
+        if($cart->isEmpty())
+        {
+          $total_price;
+        }
+        else
+        {
+         
+        foreach($cart as $key=>$val)
+        {
+            $details[]=[
+                $details['price']=$val->productVariantData->variant_price_offer,
+                $details['quantity']=$val->quantity,
+            ];
+            $total_price+=$details['price']*$details['quantity'];
+
+        }
+        }
+        $payment_type=Sys_PaymentType::select('payment_type','payment_type_id')->get();
+        return view('customer.payment.cartlist',compact('customer','count','total_price','payment_type'));
+    }
+
+    /*
+    Description : Cart-Payment store datas details
+    Date        : 4/4/2022
+    
+    */
+    public function CartPayment_store(Request $request)
+    {
+        $customer=Mst_Customer::where('customer_id',$request->customer_id)->first();
+        $product = Trn_Cart::with('productVariantData')->where('customer_id', $customer->customer_id)->get();  
+        $order_array=array();
+        foreach($product as $key=>$option)
+        {
+        $order_array[$key]['customer_id']=$customer->customer_id;
+        $order_array[$key]['order_number']=random_int(100000, 999999);
+
+        $order_array[$key]['payment_type_id']=$request->Payment;
+        $order_array[$key]['order_total_amount']=$option->productVariantData->variant_price_offer;
+        }
+        Trn_Order::insert($order_array);
+        // $order_id=Trn_Order::where('customer_id',$customer->customer_id)->get();
+        
+        // $trmorder_array=array();
+        // foreach($product as $key=>$option)
+        // {
+        // $trmorder_array[$key]['customer_id']=$customer->customer_id;
+        // $trmorder_array[$key]['order_number']=$order_id->order_number;
+        // $trmorder_array[$key]['order_id']=$order_id->order_id;
+        // $trmorder_array[$key]['quantity']=$option->quantity;
+        // $trmorder_array[$key]['product_id']=$option->productVariantData->product_id;
+        // $trmorder_array[$key]['product_variant_id']=$option->productVariantData->product_variant_id;
+        // $trmorder_array[$key]['total_amount']=$option->productVariantData->variant_price_offer;
+        // }
+    
+        // Trn_OrderItem::insert($trmorder_array); 
+        // $cart_delete = Trn_Cart::where('customer_id', $customer->customer_id)->delete();  
+        return redirect()->route('customer.home');
+
+    }
+   
+
+
    
 
 }

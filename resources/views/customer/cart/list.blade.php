@@ -107,7 +107,7 @@
                <div class="prizetot">
                   <p>&#8377;@if(isset($total)){{$total}}@endif</p> <span class="pricdtail"><a href="">View price details</a></span> </div>
                <div class="placeholbtn">
-                  <button type="button" class="btn "><a href="">Place Order</a></button>
+                  <button type="button" class="btn "><a href="{{url('/Placeorder-Cart')}}">Place Order</a></button>
                   <!-- <button type="button" class="btn " data-toggle="modal" data-target="#exampleModal">Place Order</button> -->
                </div>
             </div>
