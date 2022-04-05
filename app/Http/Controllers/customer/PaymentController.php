@@ -66,7 +66,7 @@ class PaymentController extends Controller
                 $trm_order->quantity = $product->quantity;
                 $trm_order->product_id=$product->productVariantData->product_id;
                 $trm_order->product_variant_id = $product->productVariantData->product_variant_id;
-                $trm_order->total_amount = $product->productVariantData->variant_price_offer;
+                $trm_order->total_amount = $product->quantity * $product->productVariantData->variant_price_offer;
                 $trm_order->save();
         //continue to payment after delete the cart table entry
         $cart_delete = Trn_Cart::where('customer_id', $customer->customer_id)->where('product_variant_id', $request->p_id)->delete();         
@@ -143,6 +143,7 @@ class PaymentController extends Controller
     
         // Trn_OrderItem::insert($trmorder_array); 
         // $cart_delete = Trn_Cart::where('customer_id', $customer->customer_id)->delete();  
+        // dd($order_id);
         return redirect()->route('customer.home');
 
     }

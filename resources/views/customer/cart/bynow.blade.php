@@ -63,8 +63,7 @@
                               </div >
                               <div class="col-lg-6 col-6">
                                  <label>City</label>
-                                 <input type="text" placeholder="City" name="city" required="" autocomplete="off" value="{{$checkout_user->city}}">
-                                 <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button>
+                                 <input type="text" placeholder="City" name="city" id="City" required="" autocomplete="off" value="{{$checkout_user->city}}">
                               </div >
                               <div class="col-lg-6">
                                  <label>Address</label>
@@ -73,7 +72,6 @@
                               <div class="col-lg-6">
                                  <label>Landmark</label>
                                  <input type="text" placeholder="Road name, Area, Colony" name="road" required="" autocomplete="off" value="{{$checkout_user->road}}">
-                                 <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button>
                                  <a href="" class="addnear"><span><i class="fa fa-plus" aria-hidden="true"></i> Add Nearby Famous Shop/Landmark</span></a>
                               </div >
 
@@ -139,6 +137,17 @@
             </div>
          </section>
          <!-------end----->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClnXS4nZ1kcYja_YlOQaEpl-U3AOxBJlw&libraries=places&sensor=false"></script>
+         
+<script>
+var input = document.getElementById('City');
+var autocomplete = new google.maps.places.Autocomplete(input);
+google.maps.event.addListener(autocomplete, 'place_changed',   function () {
+var place = autocomplete.getPlace();
+var lat = place.geometry.location.lat();
+var long = place.geometry.location.lng();
+});
+</script>         
         @include('layouts.footer')
 
    </body>
