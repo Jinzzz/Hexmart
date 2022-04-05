@@ -142,8 +142,7 @@ class PaymentController extends Controller
         // }
     
         // Trn_OrderItem::insert($trmorder_array); 
-        // $cart_delete = Trn_Cart::where('customer_id', $customer->customer_id)->delete();  
-        // dd($order_id);
+        $cart_delete = Trn_Cart::where('customer_id', $customer->customer_id)->delete();  
         return redirect()->route('customer.home');
 
     }
