@@ -57,7 +57,7 @@
 	</footer>
 	<div class="foot">
 		<p>@ 2021 Hexmart</p>
-		<div class="foot-img"> <img src="image/payment-method.svg" class="img-fluid" alt=""> </div>
+		<div class="foot-img"> <img src="{{URL::to('/assets/frontAssets/image/payment-method.svg')}}" class="img-fluid" alt=""> </div>
 	</div>
 </section>
 

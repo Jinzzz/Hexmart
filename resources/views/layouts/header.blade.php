@@ -35,11 +35,11 @@
                </form>
             </div>
             <div class="">
-               <a href="{{url('/')}}" class="cart-head"> <i class="fa fa-home" aria-hidden="true" class="cart-top"></i> Home</a>
+               <!-- <a href="{{url('/')}}" class="cart-head"> <i class="fa fa-home" aria-hidden="true" class="cart-top"></i> Home</a> -->
             </div>
             @if (Auth::guard('customer')->check())
             <div class="cart-account">
-               <div class="dropdown d-down pt-3">
+               <div class="dropdown d-down">
                   <button class="dropbtn">My Account <i class="fa fa-angle-down" aria-hidden="true"></i></button>
                   <div class="dropdown-content drp-m"> 
                     <a href="" >My Orders</a>
@@ -61,7 +61,7 @@
                </div>
             </div>
             @endif
-            <div class="">
+            <div class="crt">
                <a href="{{url('/show-Cart')}}" class="cart-head"> <i class="fa fa-shopping-cart" aria-hidden="true" class="cart-top"></i>Cart<span class="badge badge-danger Cart-count"></span></a>
             </div>
          </div>
