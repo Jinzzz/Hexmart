@@ -879,6 +879,27 @@ class CustomerController extends Controller
     }
 
 
+/*
+   Description : Reset Password
+   Date        : 4/4/2022
+
+*/
+
+    public function send_mail(Request $request)
+    {
+        $data = array();
+        try {
+
+         }catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            }
+     }       
+
+
    /*
    Description : Category wise product filter
    Date        : 4/4/2022

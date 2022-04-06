@@ -39,6 +39,8 @@ Route::get('customer/address-list', 'Api\CustomerController@listAddress');
 //forgot and reset password api
 Route::get('customer/forgot-password', 'Api\CustomerController@forgotpassword');
 Route::post('customer/reset-password', 'Api\CustomerController@reset_password');
+Route::post('customer/send-mail', 'Api\CustomerController@send_mail');
+
 //product pageination filter api
 Route::get('customer/prodcut-list', 'Api\CustomerController@productfilter_list');
 Route::get('customer/subcatprodcut-list', 'Api\CustomerController@subcatproductfilter_list');
