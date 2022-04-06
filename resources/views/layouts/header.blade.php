@@ -42,6 +42,7 @@
                <div class="dropdown d-down">
                   <button class="dropbtn">My Account <i class="fa fa-angle-down" aria-hidden="true"></i></button>
                   <div class="dropdown-content drp-m"> 
+                    <a href="{{url('/customer/My-Account')}}" >My Account</a>
                     <a href="{{url('/customer/My-Orders')}}" >My Orders</a>
                     <a href="{{url('/customer/wishlist')}}" >Wish List</a>
                      <a href="{{url('/customer/logout')}}" >logout</a> 

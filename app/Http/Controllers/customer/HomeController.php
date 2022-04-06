@@ -10,6 +10,7 @@ use App\Models\admin\Mst_ProductVariant;
 use App\Models\admin\Mst_ItemSubCategory;
 use App\Models\admin\Mst_ItemLevelTwoSubCategory;
 use App\Models\admin\Mst_Product;
+use App\Models\admin\Mst_Customer;
 use Auth;
 use Illuminate\Session\Middleware\StartSession;
 
@@ -189,6 +190,67 @@ class HomeController extends Controller
     protected function guard()
     {
         return Auth::guard('customer');
+    }
+    /*
+    Description : My-Account Details
+    Date        : 5/4/2022
+    
+    */
+     public function My_Account()
+    {
+        $id=Auth::guard('customer')->user()->customer_id;
+        $user_details=Mst_Customer::where('customer_id',$id)->first();
+        return view('customer.myaccount.list',compact('user_details'));
+    }
+
+    /*
+    Description : My-Account-Edit Details
+    Date        : 5/4/2022
+    
+    */
+     public function My_Accountedit()
+    {
+        $id=Auth::guard('customer')->user()->customer_id;
+        $user_details=Mst_Customer::where('customer_id',$id)->first();
+        return view('customer.myaccount.edit',compact('user_details'));
+    }
+
+
+    /*
+    Description : My-Account-Address Details
+    Date        : 5/4/2022
+    
+    */
+     public function My_Account_address()
+    {
+        return view('customer.myaccount.address');
+    }
+
+
+    /*
+    Description : Add-Address Details
+    Date        : 5/4/2022
+    
+    */
+     public function Add_Address()
+    {
+        return view('customer.myaccount.add_address');
+    }
+
+
+    /*
+    Description : Account-update Details
+    Date        : 5/4/2022
+    
+    */
+     public function Account_Update(Request $request)
+    {
+        $customer = Mst_Customer::find($request->id);
+        $customer->customer_name = $request->name;
+        $customer->customer_mobile = $request->mobile;
+        $customer->customer_email = $request->email;
+        $customer->update();
+        return redirect()->route('My-Account');
     }
 
 }

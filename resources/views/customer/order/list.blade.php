@@ -8,7 +8,7 @@
                <a href="{{url('customer/Order-Details').'/'.$val->order_item_id }}">
                   <div class="myorderconfrm-div">
                      <div class="myorderconfrm">
-                        <h4>Order no. {{$val->order_number}}</h4>
+                        <h4>Order no. @if(isset($val->order_number)){{$val->order_number}}@endif</h4>
                         <div class="myorderdiv-ft">
                            <ul>
                               <li><i class="fa fa-calendar-o" aria-hidden="true"></i> <span>5th Apr 2021</span></li>
