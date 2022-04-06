@@ -12,6 +12,8 @@ use App\Models\admin\Trn_CustomerAddress;
 use App\Models\admin\Trn_CustomerReward;
 use App\Models\admin\Trn_ReviewsAndRating;
 use App\Models\admin\Trn_WishList;
+use App\Models\admin\Mst_Brand;
+use App\Models\admin\Mst_AttributeGroup;
 use Illuminate\Http\Request;
 use stdClass;
 use Validator;
@@ -677,6 +679,58 @@ class ProductController extends Controller
 
             return response($response);
         }
+    }
+
+    public function filter(Request $request)
+    { 
+        $data = array();
+
+        try {
+            $brandDetails  = Mst_Brand::select(
+                'brand_id',
+                'brand_name',
+                'brand_icon',
+                'is_active'
+            )
+                ->where('is_active', 1)
+                ->orderBy('brand_name', 'ASC')
+                ->get();
+
+            foreach ($brandDetails as $c) {
+                if (isset($c->brand_icon)) {
+                    $c->brand_icon = '/assets/uploads/brand_icon/' . $c->brand_icon;
+                } else {
+                    $c->brand_icon = Helper::brandIcon();
+                }
+            }
+
+            $data['brandDetails'] = $brandDetails;
+            
+            $attribute_groups = Mst_AttributeGroup::orderBy('attribute_group_id', 'DESC')->get();
+            
+            foreach ($attribute_groups as $row) {
+                $row->attributeValues = Helper::getValuesByGroupId($row->attribute_group_id);
+            }
+            
+            $data['attributeGroups'] = $attribute_groups;
+
+            $data['status'] = 1;
+            $data['message'] = "success";
+            return response($data);
+
+
+
+         } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+
+            return response($response);
+        }   
+
+
+
     }
 
 }

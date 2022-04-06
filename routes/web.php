@@ -69,7 +69,11 @@ Route::group(['namespace' => 'customer'], function ()
     Route::post('/Payment_Store', 'PaymentController@Payment_Store')
         ->name('Payment_Store'); 
     Route::get('/Placeorder-Cart', 'CartController@Placeorder_Cart')
-        ->name('customer.Placeorder-Cart');       
+        ->name('customer.Placeorder-Cart');     
+    Route::get('/Remove_wishlist/{id}', 'WishController@Remove_wishlist')
+        ->name('Remove_wishlist'); 
+    Route::get('/Order-Confirm', 'OrderController@order_confirm')
+        ->name('order-confirm');           
                      
 
    //customer dashboard
@@ -99,7 +103,13 @@ Route::group(['namespace' => 'customer'], function ()
         Route::get('/Reset-Passwordlink/{email}', 'LoginController@Reset_Passwordlink')
         ->name('customer.Reset_Passwordlink');   
         Route::post('/Password-Reset', 'LoginController@Password_Reset')
-        ->name('customer.Password_Reset');     
+        ->name('customer.Password_Reset'); 
+        Route::get('/wishlist', 'WishController@wishlist')
+            ->name('wishlist');  
+        Route::get('/My-Orders', 'OrderController@My_Orders')
+            ->name('My-Orders');  
+        Route::get('/Order-Details/{id}', 'OrderController@Order_Details')
+            ->name('Order-Details');             
     });
 
 });

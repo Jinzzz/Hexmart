@@ -73,7 +73,7 @@ class PaymentController extends Controller
                 $trm_order->save();
         //continue to payment after delete the cart table entry
         $cart_delete = Trn_Cart::where('customer_id', $customer->customer_id)->where('product_variant_id', $request->p_id)->delete();         
-        return redirect()->route('customer.home');
+        return redirect()->route('order-confirm');
 
     }
 
@@ -145,13 +145,9 @@ class PaymentController extends Controller
         }
         Trn_OrderItem::insert($trmorder_array); 
         $cart_delete = Trn_Cart::where('customer_id', $customer->customer_id)->delete();  
-        return redirect()->route('customer.home');
+        return redirect()->route('order-confirm');
 
     }
-   
-
-
-   
 
 }
 

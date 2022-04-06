@@ -47,7 +47,7 @@ Route::get('customer/subcatprodcut-list', 'Api\CustomerController@subcatproductf
 Route::get('customer/mainsubprodcut-list', 'Api\CustomerController@mainsubproductfilter_list');
 
 //product-brand filter api
-Route::get('customer/prodcut-filter', 'Api\CustomerController@product_brandfilter');
+Route::get('customer/prodcut-filter', 'Api\ProductController@filter');
 Route::get('customer/prodcut-subcatfilter', 'Api\CustomerController@product_subactbrandfilter');
 Route::get('customer/prodcut-mainsubcatfilter', 'Api\CustomerController@product_mainsubcatbrandfilter');
 

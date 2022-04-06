@@ -1408,7 +1408,7 @@ p.product-slid-rs {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .right-side {
-    padding: 1em;
+      padding: 1em 0 0 0;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .pagelinks ul li {
@@ -5589,3 +5589,596 @@ img.img-fluid.sign-up {
 
 
  }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ /******my account*****/
+
+
+ .my-main-div{
+ 	  display: flex;
+ 	  flex-direction: row;
+ 	  flex-wrap: wrap;
+ 	      justify-content: space-evenly;
+ }
+
+ .my-inner-div1{
+ 	    background-color: #fff;
+    border-radius: 5px;
+    width: 65%;
+ }
+
+ .my-inner-div2{
+
+ 	    width: 33%;
+    background-color: #fff;
+    border-radius: 5px;
+
+
+ }
+
+
+.accont-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+        padding: 1em;
+            border-bottom: 1px solid #e1e1e1;
+    margin-bottom: 0px;
+    align-items: center;
+}
+.myacc-head {
+    border-bottom: 1px solid #e1e1e1;
+  padding: 1.8em 1em 2em 1em;
+}
+.myacc-head h5 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #1a1a1a;
+        margin-bottom: 0;
+}
+.myaccount-content p {
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #808080;
+    font-weight: 400;
+}
+
+.myaccount-content h5 {
+    color: #1a1a1a;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.editbtn button {
+    border: 1px solid #0370c4;
+    background: #0370c4;
+    color: #fff;
+    padding: 6px 15px;
+    border-radius: 3px;
+    width: 100%;
+}
+.editbtn button a{
+   font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+        margin-top: 0;
+}
+
+.editbtn {
+    width: 15%;
+}
+
+
+.conetnt-link h5 span {
+    color: #1a1a1a;
+    font-size: 18px;
+    font-weight: 500;
+}
+.conetnt-link i {
+    color: #808080;
+    font-size: 26px;
+        margin-right: 5px;
+}
+
+
+.conetnt-link {
+    padding: 1em;
+  
+}
+
+.brline{
+	 border-bottom: 1px solid #e1e1e1;
+}
+.conetnt-link h5 {
+    margin-bottom: 0;
+}
+
+.conetnt-link {
+   padding: 2em 1em;
+}
+section.myorder-sec.bg-gray {
+    padding: 0 0 2em 0;
+}
+.myaddress {
+    background: #fff;
+    padding: 2em 2em;
+     border-radius: 5px;
+         width: 60%;
+}
+
+form.myaccntfrm input {
+    width: 100%;
+    margin-bottom: 1em;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+form.myaccntfrm input::placeholder{
+	color: #808080;
+	font-size: 14px;
+}
+.btnsupdatecamcel{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+
+   
+
+}
+.btnsupdatecamcel button{
+	    margin-right: 1em;
+	  border: 1px solid #0370c4;
+    background: #0370c4;
+    color: #fff;
+    padding: 4px 24px;
+    border-radius: 3px;
+    margin-top: 1em;
+}
+.btnsupdatecamcel button:hover {
+   
+    border: 1px solid #0370c4;
+    background: #ffffff;
+    color: #0370c4;
+    font-weight: 500;
+  
+    transition-duration: 1s;
+    transition-delay: .1s;
+}
+
+@media (max-width: 575.98px) { 
+
+.my-inner-div1 {
+    background-color: #fff;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.my-inner-div2 {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 1em 0;
+}
+.editbtn {
+    width: 35%;
+}
+.editbtn button {
+    border: 1px solid #0370c4;
+    background: #0370c4;
+    color: #fff;
+    padding: 4px 7px;
+    border-radius: 3px;
+    width: 100%;
+}
+.editbtn button a {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+    margin-top: 0;
+}
+.myaddress {
+    background: #fff;
+    padding: 2em 2em;
+    border-radius: 5px;
+    width: 100%;
+}
+ }
+
+@media (min-width: 576px) and (max-width: 767.98px) { 
+.my-inner-div1 {
+    background-color: #fff;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.my-inner-div2 {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 1em 0;
+}
+.editbtn {
+    width: 35%;
+}
+.editbtn button {
+    border: 1px solid #0370c4;
+    background: #0370c4;
+    color: #fff;
+    padding: 4px 7px;
+    border-radius: 3px;
+    width: 100%;
+}
+.editbtn button a {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+    margin-top: 0;
+}
+.myaddress {
+    background: #fff;
+    padding: 2em 2em;
+    border-radius: 5px;
+    width: 100%;
+}
+ }
+
+
+ /********addresslist************/
+
+
+.addresslist {
+    width: 65%;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 1em 0;
+}
+.address-list-bx {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1em 1em;
+    border-bottom: 1px solid #cccccc85;
+}
+.address-bx a {
+    display: flex;
+    align-items: center;
+      flex-direction: row;
+    flex-wrap: wrap;
+}
+.address-bx a i {
+    font-size: 18px;
+    color: #0370c4;
+    font-weight: 100;
+}
+.address-bx h5 {
+    color: #0370c4;
+    font-size: 16px;
+    margin-left: 10px;
+    margin-bottom: 0;
+    font-weight: 400;
+}
+.address-bx {
+    padding: 2em 1em;
+    border-bottom: 1px solid #cccccc85;
+}
+.name-addrs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+        margin-bottom: 1em;
+}
+span.add-home {
+    margin-left: 8px;
+    font-size: 9px;
+    background: #f2f2f2;
+    padding: 5px 9px;
+    color: #808080;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+.name-addrs h5 {
+    font-size: 18px;
+    color: #1a1a1a;
+    font-weight: 500;
+}
+.addrss-list p {
+    color: #808080;
+    margin-bottom: 0;
+    font-size: 15px;
+}
+
+.dots a {
+    color: #808080;
+    font-size: 18px;
+}
+.addadress-page {
+   
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 1em 0;
+}
+
+.addadress-page {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 1em 0;
+    margin: 0 4em 0 4em;
+}
+
+.whishlist-sec {
+    background: #fff;
+    
+}
+
+.whishlist-sec .maindicproduct {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: row;
+        border-bottom: 1px solid #e1e1e1;
+}
+.pramount.removebtn button {
+    border: 1px solid #808080;
+    color: #808080;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 2px;
+    background: transparent;
+}
+
+.whishlist-sec .prdetails {
+    width: 85%;
+    padding: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.wishlist-prize {
+    width: 70%;
+}
+.pricewish {
+    display: flex;
+    flex-wrap: wrap;
+}
+.rating-wish {
+    margin-bottom: 8px;
+}
+.whishlist-sec .primag {
+    width: 15%;
+    padding: 1em;
+}
+
+@media (max-width: 575.98px) {
+    
+    
+    span.add-home {
+    height: 41%;
+    padding: 3px 9px;
+    font-size: 7px;
+    }
+    
+    .addadress-page {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 0em 0;
+    margin: 0 0em 0 0em;
+}
+.addresslist {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 1em 0;
+}
+.whishlist-sec .maindicproduct {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: row;
+}
+
+.whishlist-sec .primag {
+    width: 45%;
+    padding: 0em;
+}
+
+.wishlist-prize {
+    width: 100%;
+}
+.whishlist-sec .prdetails h3 {
+    color: #131313;
+    font-weight: 500;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.whishlist-sec span.rate-review {
+    color: #808080;
+    font-weight: 500;
+    font-size: 12px;
+}
+.pricewish h5 {
+    font-size: 15px;
+    margin-right: 8px;
+    margin-bottom: 0;
+}
+.whishlist-sec .pramount {
+    width: 100%;
+    padding: 1em 1em 1em 0;
+}
+.pramount.removebtn button {
+    border: 1px solid #808080;
+    color: #808080;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 2px;
+    background: transparent;
+}
+.whishlist-sec .prdetails {
+    width: 65%;
+    padding: 0 1em 1em 1em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.address-bx {
+    padding: 1em 1em;
+    border-bottom: 1px solid #cccccc85;
+}
+.address-bx a {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 0;
+}
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) { 
+        .address-bx a {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 0;
+}
+    .address-bx {
+    padding: 1em 1em;
+    border-bottom: 1px solid #cccccc85;
+}
+    span.add-home {
+    height: 41%;
+    padding: 3px 9px;
+    font-size: 7px;
+    }
+    
+    .addadress-page {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 0em 0;
+    margin: 0 0em 0 0em;
+} 
+.addresslist {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 1em 0;
+}
+.whishlist-sec .maindicproduct {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: row;
+}
+.whishlist-sec .primag {
+    width: 45%;
+    padding: 0em;
+}
+
+.wishlist-prize {
+    width: 100%;
+}
+
+.whishlist-sec .prdetails h3 {
+    color: #131313;
+    font-weight: 500;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.whishlist-sec span.rate-review {
+    color: #808080;
+    font-weight: 500;
+    font-size: 12px;
+}
+.pricewish h5 {
+    font-size: 15px;
+    margin-right: 8px;
+    margin-bottom: 0;
+}
+.whishlist-sec .pramount {
+    width: 100%;
+    padding: 1em 1em 1em 0;
+}
+.pramount.removebtn button {
+    border: 1px solid #808080;
+    color: #808080;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 2px;
+    background: transparent;
+}
+.whishlist-sec .prdetails {
+    width: 65%;
+    padding: 0 1em 1em 1em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .editbtn button a {
+    font-size: 12px;
+    color: #fff;
+    font-weight: 500;
+    margin-top: 0;
+}
+.whishlist-sec .primag {
+    width: 30%;
+    padding: 1em;
+}
+.pramount.removebtn {
+    width: 30%;
+}
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+
+.whishlist-sec .primag {
+    width: 30%;
+    padding: 1em;
+}
+.pramount.removebtn {
+    width: 30%;
+}
+
+ }
+ 
+ 
+.editdrop button.btn.dropdown-toggle:after {
+    display: none;
+}
+
+.editdrop  button.btn.dropdown-toggle {
+    padding: 0;
+}
+ul.dropdown-menu.editdrp-menu {
+    left: -12% !important;
+    top: -2% !important;
+}
+ul.dropdown-menu.editdrp-menu li {
+    padding: 0 0 0 10px;
+}
+ul.dropdown-menu.editdrp-menu li a {
+       font-size: 14px;
+    color: #0370c4;
+    font-weight: 500;
+    margin-top: 0;
+}
+
+.checkout-frm form input:focus{
+        border: 1px solid #0370c4;
+
+}

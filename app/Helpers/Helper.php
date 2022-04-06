@@ -10,6 +10,7 @@ use App\Models\admin\Mst_ProductVariant;
 use App\Models\admin\Trn_ItemImage;
 use App\Models\admin\Trn_ItemVariantAttribute;
 use App\Models\admin\Trn_Order;
+use App\Models\admin\Mst_AttributeValue;
 use App\Models\admin\Trn_ReviewsAndRating;
 use App\Models\admin\Trn_WishList;
 use Illuminate\Support\Str;
@@ -20,6 +21,12 @@ use Validator;
 
 class Helper
 {
+
+      public static function getValuesByGroupId($attribute_group_id)
+    {
+        $attribute_values = Mst_AttributeValue::where('attribute_group_id',$attribute_group_id)->orderBy('attribute_value_id', 'DESC')->get();
+        return $attribute_values;
+    }
 
     public static function findReviewData($product_variant_id)
     {
