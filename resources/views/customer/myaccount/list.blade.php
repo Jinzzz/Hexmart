@@ -28,8 +28,8 @@
             <div class="accont-row">
                <div class="myaccount-content">
                   <h5>My Addresses </h5>
-                  <p>Address line1</p>
-                  <p>Address line2</p>
+                  <p>@if(isset($user_details->place)){{$user_details->place}}@endif</p>
+                  <p>@if(isset($user_details->road)){{$user_details->road}}@endif</p>
                </div>
                <div class="editbtn">
                   <button> <a href="{{url('/customer/My-Account-Address')}}">View All</a></button>
