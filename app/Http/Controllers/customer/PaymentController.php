@@ -123,31 +123,32 @@ class PaymentController extends Controller
         $order_array=array();
         $numbers=random_int(1000000000000, 9999999999999);
         $prefix = "OD";
-        foreach($product as $key=>$option)
-        {
-        $order_array[$key]['customer_id']=$customer->customer_id;
-        $order_array[$key]['order_number']=$prefix . $numbers;
-
-        $order_array[$key]['payment_type_id']=$request->Payment;
-        $order_array[$key]['order_total_amount']=$option->productVariantData->variant_price_offer;
-        $order_array[$key]['created_at']=Carbon::now()->toDateTimeString();
-
-        }
-        Trn_Order::insert($order_array);
-        $date=Carbon::now()->toDateTimeString();
-        $order_id=Trn_Order::select('order_id','order_number')->where('customer_id',$customer->customer_id)->where('created_at',$date)->get();
-        // dd($order_id);
+        $customOrderNumber= $prefix . $numbers;
         $trmorder_array=array();
-        foreach($product as $key=>$option)
+
+         foreach($product as $key=>$option)
         {
-        $trmorder_array[$key]['customer_id']=$customer->customer_id;
-        // $trmorder_array[$key]['order_number']=$order_id->order_number;
-        // $trmorder_array[$key]['order_id']=$order_id->order_id;
-        $trmorder_array[$key]['quantity']=$option->quantity;
-        $trmorder_array[$key]['product_id']=$option->productVariantData->product_id;
-        $trmorder_array[$key]['product_variant_id']=$option->productVariantData->product_variant_id;
-        $trmorder_array[$key]['total_amount']=$option->quantity * $option->productVariantData->variant_price_offer;
-        $trmorder_array[$key]['created_at']=Carbon::now()->toDateTimeString();
+            $order_array['customer_id']=$customer->customer_id;
+            $order_array['order_number']= $customOrderNumber;
+
+            $order_array['payment_type_id']=$request->Payment;
+            $order_array['order_total_amount']=$option->productVariantData->variant_price_offer;
+            $order_array['created_at']=Carbon::now()->toDateTimeString();
+            $res = Trn_Order::insert($order_array);
+            $date=Carbon::now()->toDateTimeString();
+            if($res == true){
+                $order_id = Trn_Order::where('customer_id',$customer->customer_id)->where('created_at',$date)->where('order_number',$customOrderNumber)->orderBy('order_id','desc')->first();
+
+                $trmorder_array[$key]['customer_id']=$customer->customer_id;
+                $trmorder_array[$key]['order_number']=$order_id->order_number;
+                $trmorder_array[$key]['order_id']=$order_id->order_id;
+                $trmorder_array[$key]['quantity']=$option->quantity;
+                $trmorder_array[$key]['product_id']=$option->productVariantData->product_id;
+                $trmorder_array[$key]['product_variant_id']=$option->productVariantData->product_variant_id;
+                $trmorder_array[$key]['total_amount']=$option->quantity * $option->productVariantData->variant_price_offer;
+                $trmorder_array[$key]['created_at']=Carbon::now()->toDateTimeString();              
+            }
+            
         }
         Trn_OrderItem::insert($trmorder_array); 
         $cart_delete = Trn_Cart::where('customer_id', $customer->customer_id)->delete();  
