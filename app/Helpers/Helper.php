@@ -19,7 +19,8 @@ use Crypt;
 use  Carbon\Carbon;
 use stdClass;
 use Validator;
-
+use App\Models\admin\Mst_Brand;
+use App\Models\admin\Mst_AttributeGroup;
 class Helper
 {
 
@@ -28,9 +29,19 @@ class Helper
         $attribute_values = Mst_AttributeValue::where('attribute_group_id',$attribute_group_id)->orderBy('attribute_value_id', 'DESC')->get();
         return $attribute_values;
     }
+     public static function getBrandId($brand_id)
+    {
+        $details = Mst_Brand::select('brand_id','brand_name','brand_icon','is_active')->where('brand_id',$brand_id)->orderBy('brand_id', 'DESC')->get();
+        return $details;
+    }
+     public static function getAttributeId($attribute_group_id)
+    {
+        $value = Mst_AttributeGroup::where('attribute_group_id',$attribute_group_id)->get();
+        return $value;
+    }
       public static function getValuesByGroupattributeId($attribute_group_id)
     {
-        $attribute= Mst_AttributeValue::select('attribute_value')->where('attribute_group_id',$attribute_group_id)->get();
+        $attribute= Mst_AttributeValue::where('attribute_group_id',$attribute_group_id)->get();
         return $attribute;
     }
      public static function getValuesBycatId($item_category_id)
