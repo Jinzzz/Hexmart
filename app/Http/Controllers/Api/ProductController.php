@@ -731,7 +731,7 @@ class ProductController extends Controller
                $data['brand_details'] = $details;
                $data['attribute_details'] = $attr_val;
 
-               
+
    
                $brandDetails  = Mst_Brand::select('brand_id','brand_name','brand_icon','is_active')
                 ->where('is_active', 1)->orderBy('brand_name', 'ASC')->get();
@@ -757,13 +757,6 @@ class ProductController extends Controller
             $data['status'] = 1;
             $data['message'] = "success";
             return response($data);
-
-            // } 
-            // else {
-            //         $data['status'] = 0;
-            //         $data['errors'] = $validator->errors();
-            //         return response($data);
-            //     }
 
          } catch (\Exception $e) {
             $response = ['status' => 0, 'message' => $e->getMessage()];
