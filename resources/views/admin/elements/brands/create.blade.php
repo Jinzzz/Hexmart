@@ -42,7 +42,26 @@
                             name="brand_icon" value="{{old('brand_icon')}}" placeholder="Brand Icon">
                             </div>
                         </div>
-                        
+                         
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                            <div id="Category">
+                            <select name="category[]" required="" class="form-control" >
+                            <option value=""> Select Category</option>
+                             @foreach($category as $key)
+                             <option  value="{{$key->iltsc_id}}"> {{$key->iltsc_name }} </option>
+                             @endforeach
+                            </select>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="col-md-2">
+                            <div class="form-group">
+                            <label class="form-label">Add more</label>
+                            <button type="button" id="addCategory" class="btn btn-raised btn-success"> Add More</button>
+                            </div>
+                            </div>
 
                             <div class="col-md-2">
                                 <label class="custom-switch">
@@ -76,4 +95,32 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+    var wrapper      = $("#Category"); //Fields wrapper
+    var add_button   = $("#addCategory"); //Add button ID
+
+    var x = 1; //initlal text box count
+
+
+    $(add_button).click(function(e){ //on add input button click
+    e.preventDefault();
+    //max input box allowed
+    x++; //text box increment
+    $(wrapper).append('<div> <br> <label class="form-label"> Select Category</label><select name="category[]" required="" class="form-control" ><option value=""> Select Category</option>@foreach($category as $key)<option  value="{{$key->iltsc_id}}"> {{$key->iltsc_name }} </option>@endforeach</select> <a href="#" class="remove_field btn btn-info btn btn-sm">Remove</a></div>'); //add input box
+
+    });
+
+
+
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+    e.preventDefault(); $(this).parent('div').remove(); x--;
+    })
+    });
+
+
+</script>
+
 @endsection

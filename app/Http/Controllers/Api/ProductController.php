@@ -14,6 +14,8 @@ use App\Models\admin\Trn_ReviewsAndRating;
 use App\Models\admin\Trn_WishList;
 use App\Models\admin\Mst_Brand;
 use App\Models\admin\Mst_AttributeGroup;
+use App\Models\admin\Mst_Brandsubcat;
+use App\Models\admin\Mst_Attributecategory;
 use Illuminate\Http\Request;
 use stdClass;
 use Validator;
@@ -680,29 +682,66 @@ class ProductController extends Controller
             return response($response);
         }
     }
-
+    /*
+    Description : product-filter api
+    Date        : 6/4/2022
+    
+    */
     public function filter(Request $request)
     { 
         $data = array();
 
         try {
-            $brandDetails  = Mst_Brand::select(
-                'brand_id',
-                'brand_name',
-                'brand_icon',
-                'is_active'
-            )
-                ->where('is_active', 1)
-                ->orderBy('brand_name', 'ASC')
-                ->get();
+                $validator = Validator::make($request->all(),
+                [
+                'item_category_id'         => 'required',
 
-            foreach ($brandDetails as $c) {
-                if (isset($c->brand_icon)) {
-                    $c->brand_icon = '/assets/uploads/brand_icon/' . $c->brand_icon;
-                } else {
-                    $c->brand_icon = Helper::brandIcon();
+                ],
+                [
+                'item_category_id.required'=> 'Category ID required',
+
+                ]
+                );
+
+                if (!$validator->fails()) {
+
+                $brandcatDetails=Mst_Brandsubcat::where('item_category_id',$request->item_category_id)->get();
+                foreach ($brandcatDetails as $row) {
+                $row->cat_values = Helper::getValuesBycatId($row->item_category_id);
                 }
-            }
+                foreach ($row->cat_values as $val) {
+                $val->product = Helper::getValuesByproductId($val->product_id);
+                }
+
+                $data['brandcategoryDetails'] = $row->cat_values;
+            
+
+                $attributecatDetails=Mst_Attributecategory::where('item_category_id',$request->item_category_id)->get();
+                foreach ($attributecatDetails as $row) {
+                $row->attribute= Helper::getValuesByGroupattributeId($row->attribute_group_id);
+               }
+            
+               $data['attributeGroupValuesData'] = $row->attribute;
+                 foreach ($attributecatDetails as $row) {
+                $row->cat_values = Helper::getValuesBycatId($row->item_category_id);
+                }
+                foreach ($row->cat_values as $val) {
+                $val->product = Helper::getValuesByproductId($val->product_id);
+                }
+                $data['attributeCategoryDetails'] = $row->cat_values;
+
+
+
+               $brandDetails  = Mst_Brand::select('brand_id','brand_name','brand_icon','is_active')
+                ->where('is_active', 1)->orderBy('brand_name', 'ASC')->get();
+
+                foreach ($brandDetails as $c) {
+                    if (isset($c->brand_icon)) {
+                        $c->brand_icon = '/assets/uploads/brand_icon/' . $c->brand_icon;
+                    } else {
+                        $c->brand_icon = Helper::brandIcon();
+                    }
+                }
 
             $data['brandDetails'] = $brandDetails;
             
@@ -718,7 +757,12 @@ class ProductController extends Controller
             $data['message'] = "success";
             return response($data);
 
-
+            } 
+            else {
+                    $data['status'] = 0;
+                    $data['errors'] = $validator->errors();
+                    return response($data);
+                }
 
          } catch (\Exception $e) {
             $response = ['status' => 0, 'message' => $e->getMessage()];

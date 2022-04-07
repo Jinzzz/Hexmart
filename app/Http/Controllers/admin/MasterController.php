@@ -28,6 +28,8 @@ use App\Models\admin\Mst_Tax;
 use App\Models\admin\Mst_Unit;
 use App\Models\admin\Sys_IssueType;
 use App\Models\admin\Trn_TaxSplit;
+use App\Models\admin\Mst_brandsubcat;
+use App\Models\admin\Mst_Attributecategory;
 use Illuminate\Http\Request;
 
 class MasterController extends Controller
@@ -998,7 +1000,9 @@ class MasterController extends Controller
     public function createAttributeGroup(Request $request)
     {
         $pageTitle = "Create Attribute Group";
-        return view('admin.elements.attribute_groups.create', compact('pageTitle'));
+        $category=Mst_ItemLevelTwoSubCategory::where('is_active',1)->get();
+
+        return view('admin.elements.attribute_groups.create', compact('pageTitle','category'));
     }
 
     public function storeAttributeGroup(Request $request, Mst_AttributeGroup $row)
@@ -1019,7 +1023,20 @@ class MasterController extends Controller
             $data = $request->except('_token');
             $row->attribute_group         = $request->attribute_group;
             $row->is_active = $request->is_active;
-            $row->save();
+            if ($row->save()) {
+                $lastCatid = DB::getPdo()->lastInsertId();
+                // dd($records);
+                foreach (array_unique($request->category) as  $row) {
+                $records=Mst_ItemLevelTwoSubCategory::where('iltsc_id',$row)->first();
+
+                    $cb = new Mst_Attributecategory;
+                    $cb->attribute_group_id = $lastCatid;
+                    $cb->item_category_id = $records->item_category_id;
+                    $cb->item_sub_category_id = $records->item_sub_category_id;
+                    $cb->iltsc_id = $row;
+                    $cb->save();
+                }
+            }
             return redirect('admin/attribute-group/list')->with('status', 'Attribute group added successfully.');
         } else {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -1044,7 +1061,9 @@ class MasterController extends Controller
     {
         $pageTitle = "Edit Attribute Group";
         $attribute_group = Mst_AttributeGroup::where('attribute_group_id', '=', $attribute_group_id)->first();
-        return view('admin.elements.attribute_groups.edit', compact('attribute_group', 'pageTitle'));
+        $category=Mst_ItemLevelTwoSubCategory::where('is_active',1)->get();
+
+        return view('admin.elements.attribute_groups.edit', compact('attribute_group', 'pageTitle','category'));
     }
 
     public function removeAttributeGroup(Request $request, $attribute_group_id)
@@ -1071,7 +1090,21 @@ class MasterController extends Controller
             $row = Mst_AttributeGroup::find($attribute_group_id);
             $row->attribute_group         = $request->attribute_group;
             $row->is_active = $request->is_active;
-            $row->update();
+            if ($row->update()) {
+                Mst_Attributecategory::where('attribute_group_id', $attribute_group_id)->delete();
+    
+                    foreach (array_unique($request->category) as  $row) {
+                    $records=Mst_ItemLevelTwoSubCategory::where('iltsc_id',$row)->first();
+
+                    $cb = new Mst_Attributecategory;
+                    $cb->attribute_group_id = $attribute_group_id;
+                    $cb->item_category_id = $records->item_category_id;
+                    $cb->item_sub_category_id = $records->item_sub_category_id;
+                    $cb->iltsc_id = $row;
+                    $cb->save();
+
+                }
+            }
             return redirect('admin/attribute-group/list')->with('status', 'Attribute group updated successfully.');
         } else {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -1182,7 +1215,8 @@ class MasterController extends Controller
     public function createBrand(Request $request)
     {
         $pageTitle = "Create Brand";
-        return view('admin.elements.brands.create', compact('pageTitle'));
+        $category=Mst_ItemLevelTwoSubCategory::where('is_active',1)->get();
+        return view('admin.elements.brands.create', compact('pageTitle','category'));
     }
 
 
@@ -1216,7 +1250,21 @@ class MasterController extends Controller
                 $file->move('assets/uploads/brand_icon', $filename);
                 $row->brand_icon = $filename;
             }
-            $row->save();
+            if ($row->save()) {
+                $lastCatid = DB::getPdo()->lastInsertId();
+                // dd($records);
+                foreach (array_unique($request->category) as  $row) {
+                $records=Mst_ItemLevelTwoSubCategory::where('iltsc_id',$row)->first();
+
+                    $cb = new Mst_brandsubcat;
+                    $cb->brand_id = $lastCatid;
+                    $cb->item_category_id = $records->item_category_id;
+                    $cb->item_sub_category_id = $records->item_sub_category_id;
+                    $cb->iltsc_id = $row;
+                    $cb->save();
+                }
+            }
+
             return redirect('admin/brands/list')->with('status', 'Brand added successfully.');
         } else {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -1242,7 +1290,9 @@ class MasterController extends Controller
     {
         $pageTitle = "Edit Brand";
         $brand = Mst_Brand::where('brand_id', '=', $brand_id)->first();
-        return view('admin.elements.brands.edit', compact('brand', 'pageTitle'));
+        $category=Mst_ItemLevelTwoSubCategory::where('is_active',1)->get();
+
+        return view('admin.elements.brands.edit', compact('brand', 'pageTitle','category'));
     }
 
 
@@ -1280,7 +1330,21 @@ class MasterController extends Controller
                 $file->move('assets/uploads/brand_icon', $filename);
                 $row->brand_icon = $filename;
             }
-            $row->update();
+            
+                if ($row->update()) {
+                Mst_brandsubcat::where('brand_id', $brand_id)->delete();
+               
+                    foreach (array_unique($request->category) as  $row) {
+                    $records=Mst_ItemLevelTwoSubCategory::where('iltsc_id',$row)->first();
+
+                    $cb = new Mst_brandsubcat;
+                    $cb->brand_id = $brand_id;
+                    $cb->item_category_id = $records->item_category_id;
+                    $cb->item_sub_category_id = $records->item_sub_category_id;
+                    $cb->iltsc_id = $row;
+                    $cb->save();
+                }
+            }
             return redirect('admin/brands/list')->with('status', 'Brand updated successfully.');
         } else {
             return redirect()->back()->withErrors($validator)->withInput();

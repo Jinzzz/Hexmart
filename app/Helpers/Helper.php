@@ -13,6 +13,7 @@ use App\Models\admin\Trn_Order;
 use App\Models\admin\Mst_AttributeValue;
 use App\Models\admin\Trn_ReviewsAndRating;
 use App\Models\admin\Trn_WishList;
+use App\Models\admin\Mst_Product;
 use Illuminate\Support\Str;
 use Crypt;
 use  Carbon\Carbon;
@@ -26,6 +27,22 @@ class Helper
     {
         $attribute_values = Mst_AttributeValue::where('attribute_group_id',$attribute_group_id)->orderBy('attribute_value_id', 'DESC')->get();
         return $attribute_values;
+    }
+      public static function getValuesByGroupattributeId($attribute_group_id)
+    {
+        $attribute= Mst_AttributeValue::select('attribute_value')->where('attribute_group_id',$attribute_group_id)->get();
+        return $attribute;
+    }
+     public static function getValuesBycatId($item_category_id)
+    {
+        $cat_values = Mst_Product::select('product_id')->where('item_category_id',$item_category_id)->orderBy('product_id', 'DESC')->get();
+        return $cat_values;
+    }
+
+     public static function getValuesByproductId($product_id)
+    {
+        $product = Mst_ProductVariant::select('variant_name','variant_price_offer')->where('product_id',$product_id)->orderBy('product_variant_id', 'DESC')->get();
+        return $product;
     }
 
     public static function findReviewData($product_variant_id)
