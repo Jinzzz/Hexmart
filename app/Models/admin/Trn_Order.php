@@ -33,6 +33,7 @@ class Trn_Order extends Model
         'reward_points_used',
         'amount_reduced_by_rp',
         'transaction_id',
+        'created_at',
     ];
 
     public function orderItems()

@@ -31,7 +31,7 @@ class Helper
     }
      public static function getBrandId($brand_id)
     {
-        $details = Mst_Brand::select('brand_id','brand_name','brand_icon','is_active')->where('brand_id',$brand_id)->orderBy('brand_id', 'DESC')->get();
+        $details = Mst_Brand::select('brand_id','brand_name','brand_icon','is_active')->where('brand_id',$brand_id)->get();
         return $details;
     }
      public static function getAttributeId($attribute_group_id)

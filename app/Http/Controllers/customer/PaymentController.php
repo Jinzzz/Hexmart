@@ -21,6 +21,7 @@ use App\Helpers\Helper;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
 class PaymentController extends Controller
 {
     protected function guard()
@@ -129,9 +130,13 @@ class PaymentController extends Controller
 
         $order_array[$key]['payment_type_id']=$request->Payment;
         $order_array[$key]['order_total_amount']=$option->productVariantData->variant_price_offer;
+        $order_array[$key]['created_at']=Carbon::now()->toDateTimeString();
+
         }
         Trn_Order::insert($order_array);
-        $order_id=Trn_Order::where('customer_id',$customer->customer_id)->where('created_at',null)->get();
+        $date=Carbon::now()->toDateTimeString();
+        $order_id=Trn_Order::select('order_id','order_number')->where('customer_id',$customer->customer_id)->where('created_at',$date)->get();
+        // dd($order_id);
         $trmorder_array=array();
         foreach($product as $key=>$option)
         {
@@ -142,6 +147,7 @@ class PaymentController extends Controller
         $trmorder_array[$key]['product_id']=$option->productVariantData->product_id;
         $trmorder_array[$key]['product_variant_id']=$option->productVariantData->product_variant_id;
         $trmorder_array[$key]['total_amount']=$option->quantity * $option->productVariantData->variant_price_offer;
+        $trmorder_array[$key]['created_at']=Carbon::now()->toDateTimeString();
         }
         Trn_OrderItem::insert($trmorder_array); 
         $cart_delete = Trn_Cart::where('customer_id', $customer->customer_id)->delete();  
