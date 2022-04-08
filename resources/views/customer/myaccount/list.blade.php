@@ -19,7 +19,7 @@
                <div class="myaccount-content">
                   <h5>My Orders</h5>
                   <p>Last ordered</p>
-                  <p>5th Apr 2021</p>
+                  <p>{{ date('j F  Y', strtotime($order->created_at)) }}</p>
                </div>
                <div class="editbtn">
                   <button> <a href="{{url('/customer/My-Orders')}}">View All</a></button>

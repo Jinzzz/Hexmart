@@ -201,7 +201,7 @@ class HomeController extends Controller
     {
         $id=Auth::guard('customer')->user()->customer_id;
         $user_details=Mst_Customer::where('customer_id',$id)->first();
-        $order=Trn_OrderItem::where('customer_id',$id)->where('created_at','desc')->first();
+        $order=Trn_OrderItem::select('created_at')->where('customer_id',$id)->orderBy('created_at','desc')->first();
         return view('customer.myaccount.list',compact('user_details','order'));
     }
 
