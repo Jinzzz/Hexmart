@@ -18,7 +18,7 @@ use App\Models\admin\Trn_Order;
 use Auth;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Http\Request;
-
+use PDF;
 class OrderController extends Controller
 {
     protected function guard()
@@ -81,6 +81,22 @@ class OrderController extends Controller
        Trn_OrderItem::where('order_id',$orderdel->order_id)->delete();
        $del=Trn_Order::where('order_id',$orderdel->order_id)->delete();
        return redirect()->route('My-Orders');
+
+    }
+
+
+    /*
+    Description : Invoice-order details
+    Date        : 7/4/2022
+    
+    */
+
+    public function Invoice($id)
+    {
+       $cust_id=Auth::guard('customer')->user()->customer_id;
+       $invoice=Trn_OrderItem::with('productVariantData','customerData')->where('order_item_id',$id)->where('customer_id',$cust_id)->first();
+       $pdf = PDF::loadView('customer.invoice.pdf',$invoice);
+       return $pdf->download('Invoice.pdf');
 
     }
 

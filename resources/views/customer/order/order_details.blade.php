@@ -3,6 +3,7 @@
    <div class="container-fluid">
       <div class="myorder-container">
          <div class="myoreder-details">
+            <button class="btn btn-light" type="button" style="width:7%;float:right;"><a href="{{url('/customer/Invoice').'/'.$order->order_item_id}}">Download</a></button>
             <div class="orderdetal-div1">
                <h4>Order no. @if(isset($order->order_number)){{$order->order_number}}@endif</h4>
                <h4>Order Total &#8377;@if(isset($order->total_amount)){{$order->total_amount}}@endif</h4>

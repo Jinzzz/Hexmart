@@ -53,4 +53,9 @@ class Trn_OrderItem extends Model
     {
         return $this->belongsTo('App\Models\admin\Mst_ProductVariant', 'product_variant_id', 'product_variant_id');
     }
+    public function cart_Data()
+    {
+        return $this->belongsTo('App\Models\admin\Trn_Cart', 'product_variant_id', 'product_variant_id');
+    }
 }
+

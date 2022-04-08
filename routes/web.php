@@ -121,7 +121,9 @@ Route::group(['namespace' => 'customer'], function ()
         Route::get('/Add-Address', 'HomeController@Add_Address')
             ->name('Add-Address'); 
         Route::post('/Account-Update', 'HomeController@Account_Update')
-            ->name('Account-Update');                           
+            ->name('Account-Update');
+        Route::get('/Invoice/{id}', 'OrderController@Invoice')
+            ->name('Invoice');                               
     });
 
 });
