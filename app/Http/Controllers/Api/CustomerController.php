@@ -403,15 +403,16 @@ class CustomerController extends Controller
                     ],
                     [
                         'customer_name.required'                => 'Customer name required',
-                        'password.required'                  => 'Password required ',
+                        'password.required'                     => 'Password required ',
 
                     ]
                 );
 
                 if (!$validator->fails()) {
                     $customer = Mst_Customer::find($request->customer_id);
-                    $customer->customer_name            = $request->customer_name;
-                    $customer->customer_email   = $request->customer_email;
+                    $customer->customer_name    = $request->customer_name;
+                    $customer->customer_email   = $customer->customer_email;
+                    $customer->customer_mobile   = $customer->customer_mobile;
                     $customer->place   = $request->place;
 
                     $customer->customer_gender   = $request->customer_gender;

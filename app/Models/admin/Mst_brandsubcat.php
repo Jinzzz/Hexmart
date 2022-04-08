@@ -17,6 +17,6 @@ class Mst_Brandsubcat extends Model
         'brand_id',
         'item_category_id',
         'item_sub_category_id',
-        'iltsc_id'
+        'iltsc_id',
         ];
 }
