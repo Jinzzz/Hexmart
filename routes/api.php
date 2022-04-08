@@ -36,6 +36,8 @@ Route::post('customer/edit-address', 'Api\CustomerController@editAddress');
 Route::get('customer/remove-address', 'Api\CustomerController@removeAddress');
 Route::get('customer/view-address', 'Api\CustomerController@ViewAddress');
 Route::get('customer/address-list', 'Api\CustomerController@listAddress');
+//customer default address
+Route::get('customer/default-address', 'Api\CustomerController@defaultAddress');
 //forgot and reset password api
 Route::get('customer/forgot-password', 'Api\CustomerController@forgotpassword');
 Route::post('customer/reset-password', 'Api\CustomerController@reset_password');

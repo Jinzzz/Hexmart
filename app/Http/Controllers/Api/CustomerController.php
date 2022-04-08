@@ -54,6 +54,32 @@ class CustomerController extends Controller
         }
     }
 
+    public function defaultAddress(Request $request)
+    {
+        $data = array();
+
+        try {
+            if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
+                $customerAddressData  = Trn_CustomerAddress::where('customer_id', $request->customer_id)->where('is_default', 1)->get();
+                $data['customerDefaultAddressData'] = $customerAddressData;
+                $data['status'] = 1;
+                $data['message'] = "success";
+                return response($data);
+            } else {
+                $data['status'] = 0;
+                $data['message'] = "Customer not found ";
+                return response($data);
+            }
+        } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+        } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+        }
+    }
+
+
 
     public function editAddress(Request $request)
     {
