@@ -11,7 +11,7 @@
                         <h4>Order no. @if(isset($val->order_number)){{$val->order_number}}@endif</h4>
                         <div class="myorderdiv-ft">
                            <ul>
-                              <li><i class="fa fa-calendar-o" aria-hidden="true"></i> <span>5th Apr 2021</span></li>
+                              <li><i class="fa fa-calendar-o" aria-hidden="true"></i> <span>{{ date('j F  Y', strtotime($val->created_at)) }}</span></li>
                               <li> <img src="{{URL::to('/assets/frontAssets/image/delivery-box-size.png')}}" class="img-fluid dlvry-imgmyor" alt=""> <span>Delivery by Sat, 10th Apr</span></li>
                            </ul>
                         </div>

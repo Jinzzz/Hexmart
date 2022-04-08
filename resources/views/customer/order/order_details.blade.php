@@ -10,7 +10,7 @@
                   <div class="orderdetal-date">
                      <div class="icon-c"> <i class="fa fa-calendar-o" aria-hidden="true"></i> </div>
                      <div class="datediv-sec"> <span>Order Date</span>
-                        <p>5th Apr 2021</p>
+                        <p>{{ date('j F  Y', strtotime($order->created_at)) }}</p>
                      </div>
                   </div>
                   <div class="orderdetal-deliver">

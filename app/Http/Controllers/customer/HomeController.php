@@ -11,6 +11,7 @@ use App\Models\admin\Mst_ItemSubCategory;
 use App\Models\admin\Mst_ItemLevelTwoSubCategory;
 use App\Models\admin\Mst_Product;
 use App\Models\admin\Mst_Customer;
+use App\Models\admin\Trn_OrderItem;
 use Auth;
 use Illuminate\Session\Middleware\StartSession;
 
@@ -200,7 +201,8 @@ class HomeController extends Controller
     {
         $id=Auth::guard('customer')->user()->customer_id;
         $user_details=Mst_Customer::where('customer_id',$id)->first();
-        return view('customer.myaccount.list',compact('user_details'));
+        $order=Trn_OrderItem::where('customer_id',$id)->where('created_at','desc')->first();
+        return view('customer.myaccount.list',compact('user_details','order'));
     }
 
     /*
