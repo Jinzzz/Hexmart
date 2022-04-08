@@ -31,8 +31,21 @@ class WishController extends Controller
     public function wishlist()
     {
         $id=Auth::guard('customer')->user()->customer_id;
-        $wish_list=Trn_WishList::with('productVariantData')->where('customer_id',$id)->get();
-        return view('customer.wishlist',compact('wish_list'));
+        $wish_list=Trn_WishList::with('productVariantData')->where('customer_id',$id)->orderBy('wish_list_id','desc')->get();
+        $data=Trn_WishList::with('productVariantData')->where('customer_id',$id)->get();
+
+        foreach($wish_list as $val)
+        {
+          $pid[]=$val->productVariantData->product_id;
+        }
+        $product=Mst_Product::whereIn('product_id',$pid)->get();
+        foreach($product as $val)
+        {
+          $cat[]=$val->item_category_id;
+        }
+        $category=Mst_ItemCategory::select('category_name')->whereIn('item_category_id',$cat)->first();
+        $cat_val=$category->category_name;
+        return view('customer.wishlist',compact('wish_list','cat_val'));
     }
     /*
     Description : Remove Wish listing

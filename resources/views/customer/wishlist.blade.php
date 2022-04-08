@@ -9,8 +9,8 @@
                   @foreach($wish_list as $value)
                   <div class="col-lg-12 ptre">
                      <div class="maindicproduct">
-                        <div class="primag"> 
-                        <img src="{{asset( (new \App\Helpers\Helper)->productVarBaseImage($value->productVariantData->product_id,$value->productVariantData->product_variant_id))}}" class="img-fluid">  </div>
+                        <div class="primag"> <a href="{{url('/productdetail').'/'.$cat_val.'/'.$value->productVariantData->variant_name}}" target="_blank">
+                        <img src="{{asset( (new \App\Helpers\Helper)->productVarBaseImage($value->productVariantData->product_id,$value->productVariantData->product_variant_id))}}" class="img-fluid"></a>  </div>
                         <div class="prdetails">
                            <div class="wishlist-prize">
                               <h3>{{$value->productVariantData->variant_name}}</h3>

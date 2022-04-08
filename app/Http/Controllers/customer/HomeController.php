@@ -14,7 +14,7 @@ use App\Models\admin\Mst_Customer;
 use App\Models\admin\Trn_OrderItem;
 use Auth;
 use Illuminate\Session\Middleware\StartSession;
-
+use Hash;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -248,9 +248,22 @@ class HomeController extends Controller
      public function Account_Update(Request $request)
     {
         $customer = Mst_Customer::find($request->id);
+
+        if($request->password=="")
+        {
+            $password=$customer->password;        
+        }
+        else
+        {
+          $password=Hash::make($request->password);
+        }
+
+
         $customer->customer_name = $request->name;
         $customer->customer_mobile = $request->mobile;
         $customer->customer_email = $request->email;
+        $customer->password = $password;
+
         $customer->update();
         return redirect()->route('My-Account');
     }

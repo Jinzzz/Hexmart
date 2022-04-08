@@ -13,6 +13,9 @@
                      <input type="tel" pattern="[789][0-9]{9}" title="Phone number with 7-9 and remaing 9 digit with 0-9" name="mobile" placeholder="Phone Number" required autocomplete="off" value="{{$user_details->customer_mobile}}"> </div>
                   <div class="col-lg-12">
                      <input type="email" name="email" placeholder="Email id" required autocomplete="off" value="{{$user_details->customer_email}}"> </div>
+                  <div class="col-lg-12">
+                     <input type="password" name="password" placeholder="Password" autocomplete="off" > </div>
+                       
                </div>
             
             <div class="btnsupdatecamcel">
