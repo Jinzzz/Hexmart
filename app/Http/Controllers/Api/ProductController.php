@@ -688,30 +688,27 @@ class ProductController extends Controller
     
     */
     public function filter(Request $request)
-    { 
+    {
         $data = array();
 
         try {
-               if($request->item_category_id!='')
-               { 
-                  
-                $details_val=Mst_Brandsubcat::where('item_category_id',$request->item_category_id)->get();
+            if ($request->item_category_id != '') {
+
+                $details_val = Mst_Brandsubcat::where('item_category_id', $request->item_category_id)->get();
                 foreach ($details_val as $row) {
-                $details = Helper::getBrandId($row->brand_id);
-                }
-                 
-                $attr_val=Mst_Attributecategory::where('item_category_id',$request->item_category_id)->get();
-                foreach ($attr_val as $row) {
-                $row->value = Helper::getAttributeId($row->attribute_group_id);
-                }
-                foreach ($row->value as $row) {
-                $row->attr_details= Helper::getValuesByGroupattributeId($row->attribute_group_id);
+                    $details = Helper::getBrandId($row->brand_id);
                 }
 
-               }
-               else{
-                $details  = Mst_Brand::select('mst__brands.brand_id','mst__brands.brand_name','mst__brands.brand_icon','mst__brands.is_active')->leftjoin('mst_brandsubcat_table','mst_brandsubcat_table.brand_id','=','mst__brands.brand_id')
-                ->where('mst__brands.is_active', 1)->orderBy('mst__brands.brand_name', 'ASC')->get();
+                $attr_val = Mst_Attributecategory::where('item_category_id', $request->item_category_id)->get();
+                foreach ($attr_val as $row) {
+                    $row->value = Helper::getAttributeId($row->attribute_group_id);
+                }
+                foreach ($row->value as $row) {
+                    $row->attr_details = Helper::getValuesByGroupattributeId($row->attribute_group_id);
+                }
+            } else {
+                $details  = Mst_Brand::select('mst__brands.brand_id', 'mst__brands.brand_name', 'mst__brands.brand_icon', 'mst__brands.is_active')->leftjoin('mst_brandsubcat_table', 'mst_brandsubcat_table.brand_id', '=', 'mst__brands.brand_id')
+                    ->where('mst__brands.is_active', 1)->orderBy('mst__brands.brand_name', 'ASC')->get();
 
                 foreach ($details as $c) {
                     if (isset($c->brand_icon)) {
@@ -720,55 +717,49 @@ class ProductController extends Controller
                         $c->brand_icon = Helper::brandIcon();
                     }
                 }
-                 $attr_val  = Mst_AttributeGroup::select('mst__attribute_groups.attribute_group_id','mst__attribute_groups.attribute_group','mst__attribute_groups.is_active')->leftjoin('mst_attributesubcat_table','mst_attributesubcat_table.attribute_group_id','=','mst__attribute_groups.attribute_group_id')->get();
+                $attr_val  = Mst_AttributeGroup::select('mst__attribute_groups.attribute_group_id', 'mst__attribute_groups.attribute_group', 'mst__attribute_groups.is_active')->leftjoin('mst_attributesubcat_table', 'mst_attributesubcat_table.attribute_group_id', '=', 'mst__attribute_groups.attribute_group_id')->get();
 
 
-               foreach ($attr_val as $row) {
-                $row->attributeValues = Helper::getValuesByGroupId($row->attribute_group_id);
-               }
+                foreach ($attr_val as $row) {
+                    $row->attributeValues = Helper::getValuesByGroupId($row->attribute_group_id);
+                }
+            }
+            $data['brand_details'] = $details;
+            $data['attribute_details'] = $attr_val;
 
-               }  
-               $data['brand_details'] = $details;
-               $data['attribute_details'] = $attr_val;
 
 
-   
-               $brandDetails  = Mst_Brand::select('brand_id','brand_name','brand_icon','is_active')
+            $brandDetails  = Mst_Brand::select('brand_id', 'brand_name', 'brand_icon', 'is_active')
                 ->where('is_active', 1)->orderBy('brand_name', 'ASC')->get();
 
-                foreach ($brandDetails as $c) {
-                    if (isset($c->brand_icon)) {
-                        $c->brand_icon = '/assets/uploads/brand_icon/' . $c->brand_icon;
-                    } else {
-                        $c->brand_icon = Helper::brandIcon();
-                    }
+            foreach ($brandDetails as $c) {
+                if (isset($c->brand_icon)) {
+                    $c->brand_icon = '/assets/uploads/brand_icon/' . $c->brand_icon;
+                } else {
+                    $c->brand_icon = Helper::brandIcon();
                 }
-           
+            }
+
             $data['brandDetails'] = $brandDetails;
-            
+
             $attribute_groups = Mst_AttributeGroup::orderBy('attribute_group_id', 'DESC')->get();
-            
+
             foreach ($attribute_groups as $row) {
                 $row->attributeValues = Helper::getValuesByGroupId($row->attribute_group_id);
             }
-            
+
             $data['attributeGroups'] = $attribute_groups;
 
             $data['status'] = 1;
             $data['message'] = "success";
             return response($data);
-
-         } catch (\Exception $e) {
+        } catch (\Exception $e) {
             $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);
         } catch (\Throwable $e) {
             $response = ['status' => 0, 'message' => $e->getMessage()];
 
             return response($response);
-        }   
-
-
-
+        }
     }
-
 }
