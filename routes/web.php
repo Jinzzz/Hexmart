@@ -73,7 +73,9 @@ Route::group(['namespace' => 'customer'], function ()
     Route::get('/Remove_wishlist/{id}', 'WishController@Remove_wishlist')
         ->name('Remove_wishlist'); 
     Route::get('/Order-Confirm', 'OrderController@order_confirm')
-        ->name('order-confirm');           
+        ->name('order-confirm'); 
+    Route::get('/Order-Cancel/{id}', 'OrderController@order_cancel')
+        ->name('Order-Cancel');               
                      
 
    //customer dashboard

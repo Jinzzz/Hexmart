@@ -14,6 +14,7 @@ use App\Models\admin\Trn_WishList;
 use App\Models\admin\Mst_Customer;
 use App\Models\CustomerPhone;
 use App\Models\admin\Trn_OrderItem;
+use App\Models\admin\Trn_Order;
 use Auth;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Http\Request;
@@ -64,6 +65,22 @@ class OrderController extends Controller
        $name=Auth::guard('customer')->user()->customer_name;
        $order=Trn_OrderItem::select('order_number')->where('customer_id',$id)->orderBy('order_item_id','desc')->first();
        return view('customer.order.order_confirmdetails',compact('order','name'));
+
+    }
+
+
+    /*
+    Description : order Cancel-Confirm details
+    Date        : 6/4/2022
+    
+    */
+
+    public function order_cancel($id)
+    {
+       $orderdel=Trn_OrderItem::select('order_id')->where('order_item_id',$id)->first();
+       Trn_OrderItem::where('order_id',$orderdel->order_id)->delete();
+       $del=Trn_Order::where('order_id',$orderdel->order_id)->delete();
+       return redirect()->route('My-Orders');
 
     }
 

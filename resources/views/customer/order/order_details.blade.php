@@ -22,7 +22,7 @@
                </div>
             </div>
             <div class="orderdetal-div2">
-               <div class="order-content"> <span><a href="">Cancel</a></span> <span><a href="">Need help?</a></span> </div>
+               <div class="order-content"> <span><a href="{{url('/Order-Cancel').'/'.$order->order_item_id}}">Cancel</a></span> <span><a href="">Need help?</a></span> </div>
             </div>
          </div>
          <!--items-->
