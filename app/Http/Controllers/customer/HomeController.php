@@ -248,7 +248,6 @@ class HomeController extends Controller
      public function Account_Update(Request $request)
     {
         $customer = Mst_Customer::find($request->id);
-
         if($request->password=="")
         {
             $password=$customer->password;        
@@ -257,8 +256,6 @@ class HomeController extends Controller
         {
           $password=Hash::make($request->password);
         }
-
-
         $customer->customer_name = $request->name;
         $customer->customer_mobile = $request->mobile;
         $customer->customer_email = $request->email;
