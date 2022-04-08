@@ -94,8 +94,8 @@ class OrderController extends Controller
     public function Invoice($id)
     {
        $cust_id=Auth::guard('customer')->user()->customer_id;
-       $invoice=Trn_OrderItem::with('productVariantData','customerData')->where('order_item_id',$id)->where('customer_id',$cust_id)->first();
-       $pdf = PDF::loadView('customer.invoice.pdf',$invoice);
+       $invoice=Trn_OrderItem::with('productVariantData','customerData','orderData')->where('order_item_id',$id)->where('customer_id',$cust_id)->first();
+       $pdf = PDF::loadView('customer.invoice.pdf',compact('invoice'));
        return $pdf->download('Invoice.pdf');
 
     }
