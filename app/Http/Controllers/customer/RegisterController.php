@@ -11,6 +11,8 @@ use App\Models\admin\Mst_ItemSubCategory;
 use App\Models\admin\Mst_ItemLevelTwoSubCategory;
 use App\Models\admin\Mst_Product;
 use App\Models\admin\Mst_Customer;
+use App\Models\admin\Trn_CustomerAddress;
+
 use DB;
 use Auth;
 use Hash;
@@ -66,6 +68,20 @@ class RegisterController extends Controller
             'road' => $request->road,
             'password' => Hash::make($request->password),
         ]);
+
+        $user_address = Trn_CustomerAddress::create([
+            'customer_id' => $user->customer_id,
+            'name' => $user->customer_name,
+            'phone' => $user->customer_mobile,
+            'alternative_phone' => $user->pin,
+            'pincode' => $user->state,
+            'state' => $user->city,
+            'city' => $user->place,
+            'house' => $user->road,
+            'street' => $user->road,
+            'is_default'=>1,
+        ]);
+
 
         event(new Registered($user));
 
