@@ -8,9 +8,9 @@
                   <div class="col-lg-6">
                      <input type="text" placeholder="Full Name" name="uname" required=""> </div>
                   <div class="col-lg-6">
-                     <input type="tel" placeholder="Phone number" name="phonenumber" required=""> 
-                    <!--  <a href="" class="addnumber"><span><i class="fa fa-plus" aria-hidden="true"></i> Add Alternate Phone Number</span></a> -->
-                      </div>
+                     <input type="tel" placeholder="Phone number" name="phonenumber" required="">
+                      <!-- <a href="" class="addnumber"><span><i class="fa fa-plus" aria-hidden="true"></i> Add Alternate Phone Number</span></a> -->
+                       </div>
                   <div class="col-lg-6 col-6">
                      <input type="text" placeholder="Pincode" name="uname" required=""> </div>
                   <div class="col-lg-6 col-6">

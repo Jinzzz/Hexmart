@@ -119,11 +119,19 @@ Route::group(['namespace' => 'customer'], function ()
         Route::get('/My-Account-Address', 'HomeController@My_Account_address')
             ->name('My_Account_address');
         Route::get('/Add-Address', 'HomeController@Add_Address')
-            ->name('Add-Address'); 
+            ->name('Add-Address');
+        Route::get('/Add-Address-Details', 'HomeController@Add_Addressdetails')
+            ->name('Add-Address-Details');     
+        Route::get('/Edit-Address', 'HomeController@Edit_Address')
+            ->name('Edit-Address');
+        Route::post('/Store-Address', 'HomeController@Store_Address')
+            ->name('Store-Address');             
         Route::post('/Account-Update', 'HomeController@Account_Update')
             ->name('Account-Update');
         Route::get('/Invoice/{id}', 'OrderController@Invoice')
-            ->name('Invoice');                               
+            ->name('Invoice'); 
+        Route::get('/Update-Address/{id}', 'HomeController@Update_Address')
+            ->name('Update-Address');                                    
     });
 
 });

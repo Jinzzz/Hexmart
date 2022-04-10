@@ -12,6 +12,8 @@ use App\Models\admin\Mst_ItemLevelTwoSubCategory;
 use App\Models\admin\Mst_Product;
 use App\Models\admin\Mst_Customer;
 use App\Models\admin\Trn_OrderItem;
+use App\Models\admin\Trn_CustomerAddress;
+
 use Auth;
 use Illuminate\Session\Middleware\StartSession;
 use Hash;
@@ -225,7 +227,81 @@ class HomeController extends Controller
     */
      public function My_Account_address()
     {
-        return view('customer.myaccount.address');
+        $id=Auth::guard('customer')->user()->customer_id;
+        $customer=Mst_Customer::where('customer_id',$id)->first();
+        $address=Trn_CustomerAddress::where('customer_id',$customer->customer_id)->where('is_default',1)->first();
+        $secondaryaddress=Trn_CustomerAddress::where('customer_id',$customer->customer_id)->where('is_default',0)->get(); 
+        return view('customer.myaccount.address',compact('customer','address','secondaryaddress'));
+    }
+
+    /*
+    Description : Secondary-Address Details
+    Date        : 5/4/2022
+    
+    */
+     public function Add_Addressdetails()
+    {
+        
+        return view('customer.myaccount.add-address');
+    }
+
+
+    /*
+    Description : Secondary-Address-Update Details
+    Date        : 5/4/2022
+    
+    */
+     public function Update_Address($id)
+    {
+        
+        dd($id);
+    }
+
+
+    /*
+    Description : Secondary-Address-update Details
+    Date        : 5/4/2022
+    
+    */
+     public function Edit_Address()
+    {
+        
+        return view('customer.myaccount.edit-address');
+    }
+
+    /*
+    Description : Secondary-Address-create Details
+    Date        : 5/4/2022
+    
+    */
+     public function Store_Address(Request $request)
+    {
+        // dd($request);
+        $id=Auth::guard('customer')->user()->customer_id;
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'customer_mobile'=>'required|min:10|numeric|unique:mst__customers',
+            'pin'=>'required|numeric',
+            'state'=>'required',
+            'city'=>'required',
+            'place'=>'required',
+            'road'=>'required',
+        ]);
+
+         $user = Trn_CustomerAddress::create([
+            'customer_id'=>$id,
+            'name' => $request->name,
+            'phone' => $request->customer_mobile,
+            'pincode' => $request->pin,
+            'state' => $request->state,
+            'city' => $request->city,
+            'house' => $request->place,
+            'street' => $request->road,
+            'is_default' => 0,
+        ]);
+
+         return redirect()->route('My_Account_address');
+
     }
 
 
