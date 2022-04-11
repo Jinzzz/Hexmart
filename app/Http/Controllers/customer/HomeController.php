@@ -276,7 +276,6 @@ class HomeController extends Controller
     */
      public function Store_Address(Request $request)
     {
-        // dd($request);
         $id=Auth::guard('customer')->user()->customer_id;
         $request->validate([
             'name' => 'required|string|max:255',
