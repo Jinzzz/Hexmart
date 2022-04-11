@@ -454,12 +454,18 @@ class CustomerController extends Controller
                     $customer->customer_email   = $customer->customer_email;
                     $customer->customer_mobile   = $customer->customer_mobile;
                     $customer->place   = $request->place;
-
+                    $customer->altcustomer_mobile   = $customer->altcustomer_mobile;
+                    $customer->pin   = $customer->pin;
+                    $customer->state   = $customer->state;
+                    $customer->city   = $customer->city;
+                    $customer->road   = $customer->road;
                     $customer->customer_gender   = $request->customer_gender;
                     $customer->customer_dob   = $request->customer_dob;
 
                     $customer->longitude   = $request->longitude;
                     $customer->latitude   = $request->latitude;
+                    $customer->otp   = $customer->otp;
+                    $customer->otp_genarated_time   = $customer->otp_genarated_time;
                     if (isset($request->password))
                         $customer->password              = Hash::make($request->password);
                     $customer->save();
@@ -808,137 +814,167 @@ class CustomerController extends Controller
             return response($response);
         }
     }
-/*
-   Description : Forgot-password 
-   Date        : 4/4/2022
 
-*/
+   /*
+   Description : Customer Verify Mobile
+   Date        : 11/4/2022
 
-    public function forgotpassword(Request $request)
+   */
+      public function CustverifyMobile(Request $request,Trn_CustomerOtpVerify $otp_verify){
+        $data = array();
+          try{
+  
+              $customer_mobile_number=$request->customer_mobile_number;
+              $mobCheck =Mst_Customer::where("customer_mobile",'=',$customer_mobile_number)->latest()->first();
+         
+           if($mobCheck)
+          {
+  
+              $customer_id = $mobCheck->customer_id;
+              $customer_mobile_number = $mobCheck->customer_mobile;
+  
+              $validator = Validator::make($request->all(), [       
+                  'customer_mobile_number' => 'required'
+              ],
+              [     
+                  'customer_mobile_number.required' => "Mobile number is required",
+                  
+  
+              ]);
+  
+              if(!$validator->fails())
+              {
+                   $customer_otp =  rand ( 1000 , 9999 );
+                   $customer_otp_expirytime = Carbon::now()->addMinute(10);
+                  
+                  $otp_verify->customer_id                 = $customer_id;
+                  $otp_verify->otp_expirytime     = $customer_otp_expirytime;
+                  $otp_verify->otp                = $customer_otp;
+                  $otp_verify->save();
+  
+                  $data['status'] = 1;
+                  $data['customer_id'] = $customer_id;
+                  $data['customer_mobile_number'] = $customer_mobile_number;
+                  $data['customer_otp'] = $customer_otp;
+                  $data['message'] = "Mobile Verification Success. OTP Sent to registered mobile number";
+  
+              }else{
+                  
+                  $data['status'] = 0;
+                  $data['errors'] = $validator->errors();
+                  $data['message'] = "Verification Failed";
+              }
+  
+          }else{
+              $data['status'] = 0;
+              $data['message'] = "Customer Does not exist";
+          }
+          return response($data);
+         
+            }catch (\Exception $e) {
+             $response = ['status' => '0', 'message' => $e->getMessage()];
+             return response($response);
+          }catch (\Throwable $e) {
+              $response = ['status' => '0','message' => $e->getMessage()];
+              return response($response);
+          }
+  
+      }
+   /*
+   Description : Customer Verify OTP
+   Date        : 11/4/2022
+
+   */
+
+      public function CustverifyOTP(Request $request,Trn_CustomerOtpVerify $otp_verify)
     {
         $data = array();
-        try {
-                $validator = Validator::make($request->all(),
-                [
+        try{
+            $otp = $request->customer_otp;
+            $mobNumber=$request->customer_mobile_number;
 
-                'customer_email' => 'required|email',
+            $mobCheck =Mst_Customer::where("customer_mobile",'=',$mobNumber)->latest()->first();
+            if($mobCheck)
+            {
+                $customer_id = $mobCheck->customer_id;
+                $customer_mobile_number = $mobCheck->customer_mobile;
+                $otpCheck = Trn_CustomerOtpVerify::where('customer_id','=',$customer_id)->where('otp','=',$otp)->latest()->first();
 
-                ],
-                [
-                'customer_email.required'        => 'Customer Email required',
-                ]
-                );
-
-                if (!$validator->fails()) {
-                $email = Mst_Customer::where('customer_email', '=', $request->customer_email)->first();
-
-                if ($email!='') {
-                   
-                    $data['status'] = 1;
-                    $data['message'] = "Send Reset Password link through email.";
-                    return response($data);
-                } else {
+            if($otpCheck)
+                {
+                    $customer_otp_expirytime = $otpCheck->otp_expirytime;
+                    $current_time = Carbon::now()->toDateTimeString();
+                    $customer_new_otp =  $otpCheck->otp;
+                    if($current_time < $customer_otp_expirytime)
+                            {
+                                
+                               $data['status'] = 1;
+                               $data['customer_id'] = $customer_id;
+                                $data['customer_mobile_number'] = $customer_mobile_number;
+                                $data['message'] = "OTP verification success. Enter a new password.";
+                      
+                            } else{
+                                $data['status'] = 2;
+                                $data['message'] = "OTP expired.click on resend OTP";   
+                            }  
+                }else{
                     $data['status'] = 0;
-                    $data['message'] = "No Matching Records Fount.";
-                    return response($data);
+                    $data['message'] = "Invalid OTP Entered";
                 }
-                } 
-                else {
-                    $data['status'] = 0;
-                    $data['errors'] = $validator->errors();
-                    return response($data);
-                }                          
-            } catch (\Exception $e) {
-            $response = ['status' => 0, 'message' => $e->getMessage()];
+            }else{
+            $data['status'] = 0;
+            $data['message'] = "Customer Does not exist";
+        }
+
+            return response($data);
+        
+        }catch (\Exception $e) {
+            $response = ['status' => '0', 'message' => $e->getMessage()];
             return response($response);
-            } catch (\Throwable $e) {
-            $response = ['status' => 0, 'message' => $e->getMessage()];
+        }catch (\Throwable $e) {
+            $response = ['status' => '0','message' => $e->getMessage()];
             return response($response);
-            }
-
-
-
-    } 
-
-/*
-   Description : Reset Password
-   Date        : 4/4/2022
-
-*/
-
-    public function reset_password(Request $request)
-    {
-        $data = array();
-        try {
-                $validator = Validator::make($request->all(),
-                [
-                'customer_id'      => 'required',
-                'customer_email'   => 'required|email',
-                'password'         => 'required|min:6|required_with:confirm_password|same:confirm_password',
-                'confirm_password' => 'required|min:6',
-
-                ],
-                [
-                'customer_id.required'     => 'Customer ID required',
-
-                'customer_email.required'  => 'Customer Email required',
-                'password.required'        => 'Password required',
-                'confirm_password.required'=> 'Confirm Password required',
-
-                ]
-                );
-
-                if (!$validator->fails()) {
-                $cust_id = Mst_Customer::where('customer_id', '=', $request->customer_id)->where('customer_email', '=', $request->customer_email)->first();
-
-                if ($cust_id!='') {
-                    $cust_id->customer_email = $request->customer_email;
-                    $cust_id->password = Hash::make($request->password);
-                    $cust_id->update();
-                    $data['status'] = 1;
-                    $data['message'] = "successfully Updated the password.";
-                    return response($data);
-                } else {
-                    $data['status'] = 0;
-                    $data['message'] = "No Matching Records Fount.";
-                    return response($data);
-                }
-                } 
-                else {
-                    $data['status'] = 0;
-                    $data['errors'] = $validator->errors();
-                    return response($data);
-                }                          
-            } catch (\Exception $e) {
-            $response = ['status' => 0, 'message' => $e->getMessage()];
-            return response($response);
-            } catch (\Throwable $e) {
-            $response = ['status' => 0, 'message' => $e->getMessage()];
-            return response($response);
-            }
-
+        }   
     }
 
 
-/*
-   Description : Reset Password
-   Date        : 4/4/2022
-
-*/
-
-    public function send_mail(Request $request)
+    public function CustresetPassword(Request $request)
     {
-        $data = array();
-        try {
+        $data=array();
+        try
+        {
+            $customer_id = $request->customer_id;
+            $mobNumber=$request->customer_mobile_number;
+            $mobCheck =Mst_Customer::where("customer_mobile",'=',$mobNumber)->where('customer_id','=',$customer_id)->first();
+            if($mobCheck)
+                {
+                    $validator = Validator::make($request->all(), [      
+                        'password'=>'required|string|min:6|confirmed'
+                    ]);
+                    if(!$validator->fails())
+                        {
+                            $encPass = Hash::make($request->input('password'));
+                            Mst_Customer::where('customer_id', $customer_id)->where("customer_mobile",'=',$mobNumber)->update(['password' => $encPass]);
+                            $data['status'] ="1";
+                            $data['messsage'] = "Password Changed successfully";
+                        }else{
+                            $data['status'] = "0";
+                            $data['errors'] = $validator->errors(); 
+                        }   
+                }else{
+                    $data['status'] = 0;
+                    $data['message'] = "Customer Does not exist";
+                }
+                return response($data);
+        }catch (\Exception $e) {
+                $response = ['status' => '0', 'message' => $e->getMessage()];
+                return response($response);
+            }catch (\Throwable $e) {
+                $response = ['status' => '0','message' => $e->getMessage()];
+                return response($response);
+            } 
+    } 
 
-         }catch (\Exception $e) {
-            $response = ['status' => 0, 'message' => $e->getMessage()];
-            return response($response);
-            } catch (\Throwable $e) {
-            $response = ['status' => 0, 'message' => $e->getMessage()];
-            return response($response);
-            }
-     }       
 
 
    /*

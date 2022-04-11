@@ -39,9 +39,9 @@ Route::get('customer/address-list', 'Api\CustomerController@listAddress');
 //customer default address
 Route::get('customer/default-address', 'Api\CustomerController@defaultAddress');
 //forgot and reset password api
-Route::get('customer/forgot-password', 'Api\CustomerController@forgotpassword');
-Route::post('customer/reset-password', 'Api\CustomerController@reset_password');
-Route::post('customer/send-mail', 'Api\CustomerController@send_mail');
+Route::get('customer/forgot-password/verify_mobile', 'Api\CustomerController@CustverifyMobile');
+Route::get('customer/forgot-password/verify_otp', 'Api\CustomerController@CustverifyOTP');
+Route::post('customer/forgot-password/reset-password', 'Api\CustomerController@CustresetPassword');
 
 //product pageination filter api
 Route::get('customer/prodcut-list', 'Api\CustomerController@productfilter_list');
