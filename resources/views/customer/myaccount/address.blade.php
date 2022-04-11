@@ -14,7 +14,7 @@
                <div class="dropdown editdrop">
                   <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"> <a href=""><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a></button>
                   <ul class="dropdown-menu editdrp-menu">
-                     <li><a href="{{url('/customer/Edit-Address')}}">Edit</a></li>
+                     <li><a href="{{url('/customer/Edit-Address').'/'.$address->customer_address_id}}">Edit</a></li>
                   </ul>
                </div>
             </div>

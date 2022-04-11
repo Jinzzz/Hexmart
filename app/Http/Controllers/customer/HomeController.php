@@ -220,6 +220,53 @@ class HomeController extends Controller
     }
 
 
+
+    /*
+    Description : My-Account-Address Upadte-datas Details
+    Date        : 5/4/2022
+    
+    */
+     public function Update_DefaultAddress(Request $request,$id)
+    {
+        $addr = Trn_customerAddress::find($id);
+        $addr->name = $request->name;
+        $addr->phone = $request->customer_mobile;
+        $addr->state = $request->state;
+        $addr->city = $request->city;
+        $addr->street = $request->road;
+        $addr->house = $request->place;
+        $addr->pincode = $request->pin;
+        $addr->is_active = 1;
+        $addr->is_default = 1;
+        $addr->update();
+
+        return redirect()->route('My_Account_address');
+    }
+
+
+    /*
+    Description : My-Account-Default-Address Upadte-datas Details
+    Date        : 5/4/2022
+    
+    */
+     public function UpdatedefaultAddress(Request $request,$id)
+    {
+        // dd($request);
+        $addr = Trn_customerAddress::find($id);
+        $addr->name = $request->name;
+        $addr->phone = $request->customer_mobile;
+        $addr->state = $request->state;
+        $addr->city = $request->city;
+        $addr->street = $request->road;
+        $addr->house = $request->place;
+        $addr->pincode = $request->pin;
+        $addr->is_active = 1;
+        $addr->is_default = 0;
+        $addr->update();
+        return redirect()->route('My_Account_address');
+    }
+
+
     /*
     Description : My-Account-Address Details
     Date        : 5/4/2022
@@ -254,7 +301,8 @@ class HomeController extends Controller
      public function Update_Address($id)
     {
         
-        dd($id);
+        $address=Trn_CustomerAddress::where('customer_address_id',$id)->first();
+        return view('customer.myaccount.Defaultedit-address',compact('address'));
     }
 
 
@@ -263,10 +311,10 @@ class HomeController extends Controller
     Date        : 5/4/2022
     
     */
-     public function Edit_Address()
+     public function Edit_Address($id)
     {
-        
-        return view('customer.myaccount.edit-address');
+        $address=Trn_CustomerAddress::where('customer_address_id',$id)->first();
+        return view('customer.myaccount.edit-address',compact('address'));
     }
 
     /*

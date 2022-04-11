@@ -3,7 +3,7 @@
    <div class="container-fluid">
       <div class="addadress-page">
          <div class="checkout-frm">
-             <form method="POST" action="{{ url('/customer/Update-DefaultAddress').'/'.$address->customer_address_id}}">
+            <form method="POST" action="{{ url('/customer/Update-defaultAddress').'/'.$address->customer_address_id }}">
               <input type="hidden" name="id" value="{{$address->customer_address_id}}">
                         @csrf
                         @if(session('status'))

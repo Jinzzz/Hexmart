@@ -122,7 +122,7 @@ Route::group(['namespace' => 'customer'], function ()
             ->name('Add-Address');
         Route::get('/Add-Address-Details', 'HomeController@Add_Addressdetails')
             ->name('Add-Address-Details');     
-        Route::get('/Edit-Address', 'HomeController@Edit_Address')
+        Route::get('/Edit-Address/{id}', 'HomeController@Edit_Address')
             ->name('Edit-Address');
         Route::post('/Store-Address', 'HomeController@Store_Address')
             ->name('Store-Address');             
@@ -131,7 +131,11 @@ Route::group(['namespace' => 'customer'], function ()
         Route::get('/Invoice/{id}', 'OrderController@Invoice')
             ->name('Invoice'); 
         Route::get('/Update-Address/{id}', 'HomeController@Update_Address')
-            ->name('Update-Address');                                    
+            ->name('Update-Address'); 
+        Route::post('/Update-DefaultAddress/{id}', 'HomeController@Update_DefaultAddress')
+            ->name('Update-DefaultAddress'); 
+        Route::post('/Update-defaultAddress/{id}', 'HomeController@UpdatedefaultAddress')
+            ->name('Update-defaultAddress');                                             
     });
 
 });
