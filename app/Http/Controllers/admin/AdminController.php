@@ -444,7 +444,7 @@ class AdminController extends Controller
         $orderId = $request->order_id;
         $orderData = Trn_Order::where('order_id', $orderId)
             ->select('order_id', 'order_status_id', 'order_number')->first();
-        $orderData->status = $orderData->orderStatusData->status;
+        // $orderData->status = $orderData->orderStatusData->status;
         return json_encode($orderData);
     }
 

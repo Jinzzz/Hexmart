@@ -48,7 +48,8 @@ class OrderController extends Controller
     public function Order_Details($order_id)
     {
        $id=Auth::guard('customer')->user()->customer_id;
-       $order=Trn_OrderItem::with('productVariantData')->where('customer_id',$id)->where('order_item_id',$order_id)->first();
+       $order=Trn_OrderItem::with('productVariantData','orderData')->where('customer_id',$id)->where('order_item_id',$order_id)->first();
+       // dd($order);
        return view('customer.order.order_details',compact('order'));
 
     }

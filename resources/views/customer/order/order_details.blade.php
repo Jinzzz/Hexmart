@@ -26,6 +26,51 @@
                <div class="order-content"> <span><a href="{{url('/Order-Cancel').'/'.$order->order_item_id}}">Cancel</a></span> <span><a href="">Need help?</a></span> </div>
             </div>
          </div>
+         <div class="myoreder-details">
+               <div class="order-content"> <span style="font-weight:bold">Order Status : 
+                  <?php
+                   if($order->orderData->order_status_id==1)
+                   {
+                     echo "Pending";
+                   }
+                   elseif($order->orderData->order_status_id==2)
+                   {
+                      echo "Cancelled";
+                   }
+                   elseif($order->orderData->order_status_id==3)
+                   {
+                      echo "Confirmed";
+                   }
+                   elseif($order->orderData->order_status_id==4)
+                   {
+                     echo "Picking Completed";
+                   }
+                   elseif($order->orderData->order_status_id==5)
+                   {
+                     echo "Ready for Delivery";
+                   }
+                   elseif($order->orderData->order_status_id==6)
+                   {
+                     echo "Out for Delivery";
+                   }
+                   elseif($order->orderData->order_status_id==7)
+                   {
+                     echo "Delivered";
+                   }
+                   elseif($order->orderData->order_status_id==8)
+                   {
+                     echo "Return confirmed";
+                   }
+                   elseif($order->orderData->order_status_id==9)
+                   {
+                     echo "Return Completed";
+                   }
+                   else
+                   {
+                     echo "Order Placed";
+                   }
+                  ?></span> </div>
+         </div>
          <!--items-->
          <div class="items-container">
             <div class="itemmain-div">
