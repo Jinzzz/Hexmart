@@ -12,6 +12,7 @@ use App\Models\admin\Mst_Product;
 use App\Models\admin\Trn_Cart;
 use App\Models\admin\Trn_WishList;
 use App\Models\admin\Mst_Customer;
+use App\Models\admin\Trn_CustomerAddress;
 use App\Models\CustomerPhone;
 use Auth;
 use Illuminate\Session\Middleware\StartSession;
@@ -262,7 +263,20 @@ class CartController extends Controller
                 $customer->city = $request->city;
                 $customer->place = $request->place;
                 $customer->road = $request->road;
-                $customer->update();       
+                $customer->update();  
+        $address=Trn_CustomerAddress::where('customer_id',$id)->where('is_default',1)->first();        
+        $address = Trn_CustomerAddress::find($address->customer_address_id);
+                $address->customer_id = $customer->customer_id;
+                $address->name = $request->name;
+                $address->alternative_phone=$request->altcustomer_mobile;
+                $address->phone=$request->customer_mobile;
+                $address->pincode = $request->pin;
+                $address->state = $request->state;
+                $address->city = $request->city;
+                $address->house = $request->place;
+                $address->street = $request->road;
+                $address->is_default = 1;
+                $address->update();             
         return \Redirect::route('Order_Summary', [$request->product_id]);
 
     }
