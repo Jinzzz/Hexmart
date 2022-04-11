@@ -60,11 +60,25 @@ class CustomerController extends Controller
 
         try {
             if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
-                $customerAddressData  = Trn_CustomerAddress::where('customer_id', $request->customer_id)->where('is_default', 1)->get();
-                $data['customerDefaultAddressData'] = $customerAddressData;
+                $customerAddressData  = Trn_CustomerAddress::where('customer_id', $request->customer_id)->get();
+                
+                if($request->default_val!=null)
+                {
+                $customerdefaultAddressData  = Trn_CustomerAddress::where('customer_id', $request->customer_id)->where('is_default',1)->get();
+                $data['customerDefaultAddress'] = $customerdefaultAddressData;
                 $data['status'] = 1;
                 $data['message'] = "success";
                 return response($data);
+                }
+                else
+                {
+             
+                $data['customerAddress'] = $customerAddressData;
+                $data['status'] = 1;
+                $data['message'] = "success";
+                return response($data);
+                }
+
             } else {
                 $data['status'] = 0;
                 $data['message'] = "Customer not found ";
