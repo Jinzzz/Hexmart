@@ -27,7 +27,7 @@
                         </address> </div>
                <div class="add-phn"> <span>+91 {{$customer->customer_mobile}}</span> </div>
                <div class="chng-or-add-addrs ">
-                  <button>Change or Add Address</button>
+                  <button><a href="{{url('/customer/checkoutAdd-Address-Details')}}">Change or Add Address</a></button>
                </div>
             </div>
           </br>

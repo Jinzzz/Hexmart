@@ -294,6 +294,18 @@ class HomeController extends Controller
 
 
     /*
+    Description : Checkout add-Address Details
+    Date        : 5/4/2022
+    
+    */
+     public function checkoutAdd_Addressdetails()
+    {
+        
+        return view('customer.myaccount.checkoutadd-address');
+    }
+
+
+    /*
     Description : Secondary-Address-Update Details
     Date        : 5/4/2022
     
@@ -350,6 +362,42 @@ class HomeController extends Controller
          return redirect()->route('My_Account_address');
 
     }
+
+
+    /*
+    Description : checkout-add-Address-create Details
+    Date        : 12/4/2022
+    
+    */
+     public function checkoutStore_Address(Request $request)
+    {
+        $id=Auth::guard('customer')->user()->customer_id;
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'customer_mobile'=>'required|min:10|numeric|unique:mst__customers',
+            'pin'=>'required|numeric',
+            'state'=>'required',
+            'city'=>'required',
+            'place'=>'required',
+            'road'=>'required',
+        ]);
+
+         $user = Trn_CustomerAddress::create([
+            'customer_id'=>$id,
+            'name' => $request->name,
+            'phone' => $request->customer_mobile,
+            'pincode' => $request->pin,
+            'state' => $request->state,
+            'city' => $request->city,
+            'house' => $request->place,
+            'street' => $request->road,
+            'is_default' => 0,
+        ]);
+
+         return redirect()->back();
+
+    }
+
 
 
     /*

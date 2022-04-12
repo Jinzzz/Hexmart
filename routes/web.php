@@ -123,10 +123,14 @@ Route::group(['namespace' => 'customer'], function ()
             ->name('Add-Address');
         Route::get('/Add-Address-Details', 'HomeController@Add_Addressdetails')
             ->name('Add-Address-Details');
+        Route::get('/checkoutAdd-Address-Details', 'HomeController@checkoutAdd_Addressdetails')
+            ->name('checkoutAdd-Address-Details');    
         Route::get('/Edit-Address/{id}', 'HomeController@Edit_Address')
             ->name('Edit-Address');
         Route::post('/Store-Address', 'HomeController@Store_Address')
             ->name('Store-Address');
+        Route::post('/checkoutStore-Address', 'HomeController@checkoutStore_Address')
+            ->name('checkoutStore-Address');    
         Route::post('/Account-Update', 'HomeController@Account_Update')
             ->name('Account-Update');
         Route::get('/Invoice/{id}', 'OrderController@Invoice')
