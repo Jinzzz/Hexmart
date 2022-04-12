@@ -29,6 +29,7 @@ class CreateTrnOrderItemsTable extends Migration
             $table->tinyInteger('is_offer_item')->default(0);
             $table->tinyInteger('is_store_ticked')->default(0);
             $table->tinyInteger('is_db_ticked')->default(0);
+            $table->text('order_status_id')->nullable();
             $table->timestamps();
 
             $table->foreign('order_id')->references('order_id')->on('trn__orders')->onUpdate('cascade');

@@ -459,6 +459,8 @@ class AdminController extends Controller
         if (Trn_Order::where('order_id', $orderId)->update(['order_status_id' => $orderStatusId])) {
             $orderDatas = Trn_Order::find($orderId);
             $orderDatas->status = $orderDatas->orderStatusData->status;
+            $Trn_Order = Trn_Order::where('order_id',$orderId)->first();
+            $items=Trn_OrderItem::where('order_id', $orderId)->update(['order_status_id' => $orderStatusId]);
             return json_encode($orderDatas);
         } else {
             return false;
