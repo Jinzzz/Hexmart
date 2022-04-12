@@ -8,6 +8,8 @@ use App\Models\admin\Mst_CustomerBanner;
 use App\Models\admin\Mst_ItemCategory;
 use App\Models\admin\Mst_OfferZone;
 use App\Models\admin\Mst_Product;
+use App\Models\admin\Trn_Cart;
+use App\Models\admin\Trn_WishList;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use stdClass;
@@ -40,6 +42,12 @@ class HomePageController extends Controller
                 }
 
                 $data['bannerDetails'] = $bannerDetails;
+                $cust_details=Mst_Customer::where('customer_id',$request->customer_id)->first();
+                $cart_count=Trn_Cart::where('customer_id', $cust_details->customer_id)->count();
+                $wish_count=Trn_WishList::where('customer_id',$cust_details->customer_id)->count();
+                $data['CartCount'] = $cart_count;
+                $data['WishlistCount'] = $wish_count;
+                $data['NotificationCount'] = 0;
 
                 $categoryDetails  = Mst_ItemCategory::select(
                     'item_category_id',
@@ -153,6 +161,9 @@ class HomePageController extends Controller
                 }
 
                 $data['bannerDetails'] = $bannerDetails;
+                $data['CartCount'] = 0;
+                $data['WishlistCount'] = 0;
+                $data['NotificationCount'] = 0;
 
                 $categoryDetails  = Mst_ItemCategory::select(
                     'item_category_id',
