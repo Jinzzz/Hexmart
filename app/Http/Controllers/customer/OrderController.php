@@ -28,13 +28,12 @@ class OrderController extends Controller
     /*
     Description : order details list
     Date        : 6/4/2022
-    
-    */
 
+    */
     public function My_Orders(Request $request)
     {
        $id=Auth::guard('customer')->user()->customer_id;
-       $order=Trn_OrderItem::where('customer_id',$id)->orderBy('order_item_id','desc')->get();
+       $order=Trn_OrderItem::with('orderData')->where('customer_id',$id)->orderBy('order_item_id','desc')->get();
        return view('customer.order.list',compact('order'));
 
     }
@@ -42,7 +41,7 @@ class OrderController extends Controller
     /*
     Description : order details
     Date        : 6/4/2022
-    
+
     */
 
     public function Order_Details($order_id)
@@ -57,7 +56,7 @@ class OrderController extends Controller
     /*
     Description : order confirm details
     Date        : 6/4/2022
-    
+
     */
 
     public function order_confirm()
@@ -73,7 +72,7 @@ class OrderController extends Controller
     /*
     Description : order Cancel-Confirm details
     Date        : 6/4/2022
-    
+
     */
 
     public function order_cancel($id)
@@ -89,7 +88,7 @@ class OrderController extends Controller
     /*
     Description : Invoice-order details
     Date        : 7/4/2022
-    
+
     */
 
     public function Invoice($id)
@@ -101,4 +100,4 @@ class OrderController extends Controller
 
     }
 
-}     	
+}

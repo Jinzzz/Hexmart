@@ -59,12 +59,14 @@ class CustomerController extends Controller
         $data = array();
 
         try {
+            if(isset($request->customer_address_id) && $cusAddr =  Trn_CustomerAddress::find($request->customer_address_id)){
             if (isset($request->customer_id) && Mst_Customer::find($request->customer_id)) {
-                $customerAddressData  = Trn_CustomerAddress::where('customer_id', $request->customer_id)->get();
+                $customerAddressData  = Trn_CustomerAddress::where('customer_id', $request->customer_id)->where('customer_address_id', $request->customer_address_id)->get();
                 
-                if($request->default_val!=null)
+                if($request->customer_address_id!=null)
                 {
-                $customerdefaultAddressData  = Trn_CustomerAddress::where('customer_id', $request->customer_id)->where('is_default',1)->get();
+                $custData  = Trn_CustomerAddress::where('customer_address_id',$request->customer_address_id)->where('customer_id', $request->customer_id)->update(['is_default' => 1]);
+                $customerdefaultAddressData  = Trn_CustomerAddress::where('customer_address_id',$request->customer_address_id)->where('customer_id', $request->customer_id)->get();
                 $data['customerDefaultAddress'] = $customerdefaultAddressData;
                 $data['status'] = 1;
                 $data['message'] = "success";
@@ -84,6 +86,13 @@ class CustomerController extends Controller
                 $data['message'] = "Customer not found ";
                 return response($data);
             }
+        } else {
+                $data['status'] = 0;
+                $data['message'] = "Customer address not found ";
+                return response($data);
+            }
+
+
         } catch (\Exception $e) {
             $response = ['status' => 0, 'message' => $e->getMessage()];
             return response($response);

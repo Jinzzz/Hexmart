@@ -42,7 +42,7 @@ class LoginController extends Controller
     /*
     Description : Customer login page
     Date        : 29/3/2022
-    
+
     */
     public function showLoginForm()
     {
@@ -51,7 +51,7 @@ class LoginController extends Controller
     /*
     Description : customer logged in redirect to home page
     Date        : 29/3/2022
-    
+
     */
     public function usrlogin(Request $request)
     {
@@ -68,7 +68,7 @@ class LoginController extends Controller
     /*
     Description : customer login validation
     Date        : 29/3/2022
-    
+
     */
     protected function validateLogin(Request $request)
     {
@@ -106,9 +106,9 @@ class LoginController extends Controller
         return Auth::guard('customer');
     }
     /*
-    Description : Customer Logout 
+    Description : Customer Logout
     Date        : 29/3/2022
-    
+
     */
     public function logout()
     {
@@ -116,26 +116,44 @@ class LoginController extends Controller
        {
          $customer_id = Auth::guard('customer')->user()->customer_id;
         Auth::guard('customer')->logout();
-        } 
+        }
+       return redirect('/customer/customer-login');
+
+    }
+
+
+
+    /*
+    Description : Customer Logout
+    Date        : 29/3/2022
+
+    */
+    public function logout()
+    {
+       if (Auth::guest('customer')==true)
+       {
+         $customer_id = Auth::guard('customer')->user()->customer_id;
+        Auth::guard('customer')->logout();
+        }
        return redirect('/customer/customer-login');
 
     }
 
     /*
-    Description : Customer Forget-Password Page 
+    Description : Customer Forget-Password Page
     Date        : 1/4/2022
-    
+
     */
     public function forgot_password()
     {
-    
+
        return view('customer.login.forgotpassword');
 
     }
     /*
-    Description : Customer Forget-Password Store 
+    Description : Customer Forget-Password Store
     Date        : 1/4/2022
-    
+
     */
 
     public function forgotpassword_store(Request $request)
@@ -149,7 +167,7 @@ class LoginController extends Controller
         {
             $data = array('email'=>$request->customer_email);
             Mail::send('customer.login.forgot_email', $data, function($message)
-            {   
+            {
             $message->from('bincyhexeam@gmail.com');
             $message->to('bincyhexeam@gmail.com', 'bincy')->subject('Reset Password');
             });
@@ -159,13 +177,13 @@ class LoginController extends Controller
         {
             return redirect()->back()->withInput()->with('error','no  matching records.');
         }
-        
+
 
     }
     /*
-    Description : Customer Reset-Password Page 
+    Description : Customer Reset-Password Page
     Date        : 1/4/2022
-    
+
     */
 
     public function Reset_Passwordlink($email)
@@ -176,9 +194,9 @@ class LoginController extends Controller
     }
 
     /*
-    Description : Customer Reset Password stored for mst_customer table 
+    Description : Customer Reset Password stored for mst_customer table
     Date        : 1/4/2022
-    
+
     */
 
      public function Password_Reset(Request $request)
