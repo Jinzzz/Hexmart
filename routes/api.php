@@ -47,6 +47,7 @@ Route::post('customer/forgot-password/reset-password', 'Api\CustomerController@C
 Route::get('customer/prodcut-list', 'Api\CustomerController@productfilter_list');
 Route::get('customer/subcatprodcut-list', 'Api\CustomerController@subcatproductfilter_list');
 Route::get('customer/mainsubprodcut-list', 'Api\CustomerController@mainsubproductfilter_list');
+Route::get('customer/prodcut-list-filter', 'Api\CustomerController@pfilter_list');
 
 //product-brand filter api
 Route::get('customer/product-filter', 'Api\ProductController@filter');

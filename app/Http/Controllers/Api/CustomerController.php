@@ -984,7 +984,17 @@ class CustomerController extends Controller
             } 
     } 
 
+   /*
+   Description :  product filter list
+   Date        : 12/4/2022
 
+   */
+
+    public function pfilter_list(Request $request)
+    {
+
+
+    }    
 
    /*
    Description : Category wise product filter

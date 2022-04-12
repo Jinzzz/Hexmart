@@ -2,6 +2,48 @@
 <section class="myorder-sec bg-gray">
    <div class="container-fluid">
       <div class="myorder-container">
+                  <form action="{{url('/customer/My-Orders')}}" method="GET">
+                  <div class="myorderconfrm-div">
+                  <div class="row">
+                  <div class="col-md-12">
+                  <div class="form-group">
+                  <label class="form-label">Status</label>
+                  <div id="storel"></div>
+                  <select class="form-control" name="status"  id="status" required>
+                  <option value=""> Select Status </option>
+                  @foreach($status as $row)
+                  <option value="{{$row->order_status_id}}"> {{$row->status}} </option>
+                  @endforeach
+                  </select>
+                  </div>
+                  </div>
+
+                  </div>
+                  <div class="row">
+                  <div class="col-md-12">
+                  <div class="form-group">
+                  <label class="form-label">From Date</label>
+                  <div id="storel"></div>
+                  <input type="date" name="from_date" id="from_date"  required autocomplete="off" placeholder="dd/mm/yyyy" >
+                  </div>
+                  </div>        
+                  </div>
+
+                  <div class="row">
+                  <div class="col-md-12">
+                  <div class="form-group">
+                  <label class="form-label">To Date</label>
+                  <div id="storel"></div>
+                  <input type="date" name="to_date" id="to_date"  required autocomplete="off" placeholder="dd/mm/yyyy" >
+                  </div>
+                  </div>        
+                  </div>
+                  <div class="row">
+                  <button class="btn btn-primary mt-2" id="Filter" type="submit">Filter</button>&nbsp;&nbsp;
+                  <button class="btn btn-warning" id="Cancel"><a href="{{url('/customer/My-Orders')}}">Cancel</a></button>
+                  </div>
+                  </div>
+                  </form>
          <div class="row">
             @foreach($order as $val)
             <div class="col-lg-12">
@@ -69,6 +111,8 @@
       </div>
    </div>
 </section>
+
+
 <!-------end----->@include('layouts.footer') </body>
 
 </html>

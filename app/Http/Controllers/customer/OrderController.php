@@ -16,7 +16,9 @@ use App\Models\CustomerPhone;
 use App\Models\admin\Trn_OrderItem;
 use App\Models\admin\Trn_Order;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Session\Middleware\StartSession;
+use App\Models\admin\Sys_OrderStatus;
 use Illuminate\Http\Request;
 use PDF;
 class OrderController extends Controller
@@ -32,10 +34,29 @@ class OrderController extends Controller
     */
     public function My_Orders(Request $request)
     {
+      // dd($request);
+       if(!empty($request->input('status')))
+       {
+       // dd('user_id is not empty.');
+      $datefrom = Carbon::now()->format('Y-m-d');
+      // dd($datefrom);
+      $dateto = Carbon::now()->format('Y-m-d');
+      // dd($dateto);
+      $a1 = Carbon::parse($datefrom)->startOfDay();
+      // dd($a1);
+      $a2 = Carbon::parse($dateto)->endOfDay();
+      // dd($a2);
+       $orders = Trn_OrderItem::whereDate('created_at', '>=', $a1->format('Y-m-d') . " 00:00:00");
+        dd($orders);
+       $orders = Trn_OrderItem::whereDate('created_at', '<=', $a2->format('Y-m-d') . " 00:00:00");
+       } 
+       else 
+       {
        $id=Auth::guard('customer')->user()->customer_id;
        $order=Trn_OrderItem::with('orderData')->where('customer_id',$id)->orderBy('order_item_id','desc')->get();
-       return view('customer.order.list',compact('order'));
-
+       $status=Sys_OrderStatus::get();
+       return view('customer.order.list',compact('order','status'));
+       }
     }
 
     /*
