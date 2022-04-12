@@ -124,18 +124,16 @@ class LoginController extends Controller
 
 
     /*
-    Description : Customer Logout
+    Description : Customer Deactivate Account
     Date        : 29/3/2022
 
     */
-    public function logout()
+    public function Deactivate()
     {
-       if (Auth::guest('customer')==true)
-       {
+
          $customer_id = Auth::guard('customer')->user()->customer_id;
-        Auth::guard('customer')->logout();
-        }
-       return redirect('/customer/customer-login');
+         $delete=Mst_Customer::where('customer_id',$customer_id)->delete();
+         return redirect('/customer/customer-login');
 
     }
 

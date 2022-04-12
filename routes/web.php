@@ -78,13 +78,12 @@ Route::group(['namespace' => 'customer'], function ()
         ->name('Order-Cancel');
 
 
+
    //customer dashboard
     Route::middleware(['customer'])->group(function ()
     {
         Route::get('/customer-dashboard', 'HomeController@dashboard')
             ->name('customerdashboard');
-        Route::get('/Deactivate', 'LoginController@Deactivate')
-            ->name('Deactivate');
         Route::get('/customer/logout', 'LoginController@logout')
             ->name('logout');
     });
@@ -138,6 +137,8 @@ Route::group(['namespace' => 'customer'], function ()
             ->name('Update-DefaultAddress');
         Route::post('/Update-defaultAddress/{id}', 'HomeController@UpdatedefaultAddress')
             ->name('Update-defaultAddress');
+        Route::get('/Deactivate', 'LoginController@Deactivate')
+            ->name('Deactivate'); 
     });
 
 });
