@@ -34,18 +34,13 @@ class OrderController extends Controller
     */
     public function My_Orders(Request $request)
     {
-      // dd($request);
        if(!empty($request->input('status')))
        {
-       // dd('user_id is not empty.');
-      $datefrom = $request->from_date;
-      $dateto = $request->to_date;
-      $status=$request->status;
-      $a1 = Carbon::parse($datefrom)->startOfDay();
-      $a2 = Carbon::parse($dateto)->endOfDay();
-      $orders = Trn_OrderItem::whereDate('created_at', '>=', $a1->format('Y-m-d') . " 00:00:00");
-      $orders = Trn_OrderItem::whereDate('created_at', '<=', $a2->format('Y-m-d') . " 00:00:00");
-
+       $datefrom = $request->from_date;
+       $dateto = $request->to_date;
+       $status=$request->status;
+       $a1 = Carbon::parse($datefrom)->startOfDay();
+       $a2 = Carbon::parse($dateto)->endOfDay();
        $id=Auth::guard('customer')->user()->customer_id;
        $order=Trn_OrderItem::with('orderData')->whereBetween('created_at',[$a1, $a2])->where('order_status_id',$status)->where('customer_id',$id)->orderBy('order_item_id','desc')->get();
        $status=Sys_OrderStatus::get();
