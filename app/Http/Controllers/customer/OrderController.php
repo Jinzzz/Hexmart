@@ -38,17 +38,19 @@ class OrderController extends Controller
        if(!empty($request->input('status')))
        {
        // dd('user_id is not empty.');
-      $datefrom = Carbon::now()->format('Y-m-d');
-      // dd($datefrom);
-      $dateto = Carbon::now()->format('Y-m-d');
-      // dd($dateto);
+      $datefrom = $request->from_date;
+      $dateto = $request->to_date;
+      $status=$request->status;
       $a1 = Carbon::parse($datefrom)->startOfDay();
-      // dd($a1);
       $a2 = Carbon::parse($dateto)->endOfDay();
-      // dd($a2);
-       $orders = Trn_OrderItem::whereDate('created_at', '>=', $a1->format('Y-m-d') . " 00:00:00");
-        dd($orders);
-       $orders = Trn_OrderItem::whereDate('created_at', '<=', $a2->format('Y-m-d') . " 00:00:00");
+      $orders = Trn_OrderItem::whereDate('created_at', '>=', $a1->format('Y-m-d') . " 00:00:00");
+      $orders = Trn_OrderItem::whereDate('created_at', '<=', $a2->format('Y-m-d') . " 00:00:00");
+
+       $id=Auth::guard('customer')->user()->customer_id;
+       $order=Trn_OrderItem::with('orderData')->whereBetween('created_at',[$datefrom, $dateto])->where('customer_id',$id)->orderBy('order_item_id','desc')->get();
+       // dd($order);
+       $status=Sys_OrderStatus::get();
+       return view('customer.order.list',compact('order','status'));
        } 
        else 
        {
