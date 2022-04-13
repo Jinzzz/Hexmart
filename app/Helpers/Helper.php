@@ -56,6 +56,12 @@ class Helper
         return $product;
     }
 
+    public static function getProductVarientID($product_id)
+    {
+        $product_variant_id = Mst_ProductVariant::where('product_id',$product_id)->orderBy('product_variant_id', 'DESC')->get();
+        return $product_variant_id;
+    }
+
     public static function findReviewData($product_variant_id)
     {
         $reviewData = Trn_ReviewsAndRating::where('product_variant_id', $product_variant_id)

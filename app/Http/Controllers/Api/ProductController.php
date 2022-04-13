@@ -682,7 +682,7 @@ class ProductController extends Controller
             return response($response);
         }
     }
-    
+
     /*
     Description : product-filter api
     Date        : 6/4/2022
@@ -694,10 +694,11 @@ class ProductController extends Controller
 
         try {
             if ($request->item_category_id != '') {
+                $pageNumber=4;
 
                 $details_val = Mst_Brandsubcat::where('item_category_id', $request->item_category_id)->get();
                 foreach ($details_val as $row) {
-                    $details = Helper::getBrandId($row->brand_id);
+                    $details[] = Helper::getBrandId($row->brand_id);
                 }
 
                 $attr_val = Mst_Attributecategory::where('item_category_id', $request->item_category_id)->get();
@@ -707,7 +708,12 @@ class ProductController extends Controller
                 foreach ($row->value as $row) {
                     $row->attr_details = Helper::getValuesByGroupattributeId($row->attribute_group_id);
                 }
+            $products=Mst_Product::where('item_category_id',$request->item_category_id)->where('is_active',1)->paginate($pageNumber);
+            foreach ($products as $row) {
+                    $row->product_variant_id = Helper::getProductVarientID($row->product_id);
+            }
             } else {
+                $pageNumber=4;
                 $details  = Mst_Brand::select('mst__brands.brand_id', 'mst__brands.brand_name', 'mst__brands.brand_icon', 'mst__brands.is_active')->leftjoin('mst_brandsubcat_table', 'mst_brandsubcat_table.brand_id', '=', 'mst__brands.brand_id')
                     ->where('mst__brands.is_active', 1)->orderBy('mst__brands.brand_name', 'ASC')->get();
 
@@ -724,9 +730,14 @@ class ProductController extends Controller
                 foreach ($attr_val as $row) {
                     $row->attributeValues = Helper::getValuesByGroupId($row->attribute_group_id);
                 }
+            $products=Mst_Product::where('is_active',1)->paginate($pageNumber);
+            foreach ($products as $row) {
+                    $row->product_variant_id = Helper::getProductVarientID($row->product_id);
+            }
             }
             $data['brand_details'] = $details;
             $data['attribute_details'] = $attr_val;
+            $data['product_details'] = $products;
 
 
 
