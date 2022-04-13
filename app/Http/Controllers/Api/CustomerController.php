@@ -992,8 +992,17 @@ class CustomerController extends Controller
 
     public function pfilter_list(Request $request)
     {
-
-
+       $data = array();
+        try {
+              
+            } catch (\Exception $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            } catch (\Throwable $e) {
+            $response = ['status' => 0, 'message' => $e->getMessage()];
+            return response($response);
+            }   
+      
     }    
 
    /*

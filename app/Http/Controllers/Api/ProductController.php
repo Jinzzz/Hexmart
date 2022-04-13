@@ -682,6 +682,7 @@ class ProductController extends Controller
             return response($response);
         }
     }
+    
     /*
     Description : product-filter api
     Date        : 6/4/2022

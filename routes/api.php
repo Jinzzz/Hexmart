@@ -52,8 +52,6 @@ Route::get('customer/prodcut-list-filter', 'Api\CustomerController@pfilter_list'
 //product-brand filter api
 Route::get('customer/product-filter', 'Api\ProductController@filter');
 
-
-
 Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('customer/view-profile', 'Api\CustomerController@ViewProfile');
