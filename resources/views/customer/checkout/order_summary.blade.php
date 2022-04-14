@@ -48,7 +48,7 @@
             <div class="discount-sec">
                <h5>Discount Code</h5>
                <div class="input-group">
-                  <input type="text" name="coupon_code" id="coupon_code" placeholder="Enter Coupon codes" class="form-control coupon_code">
+                  <input type="text" name="coupon_code" id="coupon_code" placeholder="Enter Coupon codes" class="form-control coupon_code" autocomplete="off">
                   <div class="input-group-append">
                   <button class="btn btn-primary apply_coupon_btn" type="button" id="apply_coupon_btn" onclick="myCouponFunction(<?php echo $product->product_variant_id?>)">Apply</button>
                </div>
