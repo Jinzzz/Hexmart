@@ -73,7 +73,14 @@ class LoginController extends Controller
     protected function validateLogin(Request $request)
     {
 
+        if(is_numeric($request->customer_email))
+        {
+        $this->validate($request, [$this->username() => 'required|min:10|numeric', 'password' => 'required|string', ]);
+        }
+        else{
         $this->validate($request, [$this->username() => 'required|email', 'password' => 'required|string', ]);
+
+        }    
     }
 
     public function username()
@@ -83,13 +90,27 @@ class LoginController extends Controller
 
     protected function credentials(Request $request)
     {
+        
 
+        if(is_numeric($request->customer_email))
+        {
+        $customer_mob = Mst_Customer::where('customer_mobile', $request->customer_email)
+            ->first();
+
+        if ($customer_mob)
+        {
+            return ['customer_mobile' => $request->customer_email, 'password' => $request->password, ];
+        }
+        }
+        else
+        {
         $customer = Mst_Customer::where('customer_email', $request->customer_email)
             ->first();
 
         if ($customer)
         {
             return ['customer_email' => $request->customer_email, 'password' => $request->password, ];
+        }
         }
 
         return $request->only($this->username() , 'password');

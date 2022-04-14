@@ -142,7 +142,9 @@ Route::group(['namespace' => 'customer'], function ()
         Route::post('/Update-defaultAddress/{id}', 'HomeController@UpdatedefaultAddress')
             ->name('Update-defaultAddress');
         Route::get('/Deactivate', 'LoginController@Deactivate')
-            ->name('Deactivate'); 
+            ->name('Deactivate');
+        Route::post('/apply_couponcart', 'Coupon_Controller@apply_couponcart')
+            ->name('apply_couponcart');      
     });
 
 });
