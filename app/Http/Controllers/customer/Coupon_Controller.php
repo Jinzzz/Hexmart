@@ -35,11 +35,14 @@ Date        : 14/4/2022
    	$p_varientid=$request->id;
    	$loggedin=Auth::guard('customer')->user()->customer_id;
     $customer=Mst_Customer::select('customer_id')->where('customer_id',$loggedin)->first();
+    $data=Trn_Cart::with('productVariantData')->where('customer_id',$customer->customer_id)->where('product_variant_id',$p_varientid)->first();
+    $Coupon_Price=Mst_Coupon::where('coupon_code',$Code)->first();
+    $product_price=$data->productVariantData->variant_price_offer;
    	if(Mst_Coupon::where('coupon_code',$Code)->exists())
    	{
    	  $coupon=Mst_Coupon::where('coupon_code',$Code)->first();
    	  $date=date('Y-m-d');
-      if($coupon->valid_from <=$date  && $date <= $coupon->valid_to)
+      if($coupon->valid_from <=$date  && $date <= $coupon->valid_to && $Coupon_Price->min_purchase_amt<=$product_price)
       {
       	$total_price="0";
       	$data=Trn_Cart::with('productVariantData')->where('customer_id',$customer->customer_id)->where('product_variant_id',$p_varientid)->get();
