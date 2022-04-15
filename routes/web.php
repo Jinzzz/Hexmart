@@ -144,7 +144,9 @@ Route::group(['namespace' => 'customer'], function ()
         Route::get('/Deactivate', 'LoginController@Deactivate')
             ->name('Deactivate');
         Route::post('/apply_couponcart', 'Coupon_Controller@apply_couponcart')
-            ->name('apply_couponcart');      
+            ->name('apply_couponcart'); 
+        Route::post('/cartapply_couponcart', 'Coupon_Controller@cartapply_couponcart')
+            ->name('cartapply_couponcart');          
     });
 
 });
