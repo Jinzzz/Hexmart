@@ -686,7 +686,7 @@ class ProductController extends Controller
     /*
     Description : product-filter api
     Date        : 6/4/2022
-    
+
     */
     public function filter(Request $request)
     {
@@ -712,6 +712,13 @@ class ProductController extends Controller
             foreach ($products as $row) {
                     $row->product_variant_id = Helper::getProductVarientID($row->product_id);
             }
+            $p=Mst_Product::where('item_category_id',$request->item_category_id)->where('is_active',1)->get();
+            foreach ($p as $val)
+            {
+            $p_idval[] = [$val->product_id];
+            }
+            $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $p_idval)->min('variant_price_offer');
+            $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $p_idval)->max('variant_price_offer');
             } else {
                 $pageNumber=4;
                 $details  = Mst_Brand::select('mst__brands.brand_id', 'mst__brands.brand_name', 'mst__brands.brand_icon', 'mst__brands.is_active')->leftjoin('mst_brandsubcat_table', 'mst_brandsubcat_table.brand_id', '=', 'mst__brands.brand_id')
@@ -734,36 +741,28 @@ class ProductController extends Controller
             foreach ($products as $row) {
                     $row->product_variant_id = Helper::getProductVarientID($row->product_id);
             }
+            $p=Mst_Product::where('is_active',1)->get();
+            foreach ($p as $val)
+            {
+            $p_idval[] = [$val->product_id];
             }
-            $data['brand_details'] = $details;
-            $data['attribute_details'] = $attr_val;
-            $data['product_details'] = $products;
+            $min = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $p_idval)->min('variant_price_offer');
+            $max = Mst_ProductVariant::with('Productvarients')->whereIn('product_id', $p_idval)->max('variant_price_offer');
+            }
 
 
+            $data['error']=false;
+            $data['message']="Filter Datas.";
+            $data['data']=[
+            'price_min'=>$min,
+            'price_max'=>$max,
 
-            // $brandDetails  = Mst_Brand::select('brand_id', 'brand_name', 'brand_icon', 'is_active')
-            //     ->where('is_active', 1)->orderBy('brand_name', 'ASC')->get();
-
-            // foreach ($brandDetails as $c) {
-            //     if (isset($c->brand_icon)) {
-            //         $c->brand_icon = '/assets/uploads/brand_icon/' . $c->brand_icon;
-            //     } else {
-            //         $c->brand_icon = Helper::brandIcon();
-            //     }
-            // }
-
-            // $data['brandDetails'] = $brandDetails;
-
-            // $attribute_groups = Mst_AttributeGroup::orderBy('attribute_group_id', 'DESC')->get();
-
-            // foreach ($attribute_groups as $row) {
-            //     $row->attributeValues = Helper::getValuesByGroupId($row->attribute_group_id);
-            // }
-
-            // $data['attributeGroups'] = $attribute_groups;
-
-            $data['status'] = 1;
-            $data['message'] = "success";
+           ];
+            $data['filterData'] = [
+            'brand_details'=>$details,
+            'attribute_details' =>$attr_val,
+            'product_details' => $products,
+            ];
             return response($data);
         } catch (\Exception $e) {
             $response = ['status' => 0, 'message' => $e->getMessage()];
