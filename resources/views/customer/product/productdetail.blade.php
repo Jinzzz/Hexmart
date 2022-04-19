@@ -108,6 +108,27 @@
                   </span>
                   <div class="rating"> <span class="rating-num">4.1 <i class="fa fa-star" aria-hidden="true"></i></span> <span class="rating-con">2,120 ratings</span> </div>
                   <div class="price-d-sec"> <span class="price-d">&#8377;{{$product_varient->variant_price_offer}} </span> <span class="cutprice"><s>134 500</s></span><span class="offer"> 8% off</span> </div>
+                  <div class="qunty">
+                  <form>
+                     
+                     <div class="sss">
+                        
+                        <select id="quantity" class="form-group" name="quantity">
+                           <option value="1">Qty: 1</option>
+                           <option value="2">Qty: 2</option>
+                           <option value="3">Qty: 3</option>
+                           <option value="4">Qty: 4</option>
+                           <option value="5">Qty: 5</option>
+                           <option value="6">Qty: 6</option>
+                           <option value="7">Qty: 7</option>
+                           <option value="8">Qty: 8</option>
+                           <option value="9">Qty: 9</option>
+                           <option value="10" >Qty: 10</option>
+                        </select>
+                     </div>
+                    
+                  </form>
+               </div>
                   <div class="addcart-sec">
                      <button class="addbtn addToButton">ADD TO CART</button>
                      <button class="buybtn Buynow">BUY NOW</button>

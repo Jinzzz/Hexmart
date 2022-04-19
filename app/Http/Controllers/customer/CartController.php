@@ -190,7 +190,7 @@ class CartController extends Controller
                 $cart = new Trn_Cart();
                 $cart->customer_id=$id;
                 $cart->product_variant_id = $request->product_id;
-                $cart->quantity = 1;
+                $cart->quantity = $request->quantity;
                 $cart->save();
                 return response()->json(['status' => "Success"]);
             }
@@ -218,6 +218,7 @@ class CartController extends Controller
                 ->customer_id)
                 ->first();        
         $count = Mst_ProductVariant::where('product_variant_id', $id)->count();  
+        dd($cart);
 
         $total_price=$cart->variant_price_offer;
         
