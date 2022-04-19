@@ -218,7 +218,7 @@ class CartController extends Controller
                 ->customer_id)
                 ->first();        
         $count = Mst_ProductVariant::where('product_variant_id', $id)->count();  
-        dd($cart);
+        // dd($cart);
 
         $total_price=$cart->variant_price_offer;
         
