@@ -218,9 +218,17 @@ class CartController extends Controller
                 ->customer_id)
                 ->first();        
         $count = Mst_ProductVariant::where('product_variant_id', $id)->count();  
-        // dd($cart);
+        $qty_id=Trn_Cart::with('productVariantData')->where('customer_id', Auth::guard('customer')->user()->customer_id)->where('product_variant_id', $id)->get();
+        $total_price=0;
+        foreach($qty_id as $key=>$val)
+        {
+            $details[]=[
+                $details['price']=$val->productVariantData->variant_price_offer,
+                $details['quantity']=$val->quantity,
+            ];
+            $total_price+=$details['price']*$details['quantity'];
 
-        $total_price=$cart->variant_price_offer;
+        }
         
         return view('customer.cart.bynow',compact('count','cart','total_price','checkout_user'));
     }
@@ -229,7 +237,7 @@ class CartController extends Controller
     Date        : 29/3/2022
     
     */
-    public function remove_pcart($id)
+    public function remove_pcart($qty_id)
     {
        $delete=Trn_Cart::where('customer_id', Auth::guard('customer')->user()
                 ->customer_id)->where('product_variant_id',$id)
@@ -360,7 +368,18 @@ class CartController extends Controller
         $customer=Mst_Customer::where('customer_id',$loggedin)->first();
         $product=Mst_ProductVariant::where('product_variant_id',$id)->first();
         $count=Mst_ProductVariant::where('product_variant_id',$id)->count();
-        return view('customer.checkout.order_summary',compact('product','customer','count'));
+        $qty_id=Trn_Cart::with('productVariantData')->where('customer_id', Auth::guard('customer')->user()->customer_id)->where('product_variant_id', $id)->get();
+        $total_price=0;
+        foreach($qty_id as $key=>$val)
+        {
+            $details[]=[
+                $details['price']=$val->productVariantData->variant_price_offer,
+                $details['quantity']=$val->quantity,
+            ];
+            $total_price+=$details['price']*$details['quantity'];
+
+        }
+        return view('customer.checkout.order_summary',compact('product','customer','count','total_price'));
     }
 
 
