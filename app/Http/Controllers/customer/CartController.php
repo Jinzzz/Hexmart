@@ -240,7 +240,7 @@ class CartController extends Controller
     public function remove_pcart($qty_id)
     {
        $delete=Trn_Cart::where('customer_id', Auth::guard('customer')->user()
-                ->customer_id)->where('product_variant_id',$id)
+                ->customer_id)->where('product_variant_id',$qty_id)
                 ->delete();
        return redirect()->back();
 
