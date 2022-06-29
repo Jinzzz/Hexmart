@@ -190,7 +190,7 @@ class CartController extends Controller
                 $cart = new Trn_Cart();
                 $cart->customer_id=$id;
                 $cart->product_variant_id = $request->product_id;
-                $cart->quantity = $request->quantity;
+                $cart->quantity = 1;
                 $cart->save();
                 return response()->json(['status' => "Success"]);
             }
@@ -218,17 +218,8 @@ class CartController extends Controller
                 ->customer_id)
                 ->first();        
         $count = Mst_ProductVariant::where('product_variant_id', $id)->count();  
-        $qty_id=Trn_Cart::with('productVariantData')->where('customer_id', Auth::guard('customer')->user()->customer_id)->where('product_variant_id', $id)->get();
-        $total_price=0;
-        foreach($qty_id as $key=>$val)
-        {
-            $details[]=[
-                $details['price']=$val->productVariantData->variant_price_offer,
-                $details['quantity']=$val->quantity,
-            ];
-            $total_price+=$details['price']*$details['quantity'];
 
-        }
+        $total_price=$cart->variant_price_offer;
         
         return view('customer.cart.bynow',compact('count','cart','total_price','checkout_user'));
     }
@@ -237,10 +228,10 @@ class CartController extends Controller
     Date        : 29/3/2022
     
     */
-    public function remove_pcart($qty_id)
+    public function remove_pcart($id)
     {
        $delete=Trn_Cart::where('customer_id', Auth::guard('customer')->user()
-                ->customer_id)->where('product_variant_id',$qty_id)
+                ->customer_id)->where('product_variant_id',$id)
                 ->delete();
        return redirect()->back();
 
@@ -368,18 +359,7 @@ class CartController extends Controller
         $customer=Mst_Customer::where('customer_id',$loggedin)->first();
         $product=Mst_ProductVariant::where('product_variant_id',$id)->first();
         $count=Mst_ProductVariant::where('product_variant_id',$id)->count();
-        $qty_id=Trn_Cart::with('productVariantData')->where('customer_id', Auth::guard('customer')->user()->customer_id)->where('product_variant_id', $id)->get();
-        $total_price=0;
-        foreach($qty_id as $key=>$val)
-        {
-            $details[]=[
-                $details['price']=$val->productVariantData->variant_price_offer,
-                $details['quantity']=$val->quantity,
-            ];
-            $total_price+=$details['price']*$details['quantity'];
-
-        }
-        return view('customer.checkout.order_summary',compact('product','customer','count','total_price'));
+        return view('customer.checkout.order_summary',compact('product','customer','count'));
     }
 
 

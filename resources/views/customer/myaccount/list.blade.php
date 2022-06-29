@@ -48,7 +48,7 @@
                      <h5><i class="fa fa-trash" aria-hidden="true"></i><span>Delete Account</span></h5> </div>
                </a>
                <div class="brline"></div>
-               <a href="{{ url('/customer/logout') }}">
+               <a href="">
                   <div class="conetnt-link">
                      <h5><i class="fa fa-sign-out" aria-hidden="true"></i><span>Logout</span></h5> </div>
                </a>

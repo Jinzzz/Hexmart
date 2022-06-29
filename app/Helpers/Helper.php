@@ -55,7 +55,7 @@ class Helper
         $product = Mst_ProductVariant::select('variant_name','variant_price_offer')->where('product_id',$product_id)->orderBy('product_variant_id', 'DESC')->get();
         return $product;
     }
-
+    
     public static function getProductVarientID($product_id)
     {
         $product_variant_id = Mst_ProductVariant::where('product_id',$product_id)->orderBy('product_variant_id', 'DESC')->get();

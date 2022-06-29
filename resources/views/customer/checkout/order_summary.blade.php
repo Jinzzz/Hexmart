@@ -1,10 +1,5 @@
 @include('layouts.header')
 <!------------>
-<head>
-   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
-   <meta name="csrf-token" content="{{ csrf_token() }}" />
-
-</head>
 <section class="cart-section checkout-section">
    <div class="container-fluid">
       <div class="cart-main-sec">
@@ -32,7 +27,7 @@
                         </address> </div>
                <div class="add-phn"> <span>+91 {{$customer->customer_mobile}}</span> </div>
                <div class="chng-or-add-addrs ">
-                  <button><a href="{{url('/customer/checkoutAdd-Address-Details')}}">Change or Add Address</a></button>
+                  <button>Change or Add Address</button>
                </div>
             </div>
           </br>
@@ -47,13 +42,10 @@
          <div class="order-summ-right">
             <div class="discount-sec">
                <h5>Discount Code</h5>
-               <div class="input-group">
-                  <input type="text" name="coupon_code" id="coupon_code" placeholder="Enter Coupon codes" class="form-control coupon_code" autocomplete="off">
-                  <div class="input-group-append">
-                  <button class="btn btn-primary apply_coupon_btn" type="button" id="apply_coupon_btn" onclick="myCouponFunction(<?php echo $product->product_variant_id?>)">Apply</button>
-               </div>
-               </div>
-               <small id="error_coupon" class="text-danger"></small>
+               <form>
+                  <input type="text" name="" placeholder="Enter Coupon codes">
+                  <button class="aply-code">Apply</button>
+               </form>
             </div>
             <div class="table-sec">
                <h4>PRICE DETAILS</h4>
@@ -62,7 +54,7 @@
                   <tbody>
                      <tr>
                         <td>Price (@if(isset($count)){{$count}}@endif items)</td>
-                        <td>&#8377;<span class="total_price">@if(isset($total_price)){{$total_price}}@endif</span></td>
+                        <td>&#8377;@if(isset($product->variant_price_offer)){{$product->variant_price_offer}}@endif</td>
                      </tr>
                      <tr>
                         <td>Discount</td>
@@ -74,14 +66,14 @@
                      </tr>
                      <tr>
                         <td>Total Amount</td>
-                        <td>&#8377;<span class="total_price">@if(isset($total_price)){{$total_price}}@endif</span></td>
+                        <td>&#8377;@if(isset($product->variant_price_offer)){{$product->variant_price_offer}}@endif</td>
                      </tr>
                   </tbody>
                </table>
             </div>
             <div class="placeorder-sec ckout">
                <div class="prizetot">
-                  <p>&#8377;<span class="total_price">@if(isset($total_price)){{$total_price}}@endif</span></p> <span class="pricdtail"><a href="">View price details</a></span> </div>
+                  <p>&#8377;@if(isset($product->variant_price_offer)){{$product->variant_price_offer}}@endif</p> <span class="pricdtail"><a href="">View price details</a></span> </div>
                <div class="placeholbtn">
                   <button>CHECKOUT</button>
                </div>
@@ -90,63 +82,6 @@
       </div>
    </div>
 </section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
-<script type="text/javascript">
-      function myCouponFunction(id) {
-      var coupon_code=$('.coupon_code').val();
-      if($.trim(coupon_code).length==0)
-      {
-       error_coupon="Please Enter A Valid Coupon";
-       $('#error_coupon').text(error_coupon);
-      }
-      else
-      {
-       error_coupon="";
-       $('#error_coupon').text(error_coupon);
-      }
-
-      if(error_coupon!='')
-      {
-      return false;
-      }
-
-    $.ajax({
-         method:"POST",
-         url:base_url+"/customer/apply_couponcart",
-         headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         },
-         data:{
-                'coupon_code':coupon_code,
-                'id':id
-         },
-         dataType:"json",
-         success:function(response)
-         {
-            if(response.error_status=='error')
-            {
-             swal(response.status);
-             console.log(response);
-             $('.coupon_code').val('');
-            }
-            else
-            {
-               var discount_price=response.discount_price;
-               var total_price=response.total_price;
-               $('.coupon_code').prop('readOnly',true);
-               $('.discount_price').text(discount_price);
-               $('.total_price').text(total_price);
-
-            }
-             
-
-         }
-   });
-  
-}
-
-</script>
 <!-------end----->@include('layouts.footer') </body>
 
 </html>

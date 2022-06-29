@@ -29,7 +29,6 @@ class CreateTrnOrderItemsTable extends Migration
             $table->tinyInteger('is_offer_item')->default(0);
             $table->tinyInteger('is_store_ticked')->default(0);
             $table->tinyInteger('is_db_ticked')->default(0);
-            $table->text('order_status_id')->nullable();
             $table->timestamps();
 
             $table->foreign('order_id')->references('order_id')->on('trn__orders')->onUpdate('cascade');
@@ -37,8 +36,6 @@ class CreateTrnOrderItemsTable extends Migration
             $table->foreign('product_id')->references('product_id')->on('mst__products')->onUpdate('cascade');
             $table->foreign('product_variant_id')->references('product_variant_id')->on('mst__product_variants')->onUpdate('cascade');
             $table->foreign('offer_id')->references('offer_id')->on('mst__offer_zones')->onUpdate('cascade');
-            $table->timestamp('deleted_at')->nullable();
-
         });
     }
 

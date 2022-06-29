@@ -27,7 +27,6 @@ class Trn_OrderItem extends Model
         'is_db_ticked',
         'offer_id',
         'created_at',
-        'order_status_id',
     ];
 
     public function orderData()

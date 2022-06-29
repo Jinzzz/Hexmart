@@ -133,7 +133,7 @@
                 <option value="{{$key->order_status_id}}"> {{ $key->status}}</option>
                 @endforeach
             </select>
-            <input type="hidden" name="order_id" id="orderId" value="{{$key->order_status_id}}" />
+            <input type="hidden" name="order_id" id="orderId" />
             <div class="modal-footer">
                 <button type="submit" id="updateOrderStatusBtn" class="btn btn-raised btn-primary">
                 <i class="fa fa-check-square-o"></i> Update</button>
@@ -232,7 +232,6 @@ $(document).ready(function() {
   $("#updateOrderStatusBtn").click(function () {
     let orderId = $('#orderId').val();
     let orderStatusId = $('#orderStatusId').val();
-    // alert(orderId);
     var _token= $('input[name="_token"]').val();
     $("#closeModal").click();
 
@@ -240,7 +239,6 @@ $(document).ready(function() {
         type:"GET",
         url:"{{ url('admin/ajax/update-status/order') }}?order_id="+orderId+'&order_status_id='+orderStatusId,
         success:function(res){
-            console.log(res);
             const myObj2 = JSON.parse(res);
             $('#orderStatusBtn'+orderId).text(myObj2.status);
         },

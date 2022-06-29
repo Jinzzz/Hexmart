@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    echo "Cache cleared";
+});
+
 //customer webpage details
 Route::group(['namespace' => 'customer'], function ()
 {
@@ -37,47 +42,46 @@ Route::group(['namespace' => 'customer'], function ()
     Route::post('/add_to_cart', 'CartController@addcart')
         ->name('customer.addtocart');
     Route::get('/Dcart_count', 'CartController@Dcart_count')
-        ->name('customer.Dcart_count');
+        ->name('customer.Dcart_count');    
     Route::post('/add_to_wishlist', 'CartController@add_to_wishlist')
         ->name('customer.add_to_wishlist');
     Route::post('/remove_whishlist', 'CartController@remove_whishlist')
-        ->name('customer.remove_whishlist');
+        ->name('customer.remove_whishlist');        
     Route::get('/show-Cart', 'CartController@show_Cart')
         ->name('customer.show_Cart');
     Route::post('/Buynowproduct', 'CartController@by_now')
-        ->name('customer.Buy-Now');
+        ->name('customer.Buy-Now'); 
     Route::get('/Checkout/{id}', 'CartController@by_nowlist')
-        ->name('customer.Buy-Nowview');
+        ->name('customer.Buy-Nowview'); 
     Route::get('/remove_pcart/{id}', 'CartController@remove_pcart')
-        ->name('customer.remove_pcart');
+        ->name('customer.remove_pcart');  
     Route::post('/Customer-checkout', 'CartController@Customer_checkout')
         ->name('customer.Customer-checkout');
     Route::post('/Customer-Addresscheckout', 'CartController@Customer_addresscheckout')
-        ->name('customer.Customer-Addresscheckout');
+        ->name('customer.Customer-Addresscheckout');     
     Route::get('/OrderSummary/{id}', 'CartController@OrderSummary')
-        ->name('Order_Summary');
+        ->name('Order_Summary'); 
     Route::get('/CartOrder_Summary', 'CartController@CartOrder_Summary')
-        ->name('CartOrder_Summary');
+        ->name('CartOrder_Summary');         
     Route::post('/update_cart_quantity', 'CartController@update_cart_quantity')
-        ->name('customer.update_cart_quantity');
+        ->name('customer.update_cart_quantity');    
     Route::get('/Payment/{id}', 'PaymentController@order_payment')
         ->name('payment');
     Route::get('/CartPayment', 'PaymentController@CartPayment')
-        ->name('CartPayment');
+        ->name('CartPayment'); 
     Route::post('/CartPayment_store', 'PaymentController@CartPayment_store')
-        ->name('CartPayment_store');
+        ->name('CartPayment_store');        
     Route::post('/Payment_Store', 'PaymentController@Payment_Store')
-        ->name('Payment_Store');
+        ->name('Payment_Store'); 
     Route::get('/Placeorder-Cart', 'CartController@Placeorder_Cart')
-        ->name('customer.Placeorder-Cart');
+        ->name('customer.Placeorder-Cart');     
     Route::get('/Remove_wishlist/{id}', 'WishController@Remove_wishlist')
-        ->name('Remove_wishlist');
+        ->name('Remove_wishlist'); 
     Route::get('/Order-Confirm', 'OrderController@order_confirm')
-        ->name('order-confirm');
+        ->name('order-confirm'); 
     Route::get('/Order-Cancel/{id}', 'OrderController@order_cancel')
-        ->name('Order-Cancel');
-
-
+        ->name('Order-Cancel');               
+                     
 
    //customer dashboard
     Route::middleware(['customer'])->group(function ()
@@ -85,7 +89,7 @@ Route::group(['namespace' => 'customer'], function ()
         Route::get('/customer-dashboard', 'HomeController@dashboard')
             ->name('customerdashboard');
         Route::get('/customer/logout', 'LoginController@logout')
-            ->name('logout');
+            ->name('logout');    
     });
     //customer login register details
     Route::group(['prefix' => 'customer'], function ()
@@ -100,53 +104,43 @@ Route::group(['namespace' => 'customer'], function ()
         Route::post('/customer-store', 'LoginController@usrlogin')
             ->name('cust_store');
         Route::get('/forgot-password', 'LoginController@forgot_password')
-        ->name('customer.forgot_password');
+        ->name('customer.forgot_password');  
         Route::post('/forgot-password-store', 'LoginController@forgotpassword_store')
-        ->name('customer.forgotpassword_store');
+        ->name('customer.forgotpassword_store'); 
         Route::get('/Reset-Passwordlink/{email}', 'LoginController@Reset_Passwordlink')
-        ->name('customer.Reset_Passwordlink');
+        ->name('customer.Reset_Passwordlink');   
         Route::post('/Password-Reset', 'LoginController@Password_Reset')
-        ->name('customer.Password_Reset');
+        ->name('customer.Password_Reset'); 
         Route::get('/wishlist', 'WishController@wishlist')
-            ->name('wishlist');
+            ->name('wishlist');  
         Route::get('/My-Orders', 'OrderController@My_Orders')
-            ->name('My-Orders');
+            ->name('My-Orders');  
         Route::get('/Order-Details/{id}', 'OrderController@Order_Details')
-            ->name('Order-Details');
+            ->name('Order-Details');  
         Route::get('/My-Account', 'HomeController@My_Account')
-            ->name('My-Account');
+            ->name('My-Account'); 
         Route::get('/My_Account-Edit', 'HomeController@My_Accountedit')
-            ->name('My_Accountedit');
+            ->name('My_Accountedit');   
         Route::get('/My-Account-Address', 'HomeController@My_Account_address')
             ->name('My_Account_address');
         Route::get('/Add-Address', 'HomeController@Add_Address')
             ->name('Add-Address');
         Route::get('/Add-Address-Details', 'HomeController@Add_Addressdetails')
-            ->name('Add-Address-Details');
-        Route::get('/checkoutAdd-Address-Details', 'HomeController@checkoutAdd_Addressdetails')
-            ->name('checkoutAdd-Address-Details');    
+            ->name('Add-Address-Details');     
         Route::get('/Edit-Address/{id}', 'HomeController@Edit_Address')
             ->name('Edit-Address');
         Route::post('/Store-Address', 'HomeController@Store_Address')
-            ->name('Store-Address');
-        Route::post('/checkoutStore-Address', 'HomeController@checkoutStore_Address')
-            ->name('checkoutStore-Address');    
+            ->name('Store-Address');             
         Route::post('/Account-Update', 'HomeController@Account_Update')
             ->name('Account-Update');
         Route::get('/Invoice/{id}', 'OrderController@Invoice')
-            ->name('Invoice');
+            ->name('Invoice'); 
         Route::get('/Update-Address/{id}', 'HomeController@Update_Address')
-            ->name('Update-Address');
+            ->name('Update-Address'); 
         Route::post('/Update-DefaultAddress/{id}', 'HomeController@Update_DefaultAddress')
-            ->name('Update-DefaultAddress');
+            ->name('Update-DefaultAddress'); 
         Route::post('/Update-defaultAddress/{id}', 'HomeController@UpdatedefaultAddress')
-            ->name('Update-defaultAddress');
-        Route::get('/Deactivate', 'LoginController@Deactivate')
-            ->name('Deactivate');
-        Route::post('/apply_couponcart', 'Coupon_Controller@apply_couponcart')
-            ->name('apply_couponcart'); 
-        Route::post('/cartapply_couponcart', 'Coupon_Controller@cartapply_couponcart')
-            ->name('cartapply_couponcart');          
+            ->name('Update-defaultAddress');                                             
     });
 
 });

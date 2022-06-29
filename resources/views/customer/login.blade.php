@@ -24,7 +24,7 @@
                         @endif
                      <div class="row">
                         <div class="col-lg-12">
-                           <input type="text" name="customer_email" placeholder="Enter Email/Mobile Number" required autocomplete="off" value="{{ old('customer_email') }}"> 
+                           <input type="email" name="customer_email" placeholder="Enter Email/Mobile Number" required autocomplete="off" value="{{ old('customer_email') }}"> 
                             @error('customer_email')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>

@@ -39,17 +39,7 @@ class PaymentController extends Controller
         $customer=Mst_Customer::where('customer_id',$loggedin)->first();
         $product=Mst_ProductVariant::where('product_variant_id',$id)->first();
         $count=Mst_ProductVariant::where('product_variant_id',$id)->count();
-        $qty_id=Trn_Cart::with('productVariantData')->where('customer_id', Auth::guard('customer')->user()->customer_id)->where('product_variant_id', $id)->get();
-        $total_price=0;
-        foreach($qty_id as $key=>$val)
-        {
-            $details[]=[
-                $details['price']=$val->productVariantData->variant_price_offer,
-                $details['quantity']=$val->quantity,
-            ];
-            $total_price+=$details['price']*$details['quantity'];
-
-        }
+        $total_price=$product->variant_price_offer;
         $payment_type=Sys_PaymentType::select('payment_type','payment_type_id')->get();
         return view('customer.payment.list',compact('customer','count','total_price','payment_type','product'));
     }

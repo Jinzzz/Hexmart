@@ -326,6 +326,7 @@
             </div>
          </section>
          <!----fotter--->
+        @include('layouts.footer')
          <!----script--------->
          <script src="{{URL::to('/assets/frontAssets/js/bootstrap.js')}} "></script>
          <script src="{{URL::to('/assets/frontAssets/js/bootstrap.min.js')}} "></script>

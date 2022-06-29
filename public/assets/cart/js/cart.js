@@ -90,8 +90,7 @@ $('.wishcheckbox').on('click', function() {
 
 $('.Buynow').click(function(e){
  e.preventDefault();
-   var quantity = $('#quantity').val();
-   var product_id=document.getElementById('productvariantid').value;
+ var product_id=document.getElementById('productvariantid').value;
  $.ajax({
          method:"POST",
          url:base_url+"/Buynowproduct",
@@ -99,8 +98,7 @@ $('.Buynow').click(function(e){
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
          },
          data:{
-              'product_id':product_id,
-              'quantity'  :quantity
+              'product_id':product_id
          },
          dataType:"json",
          success:function(response)

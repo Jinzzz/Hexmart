@@ -15,7 +15,6 @@ class Trn_CustomerAddress extends Model
 
     protected $fillable = [
         'customer_id',
-        'customer_address_id',
         'name',
         'phone',
         'alternative_phone',
