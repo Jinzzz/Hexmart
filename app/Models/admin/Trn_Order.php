@@ -17,6 +17,7 @@ class Trn_Order extends Model
         'customer_id',
         'time_slot_id',
         'order_total_amount',
+        'order_total_quantity',
         'delivery_charge',
         'packing_charge',
         'delivery_date',

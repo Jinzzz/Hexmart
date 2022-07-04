@@ -36,6 +36,7 @@
                                         <tr>
                                             <th class="wd-15p">SL.No</th>
                                             <th class="wd-15p">{{ __('Order Number') }}</th>
+                                            <th class="wd-15p">{{ __('Customer') }}</th>
                                             <th class="wd-15p">{{ __('Order Amount') }}</th>
                                             <th class="wd-15p">{{ __('No. of Items') }}</th>
                                             <th class="wd-20p">{{__('Status')}}</th>
@@ -50,8 +51,9 @@
                                         <tr>
                                             <td>{{ ++$i }}</td>
                                             <td>{{ $row->order_number}}</td>
+                                            <td>{{@$row->CustomerData->customer_name}}</td>
                                             <td>{{ $row->order_total_amount}}</td>
-                                            <td>2</td>
+                                            <td>{{ @$row->order_total_quantity}}</td>
                                             <td>
                                                 <button type="button" 
                                                  data-toggle="modal"  onclick="orderStatusFun({{ $row->order_id }})"
@@ -72,8 +74,9 @@
                                                 data-target="#orderViewModal"  
                                                 onclick="orderViewFun({{ $row->order_id }})" 
                                                 class="btn btn-sm btn-gray">
-                                                 View
+                                                 Overview
                                                 </button>
+                                                <a href="{{route('admin.order.view',@$row->order_id)}}" class="btn btn-sm btn-orange ml-2">View Order</a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -214,7 +217,7 @@
 
                     <tfoot>
                         <tr>
-                            <a href="#" class="btn btn-sm btn-secondary text-white" >view Items</a>
+                            <!--<a href="#" class="btn btn-sm btn-secondary text-white" >view Items</a>-->
                         </tr>
                     </tfoot>
                 </div>

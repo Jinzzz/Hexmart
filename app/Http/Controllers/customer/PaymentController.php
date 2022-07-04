@@ -123,19 +123,31 @@ class PaymentController extends Controller
         $order_array=array();
         $numbers=random_int(1000000000000, 9999999999999);
         $prefix = "OD";
+        $order_total_amount=0;
+        $order_total_quantity=0;
         $customOrderNumber= $prefix . $numbers;
         $trmorder_array=array();
+        $order_array['customer_id']=$customer->customer_id;
+        $order_array['order_number']= $customOrderNumber;
 
+        $order_array['payment_type_id']=$request->Payment;
+        $order_array['created_at']=Carbon::now()->toDateTimeString();
+        foreach($product as $key=>$option)
+        {
+            
+            $order_total_amount+=$option->productVariantData->variant_price_offer*$option->quantity;
+            $order_total_quantity+=$option->quantity;
+            
+           
+        }
+        $order_array['order_total_amount']=$order_total_amount;
+        $order_array['order_total_quantity']=$order_total_quantity;
+        $order_array['payment_status_id']=1;
+        $order_array['order_status_id']=1;
+        $res = Trn_Order::insert($order_array);
+        $date=Carbon::now()->toDateTimeString();
          foreach($product as $key=>$option)
         {
-            $order_array['customer_id']=$customer->customer_id;
-            $order_array['order_number']= $customOrderNumber;
-
-            $order_array['payment_type_id']=$request->Payment;
-            $order_array['order_total_amount']=$option->productVariantData->variant_price_offer;
-            $order_array['created_at']=Carbon::now()->toDateTimeString();
-            $res = Trn_Order::insert($order_array);
-            $date=Carbon::now()->toDateTimeString();
             if($res == true){
                 $order_id = Trn_Order::where('customer_id',$customer->customer_id)->where('created_at',$date)->where('order_number',$customOrderNumber)->orderBy('order_id','desc')->first();
 
