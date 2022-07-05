@@ -14,7 +14,7 @@ class CreateMstDeliveryBoysTable extends Migration
     public function up()
     {
         Schema::create('mst__delivery_boys', function (Blueprint $table) {
-            $table->bigincrements('delivery_boy_id')->nullable();
+            $table->bigincrements('delivery_boy_id');
             $table->string('delivery_boy_name')->nullable();
             $table->string('delivery_boy_phone')->nullable();
             $table->string('password')->nullable();

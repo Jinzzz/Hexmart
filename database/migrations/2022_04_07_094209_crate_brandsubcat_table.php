@@ -14,7 +14,7 @@ class CrateBrandsubcatTable extends Migration
     public function up()
     {
         Schema::create('mst_brandsubcat_table', function (Blueprint $table) {
-            $table->bigincrements('id')->nullable();
+            $table->bigincrements('id');
             $table->text('brand_id')->nullable();
             $table->text('item_category_id')->nullable();
             $table->text('item_sub_category_id')->nullable();

@@ -14,7 +14,7 @@ class CreateTrnSpecialPricesTable extends Migration
     public function up()
     {
         Schema::create('trn__special_prices', function (Blueprint $table) {
-            $table->bigincrements('special_price_id')->nullable();
+            $table->bigincrements('special_price_id');
             $table->biginteger('product_id')->unsigned()->nullable();
             $table->biginteger('product_variant_id')->unsigned()->nullable();
             $table->biginteger('customer_group_id')->unsigned()->nullable();

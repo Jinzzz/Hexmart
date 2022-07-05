@@ -14,7 +14,7 @@ class CrateAttributesubcatTable extends Migration
      public function up()
     {
         Schema::create('mst_attributesubcat_table', function (Blueprint $table) {
-            $table->bigincrements('id')->nullable();
+            $table->bigincrements('id');
             $table->text('attribute_group_id')->nullable();
             $table->text('item_category_id')->nullable();
             $table->text('item_sub_category_id')->nullable();
