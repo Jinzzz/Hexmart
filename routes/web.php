@@ -465,6 +465,8 @@ Route::group(['namespace' => 'admin'], function ()
     //orders
     Route::get('admin/orders/list', 'AdminController@listOrders')
         ->name('admin.orders');
+        Route::get('admin/orders/view/{id?}', 'OrderController@viewOrder')
+        ->name('admin.order.view');
     Route::get('admin/ajax/find-status/order', 'AdminController@findOrderStatus');
     Route::get('admin/ajax/update-status/order', 'AdminController@updateOrderStatus');
     //not using down side route
