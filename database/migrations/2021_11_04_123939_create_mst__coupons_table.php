@@ -14,7 +14,7 @@ class CreateMstCouponsTable extends Migration
     public function up()
     {
         Schema::create('mst__coupons', function (Blueprint $table) {
-            $table->bigincrements('coupon_id')->nullable();
+            $table->bigincrements('coupon_id');
             $table->string('coupon_code', 200)->nullable();
             $table->integer('coupon_type')->nullable();
             $table->decimal('min_purchase_amt', 8, 2)->nullable();

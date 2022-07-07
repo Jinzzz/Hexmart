@@ -14,7 +14,7 @@ class CreateTrnCustomerAddressesTable extends Migration
     public function up()
     {
         Schema::create('trn__customer_addresses', function (Blueprint $table) {
-            $table->bigincrements('customer_address_id')->nullable();
+            $table->bigincrements('customer_address_id');
             $table->biginteger('customer_id')->unsigned()->nullable();
             $table->string('name')->nullable();
             $table->string('phone')->nullable();

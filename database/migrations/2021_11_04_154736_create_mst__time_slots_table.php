@@ -14,7 +14,7 @@ class CreateMstTimeSlotsTable extends Migration
     public function up()
     {
         Schema::create('mst__time_slots', function (Blueprint $table) {
-            $table->bigincrements('time_slot_id')->nullable();
+            $table->bigincrements('time_slot_id');
             $table->string('time_start', 50)->nullable();
             $table->string('time_end', 50)->nullable();
             $table->tinyInteger('is_active')->default(0);

@@ -14,7 +14,7 @@ class CreateTrnCustomerGroupCustomersTable extends Migration
     public function up()
     {
         Schema::create('trn__customer_group_customers', function (Blueprint $table) {
-            $table->bigincrements('cgc_id', 150)->nullable();
+            $table->bigincrements('cgc_id', 150);
             $table->biginteger('customer_group_id')->unsigned()->nullable();
             $table->biginteger('customer_id')->unsigned()->nullable();
             $table->tinyInteger('is_active')->default(0);

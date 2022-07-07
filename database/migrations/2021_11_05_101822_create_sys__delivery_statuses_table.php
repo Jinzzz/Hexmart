@@ -14,7 +14,7 @@ class CreateSysDeliveryStatusesTable extends Migration
     public function up()
     {
         Schema::create('sys__delivery_statuses', function (Blueprint $table) {
-            $table->bigincrements('delivery_status_id')->nullable();
+            $table->bigincrements('delivery_status_id');
             $table->string('delivery_status')->nullable();
             $table->tinyInteger('is_active')->default(0);
             $table->timestamp('deleted_at')->nullable();

@@ -14,7 +14,7 @@ class CreateSysPaymentStatusesTable extends Migration
     public function up()
     {
         Schema::create('sys__payment_statuses', function (Blueprint $table) {
-            $table->bigincrements('payment_status_id')->nullable();
+            $table->bigincrements('payment_status_id');
             $table->string('payment_status')->nullable();
             $table->tinyInteger('is_active')->default(0);
             $table->timestamp('deleted_at')->nullable();

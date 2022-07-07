@@ -14,7 +14,7 @@ class CreateSysOrderTypesTable extends Migration
     public function up()
     {
         Schema::create('sys__order_types', function (Blueprint $table) {
-            $table->bigincrements('order_type_id')->nullable();
+            $table->bigincrements('order_type_id');
             $table->string('order_type')->nullable();
             $table->tinyInteger('is_active')->default(0);
             $table->timestamp('deleted_at')->nullable();

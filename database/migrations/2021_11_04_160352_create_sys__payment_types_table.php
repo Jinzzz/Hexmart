@@ -14,7 +14,7 @@ class CreateSysPaymentTypesTable extends Migration
     public function up()
     {
         Schema::create('sys__payment_types', function (Blueprint $table) {
-            $table->bigincrements('payment_type_id')->nullable();
+            $table->bigincrements('payment_type_id');
             $table->string('payment_type', 50)->nullable();
             $table->timestamps();
         });
