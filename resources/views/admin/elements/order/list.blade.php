@@ -50,7 +50,7 @@
                                         @foreach ($orders as $row)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            <td>{{ $row->order_number}}</td>
+                                            <td>{{ $row->order_number}}<br><span class="badge badge-primary badge-sm"><small>{{@$row->paymentTypeData->payment_type}}</small></span></td>
                                             <td>{{@$row->CustomerData->customer_name}}</td>
                                             <td>{{ $row->order_total_amount}}</td>
                                             <td>{{ @$row->order_total_quantity}}</td>

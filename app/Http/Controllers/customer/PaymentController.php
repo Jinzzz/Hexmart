@@ -60,7 +60,10 @@ class PaymentController extends Controller
                 $order->customer_id=$customer->customer_id;
                 $order->order_number=$prefix . $numbers;
                 $order->payment_type_id = $request->Payment;
-                $order->order_total_amount = $product->productVariantData->variant_price_offer;
+                $order->order_total_amount = $product->quantity*$product->productVariantData->variant_price_offer;
+                $order->order_total_quantity=$product->quantity;
+                $order->payment_status_id=1;
+                $order->order_status_id=1;
                 $order->save();
         $orderid=Trn_Order::where('order_id',$order->order_id)->first();
         $trm_order = new Trn_OrderItem();
