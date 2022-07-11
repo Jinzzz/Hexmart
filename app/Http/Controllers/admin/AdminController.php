@@ -204,8 +204,9 @@ class AdminController extends Controller
     }
     public function Profile(Request $request)
     {
+        $pageTitle = "Profile";
         $admin = User::find(auth()->user()->id);
-        return view('admin.elements.profile.profile', compact('admin'));
+        return view('admin.elements.profile.profile', compact('admin','pageTitle'));
     }
 
     // public function editProfile(Request $request)
@@ -216,6 +217,7 @@ class AdminController extends Controller
 
     public function updateProfile(Request $request)
     {
+        $pageTitle = "Profile";
         $id =  auth()->user()->id;
 
         try {
