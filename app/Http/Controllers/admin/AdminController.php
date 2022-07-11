@@ -20,6 +20,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Hash;
+use Auth;
 
 class AdminController extends Controller
 {
@@ -236,13 +237,21 @@ class AdminController extends Controller
                 ]
             );
             if (!$validator->fails()) {
+              
 
                 $user = User::find($id);
                 
                 $user->name = $request->name;
                 $user->email = $request->email;
+                if($request->filled('password'))
+                {
                 $user->password = Hash::make($request->password);
                 $user->update();
+                Auth::login($user);
+                }
+                else{
+                    $user->update(); 
+                }
 
                 return redirect()->route('admin.profile')->with('status', 'Profile updated successfully');
             } else {
