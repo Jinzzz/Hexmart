@@ -51,13 +51,11 @@ class HomeController extends Controller
             ->get();
 
         $recentAddedProducts  = Mst_Product::join('mst__product_variants', 'mst__product_variants.product_id', '=', 'mst__products.product_id')
-        ->join('mst__item_categories', 'mst__item_categories.item_category_id', '=', 'mst__products.item_category_id')
             ->select(
                 'mst__products.product_id',
                 'mst__products.product_name',
                 'mst__products.product_name_slug',
                 'mst__products.product_code',
-                'mst__item_categories.category_name',
                 'mst__product_variants.product_variant_id',
                 'mst__product_variants.variant_name',
                 'mst__product_variants.variant_name_slug',

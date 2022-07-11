@@ -26,7 +26,7 @@
       <div class="container-fluid">
          <div class="topheader pt-3 pb-3">
             <div class="logo">
-               <a href="{{URL::to('/')}}"> <img src="{{URL::to('/assets/frontAssets/image/logo.png')}}" class="img-fluid" alt=""></a>
+               <a href="index.html"> <img src="{{URL::to('/assets/frontAssets/image/logo.png')}}" class="img-fluid" alt=""></a>
             </div>
             <div class="top-searchbar">
                <form class="">
@@ -63,7 +63,7 @@
             </div>
             @endif
             <div class="crt">
-               <a href="{{url('/show-Cart')}}" class="cart-head"> <i class="fa fa-shopping-cart" aria-hidden="true" class="cart-top"></i><span class="cart-text">Cart</span><span class="badge badge-danger Cart-count"></span></a>
+               <a href="{{url('/show-Cart')}}" class="cart-head"> <i class="fa fa-shopping-cart" aria-hidden="true" class="cart-top"></i>Cart<span class="badge badge-danger Cart-count"></span></a>
             </div>
          </div>
       </div>

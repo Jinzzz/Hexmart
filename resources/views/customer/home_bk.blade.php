@@ -14,7 +14,7 @@
             <div class="wrapper">
                <div class="container-fluid pb-5 pt-5">
                   <div class="row">
-                     <div class="col-md-12 col-lg-12 col-12">
+                     <div class="col-md-12 col-lg-6 col-12">
                         <div class="category1">
                            <div class="shop-head">
                               <h2>shop by category</h2>
@@ -22,7 +22,7 @@
                            <div class="row text-center">
                               @foreach ($categoryDetails as $cat)
                               <div class="col-md-4 col-sm-6 col-4 col-lg-4 pb-2 " data-aos="fade-up">
-                                 <a href="{{ url('/home/product/'.$cat->category_name ) }}">
+                                 <a href="{{ url('/categories/'.$cat->item_category_id.'/'.$cat->category_name_slug) }}">
                                     <img src="{{URL::to('assets/uploads/category_icon/'.$cat->category_icon)}} " class="img-fluid shop-item-icon" alt="">
                                     <h3 class="cat-head">{{ $cat->category_name }}</h3>
                                  </a>
@@ -60,7 +60,7 @@
                                  </a>
                               </div> --}}
                               <div class="col-md-4 col-sm-6 col-4 col-lg-4" data-aos="fade-up">
-                                 <a href="#">
+                                 <a href="{{ url('/categories') }}">
                                     <img src="{{URL::to('/assets/frontAssets/image/cat-icon6.png')}} " class="img-fluid shop-item-icon" alt="">
                                     <h3 class="cat-head">View All</h3>
                                  </a>
@@ -68,7 +68,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-md-12 col-lg-6 col-12" style="display:none;">
+                     <div class="col-md-12 col-lg-6 col-12">
                         <div class="product-slid-container">
                            <div class="slider">
 
@@ -213,16 +213,15 @@
                      @foreach($recentAddedProducts as $product)
 
                      <div class="col-md-6 col-lg-3 col-6 col-padding pt-3 pb-4" data-aos="fade-up">
-                         
-                        <a href="{{ url('/productdetail/'.$product->category_name."/".$product->variant_name) }}">
+                        <a href="{{ url('/product/'.$product->product_variant_id."/".$product->product_name_slug."-".$product->variant_name_slug) }}">
                            <div class="box">
                               <img src="{{URL::to((new \App\Helpers\Helper)->productVarBaseImage($product->product_id,$product->product_variant_id))}} " class="img-fluid product-image" alt="">
                               <p>
-                                 @if (@$product->variant_name != @$product->product_name)
+                                 @if (@$product->productVariantData->variant_name != @$product->productVariantData->productData->product_name)
                                    
-                                    {{ @$product->product_name }} {{ @$product->variant_name }}
+                                    {{ @$product->productVariantData->productData->product_name }} {{ @$product->productVariantData->variant_name }}
                                  @else
-                                    {{ @$product->variant_name }}
+                                    {{ @$product->productVariantData->variant_name }}
                                    
                                  @endif
                               </p>
