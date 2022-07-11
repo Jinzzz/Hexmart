@@ -33,7 +33,7 @@
                <div class="card-body">
                 <a href=" {{route('admin.create_customer_group')}}" class="btn btn-block btn-info">
                     <i class="fa fa-plus"></i> Create Customer Group
-                </a>    
+                </a>      <br> 
                 <div class="table-responsive">
                   <table id="example" class="table table-striped table-bordered text-nowrap w-100">
                     <thead>
