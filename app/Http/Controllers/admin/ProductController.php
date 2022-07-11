@@ -482,7 +482,11 @@ class ProductController extends Controller
         }
     }
 
-
+    public function removeProduct(Request $request, $product_id)
+    {
+        Mst_Product::where('product_id', '=', $product_id)->delete();
+        return redirect('admin/products/list')->with('status', 'Product deleted successfully.');
+    }
 
     public function updateProduct(Request $request,  $product_id)
     {

@@ -31,9 +31,10 @@
                     
                         <div class="card-body">
                             <a href=" {{route('admin.create_item_category')}}" class="btn btn-block btn-info">
-                            <i class="fa fa-plus"></i> Create Item Category </a>
+                            <i class="fa fa-plus"></i> Create  Category </a>
                             </br>
-                            {{ (new \App\Helpers\Helper)->ajaxLoader() }}                                <div class="card-body"> 
+                            {{ (new \App\Helpers\Helper)->ajaxLoader() }}                       
+                                     <div class="card-body"> 
 
                             <div id="example_tbody" class="table-responsive">
                                 <table id="example" class="table table-striped table-bordered text-nowrap w-100">

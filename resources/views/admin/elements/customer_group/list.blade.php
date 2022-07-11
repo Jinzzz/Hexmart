@@ -40,7 +40,7 @@
                       <tr>
                         <th class="wd-15p">S.No</th>
                         <th class="wd-15p">Group Name</th>
-                        <th class="wd-15p">Discription</th>
+                        <th class="wd-15p">Description</th>
                         <th class="wd-15p">Status</th>
                       
                        <th class="wd-15p">{{__('Action')}}</th>

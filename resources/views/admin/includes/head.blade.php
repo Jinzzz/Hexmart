@@ -31,7 +31,8 @@
 <link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <script type="text/javascript" src="{{URL::to('/assets/js/lan.js')}}"></script>
 <style type="text/css">
-	.breadcrumb-item+.breadcrumb-item::before {
+	.breadcrumb-item+.breadcrumb-item::before
+	 {
 		content: ">" !important;
 	}
 </style>

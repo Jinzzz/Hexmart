@@ -37,8 +37,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                            <label class="form-label">Unit Short Form</label>
-                            <input type="text" class="form-control" name="unit_sf" value="{{old('unit_sf')}}" placeholder="Unit Short Form">
+                            <label class="form-label"> Short Form</label>
+                            <input type="text" class="form-control" name="unit_sf" value="{{old('unit_sf')}}" placeholder=" Short Form">
                             </div>
                         </div>
                         

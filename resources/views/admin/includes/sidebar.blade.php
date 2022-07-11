@@ -85,7 +85,7 @@
 
             <li class="slide">
                <a class="side-menu__item" href="{{ route('admin.offers') }}">
-                  <i class="side-menu__icon fe fe-shopping-cart"></i>
+                  <i class="side-menu__icon fa fa-tags"></i>
                   <span class="side-menu__label">Offer Zone</span></a>
             </li>
 

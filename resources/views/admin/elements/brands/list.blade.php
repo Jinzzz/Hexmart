@@ -115,11 +115,11 @@
                                  <tr>
                                     <td><h6>Brand Image: </td>
                                     <td>  
-                                        @if(isset($row->row_icon))
+                                        @if(isset($row->brand_icon))
                                         <img src="{{asset('assets/uploads/brand_icon/'.$row->brand_icon)}}"  width="50" >
-                                        @else
-                                        <img src="{{ (new \App\Helpers\Helper)->brandIcon() }}"  width="50" >
-                                        @endif
+                                    @else
+                                    <img src="{{ (new \App\Helpers\Helper)->brandIcon() }}"  width="50" >
+                                    @endif
                                     </td>
                                  </tr>
                                  <tr>

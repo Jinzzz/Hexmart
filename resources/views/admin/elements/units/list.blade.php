@@ -33,7 +33,8 @@
                             <a href=" {{route('admin.create_unit')}}" class="btn btn-block btn-info">
                             <i class="fa fa-plus"></i> Create Unit </a>
                             </br>
-                            {{ (new \App\Helpers\Helper)->ajaxLoader() }}                                <div class="card-body"> 
+                            {{ (new \App\Helpers\Helper)->ajaxLoader() }}    
+                         <div class="card-body"> 
 
                             <div id="example_tbody" class="table-responsive">
                                 <table id="example" class="table table-striped table-bordered text-nowrap w-100">
@@ -41,7 +42,7 @@
                                         <tr>
                                             <th class="wd-15p">SL.No</th>
                                             <th class="wd-15p">{{ __('Unit') }}</th>
-                                            <th class="wd-15p">{{ __('Unit Shortform') }}</th>
+                                            <th class="wd-15p">{{ __('Shortform') }}</th>
                                             <th class="wd-20p">{{__('Status')}}</th>
                                             <th class="wd-15p">{{__('Action')}}</th>
                                         </tr>
@@ -69,7 +70,7 @@
                                                 </a>
                                             </td>
                                             <td>
-                                            <form action="{{route('admin.destroy_brand',$row->unit_id)}}" method="POST">
+                                            <form action="{{route('admin.destroy_unit',$row->unit_id)}}" method="POST">
                                                 <a class="btn btn-sm btn-cyan" href="{{url('admin/unit/edit/'.$row->unit_id)}}">Edit</a>
                                                 <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#viewModal{{$row->unit_id}}" > View</button>
                                                 @csrf

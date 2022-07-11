@@ -34,7 +34,7 @@
                                         <div class="col-lg-6 col-md-12">
                                             <div class="wideget-user-desc d-sm-flex">
                                                 <div class="wideget-user-img">
-                                                    <img class="" src="../assets/images/users/10.jpg" alt="img">
+                                                    <img class="" src="../assets/images/users/admin.png" alt="img" width="90">
                                                 </div>
                                                 <div class="user-wrap">
                                                     <h4>{{ @$admin->name }}</h4>
