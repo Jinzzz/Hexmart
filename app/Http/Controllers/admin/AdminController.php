@@ -238,6 +238,7 @@ class AdminController extends Controller
             if (!$validator->fails()) {
 
                 $user = User::find($id);
+                
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->password = Hash::make($request->password);

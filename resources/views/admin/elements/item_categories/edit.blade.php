@@ -45,9 +45,9 @@
                         
                         <div class="col-md-6">
                             <div class="form-group">
-                            <label class="form-label">Category Icon</label>
-                            <input type="file" class="form-control" accept="image/x-png,image/jpg,image/jpeg" 
-                            name="category_icon" value="{{old('category_icon')}}" placeholder="Category Icon">
+                                <label class="form-label">Category Icon</label>
+                                <input type="file" class="form-control" accept="image/x-png,image/jpg,image/jpeg" 
+                                name="category_icon" value="{{old('category_icon')}}" placeholder="Category Icon">
                             </div>
                         </div>
                         

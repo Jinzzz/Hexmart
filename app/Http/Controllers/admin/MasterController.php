@@ -781,7 +781,8 @@ class MasterController extends Controller
             $sub_category->sub_category_description = $request->sub_category_description;
             $sub_category->item_category_id         =  $request->category_id;
 
-            if ($request->hasFile('sub_category_icon')) {
+            if ($request->hasFile('sub_category_icon'))
+             {
                 $file = $request->file('sub_category_icon');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move('assets/uploads/category_icon', $filename);
@@ -819,14 +820,14 @@ class MasterController extends Controller
 
     public function listItemCategory(Request $request)
     {
-        $pageTitle = "Item Categories";
+        $pageTitle = " Categories";
         $categories = Mst_ItemCategory::orderBy('item_category_id', 'DESC')->get();
         return view('admin.elements.item_categories.list', compact('categories', 'pageTitle'));
     }
 
     public function createItemCategory(Request $request)
     {
-        $pageTitle = "Create Item Category";
+        $pageTitle = "Create  Category";
         return view('admin.elements.item_categories.create', compact('pageTitle'));
     }
 
@@ -856,7 +857,8 @@ class MasterController extends Controller
             $category->category_name_slug      = Str::of($request->category_name)->slug('-');
             $category->category_description = $request->category_description;
             $category->is_active = $request->is_active;
-            if ($request->hasFile('category_icon')) {
+            if ($request->hasFile('category_icon'))
+             {
                 $file = $request->file('category_icon');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move('assets/uploads/category_icon', $filename);
@@ -885,14 +887,67 @@ class MasterController extends Controller
 
     public function editItemCategory(Request $request, $category_name_slug)
     {
-        $pageTitle = "Edit Item Category";
+        $pageTitle = "Edit  Category";
         $category = Mst_ItemCategory::where('category_name_slug', '=', $category_name_slug)->first();
         return view('admin.elements.item_categories.edit', compact('category', 'pageTitle'));
     }
+    public function updateItemCategory(Request $request, $item_category_id)
+
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [ 'category_name'       => 'required',
+            //'category_icon'        => 'dimensions:width=150,height=150|image|mimes:jpeg,png,jpg',
+            // 'category_icon'        => 'required|image|mimes:jpeg,png,jpg',
+            'category_description' => 'required',
+        ],
+        [
+            'category_name.required'         => 'Category name required',
+            'category_icon.required'        => 'Category icon required',
+            'category_icon.dimensions'        => 'Category icon dimensions is invalid',
+            'category_description.required'     => 'Category description required',
+        ]
+        );
+
+        if (!$validator->fails()) {
+
+           
+            $data = $request->except('_token');
+            $row = Mst_ItemCategory::find($item_category_id);
+            $row->category_name         = $request->category_name;
+            $row->category_icon         = $request->category_icon;
+            $row->is_active = $request->is_active;
+
+        
+                if ($request->hasFile('category_icon'))
+                {
+                   $file = $request->file('category_icon');
+                   $filename = time() . '_' . $file->getClientOriginalName();
+                   $file->move('assets/uploads/category_icon', $filename);
+                   $row->category_icon = $filename;
+               
+                }
+
+            $row->update();
+
+            return redirect('admin/item-category/list')->with('status', 'Category updated successfully.');
+        }
+         else {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    }
+   
+
+    public function removeItemCategory(Request $request, $item_category_id)
+    {
+        Mst_ItemCategory::where('item_category_id', '=', $item_category_id)->delete();
+        return redirect('admin/item-category/list')->with('status', 'Category deleted successfully.');
+    }
+    
 
     public function listUnit(Request $request)
     {
-        $pageTitle = "Item Units";
+        $pageTitle = " Units";
         $units = Mst_Unit::orderBy('unit_id', 'DESC')->get();
         return view('admin.elements.units.list', compact('units', 'pageTitle'));
     }
@@ -933,12 +988,14 @@ class MasterController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'unit_name'       => 'required',
-                'unit_sf'       => 'required',
+                'unit_name'       => 'required|unique:mst__units',
+                'unit_sf'       => 'required|unique:mst__units',
             ],
             [
+                'unit_name.unique'       => "Unit  Name already taken",
                 'unit_name.required'         => 'Unit name required',
-                'unit_sf.required'         => 'Unit shotform required',
+                'unit_sf.required'         => ' shotform required',
+                'unit_sf.unique'       => " shotform  already taken"
             ]
         );
 
@@ -967,12 +1024,14 @@ class MasterController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'unit_name'       => 'required',
-                'unit_sf'       => 'required',
+                 'unit_name'       => 'required|unique:mst__units',
+                   'unit_sf'       => 'required|unique:mst__units',
             ],
             [
+                'unit_name.unique'       => "Unit  Name already taken",
                 'unit_name.required'         => 'Unit name required',
                 'unit_sf.required'         => 'Unit shotform required',
+                'unit_sf.unique'       => "Unit shotform  already taken"
             ]
         );
         if (!$validator->fails()) {
@@ -1437,5 +1496,10 @@ class MasterController extends Controller
         }
 
         return redirect('admin/tax/list')->with('status', 'Tax updated successfully.');
+    }
+    public function removeTax(Request $request, $tax_id)
+    {
+        Mst_Tax::where('tax_id', '=', $tax_id)->delete();
+        return redirect('admin/tax/list')->with('status', 'Tax deleted successfully.');
     }
 }

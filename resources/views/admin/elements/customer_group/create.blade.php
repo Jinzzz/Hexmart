@@ -37,8 +37,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                            <label class="form-label">Discription</label>
-                            <textarea  class="form-control" name="customer_group_description"  placeholder="Discription" >{{old('customer_group_description')}}</textarea>
+                            <label class="form-label">Description</label>
+                            <textarea  class="form-control" name="customer_group_description"  placeholder="Description" >{{old('customer_group_description')}}</textarea>
                             </div>
                         </div>
 

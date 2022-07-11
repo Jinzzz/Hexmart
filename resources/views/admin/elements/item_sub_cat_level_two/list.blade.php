@@ -133,6 +133,18 @@
                                  <tr>
                                     <td><h6>Description: </td><td> {!!  $category->iltsc_description !!}</h6></td>
                                  </tr>
+                                 
+                                 <tr>
+                                    <td>
+                                    <h6>Status: 
+                                        </td><td>  
+                                        @if($category->is_active == 0)
+                                            Inactive
+                                        @else
+                                            Active
+                                        @endif
+                                    </h6></td>
+                                 </tr>
                               </tbody>
                            </table>
                         </div>

@@ -33,7 +33,8 @@
                             <a href=" {{route('admin.create_offer')}}" class="btn btn-block btn-info">
                             <i class="fa fa-plus"></i> Create offer </a>
                             </br>
-                            {{ (new \App\Helpers\Helper)->ajaxLoader() }}                                <div class="card-body"> 
+                            {{ (new \App\Helpers\Helper)->ajaxLoader() }}                               
+                             <div class="card-body"> 
 
                             <div id="example_tbody" class="table-responsive">
                                 <table id="example" class="table table-striped table-bordered text-nowrap w-100">
@@ -128,8 +129,8 @@
                                  </tr>
                                 
                                  <tr>
-                                    <td><h6>From: 
-                                    </td>
+                                    <td><h6>From: </h6> </td>
+                                    <td>
                                         {{ \Carbon\Carbon::parse($row->date_start)->format('d-m-Y')}}
                                         {{ @$row->time_start}}
                                     </td>
@@ -138,9 +139,7 @@
                                  </tr>
                                  
                                  <tr>
-                                    <td><h6>To: 
-
-                                    </td>
+                                    <td><h6>To: </h6></td>
                                         <td>  
                                             {{ \Carbon\Carbon::parse($row->date_end)->format('d-m-Y')}}
                                             {{ @$row->time_end}}

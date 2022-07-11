@@ -31,7 +31,7 @@
                     
                         <div class="card-body">
                             <a href=" {{route('admin.create_delivery_boy')}}" class="btn btn-block btn-info">
-                            <i class="fa fa-plus"></i> Create Brand </a>
+                            <i class="fa fa-plus"></i> Create Delivery Boy </a>
                             </br>
                             {{ (new \App\Helpers\Helper)->ajaxLoader() }}                                <div class="card-body"> 
 

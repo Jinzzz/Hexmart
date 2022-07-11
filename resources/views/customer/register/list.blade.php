@@ -24,7 +24,12 @@
                         @endif
                      <div class="row">
                         <div class="col-lg-12">
-                           <input type="text" placeholder="Full Name (Required)*" name="name" required="" autocomplete="off"> 
+                           {{-- <input type="text" placeholder="Full Name (Required)*" name="name" required="" 
+                           autocomplete="off">  --}}
+
+                           <input type="text" name="name" required="required" placeholder="Full Name (Required)*"
+                           class="form-control" value="{{ old('name') }}" autocomplete="off">
+
                            @error('name')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
@@ -32,7 +37,7 @@
                            @enderror
                         </div>
                          <div class="col-lg-12">
-                           <input type="email" placeholder="Email (Required)*" name="customer_email" required="" autocomplete="off">
+                           <input type="email" placeholder="Email (Required)*"  value="{{ old('customer_email') }}" name="customer_email" required="" autocomplete="off">
                            @error('customer_email')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
@@ -40,7 +45,7 @@
                            @enderror
                             </div>  
                         <div class="col-lg-12">
-                           <input type="tel" placeholder="Phone number (Required)*" name="customer_mobile" required="" autocomplete="off" pattern="[789][0-9]{9}" 
+                           <input type="tel" placeholder="Phone number (Required)*" name="customer_mobile" value="{{ old('customer_mobile') }}" required="" autocomplete="off" pattern="[789][0-9]{9}" 
                                  title="Phone number with 7-9 and remaing 9 digit with 0-9"> 
                               @error('customer_mobile')
                            <span class="invalid-feedback" role="alert">
@@ -49,7 +54,7 @@
                            @enderror
                         </div>
                         <div class="col-lg-6 col-12">
-                           <input type="text" placeholder="Pincode (Required)*" name="pin" required="" autocomplete="off"> 
+                           <input type="text" placeholder="Pincode (Required)*" value="{{ old('pin') }}" name="pin" required="" autocomplete="off"> 
                         @error('pin')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
@@ -60,7 +65,7 @@
                            <button class="myloction"><i class="fa fa-compass" aria-hidden="true"></i> Use my location</button>
                         </div>
                         <div class="col-lg-6 col-12">
-                           <input type="text" placeholder="State (Required)*" name="state" required="" autocomplete="off"> 
+                           <input type="text" placeholder="State (Required)*" value="{{ old('state') }}" name="state" required="" autocomplete="off"> 
                         @error('state')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
@@ -68,7 +73,7 @@
                            @enderror
                         </div>
                         <div class="col-lg-6 col-12">
-                           <input type="text" placeholder="City (Required)*" name="city" required="" autocomplete="off" id="City">
+                           <input type="text" placeholder="City (Required)*" value="{{ old('city') }}" name="city" required="" autocomplete="off" id="City">
                            @error('city')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
@@ -77,7 +82,7 @@
                            <!-- <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button> -->
                         </div>
                         <div class="col-lg-12">
-                           <input type="text" placeholder="House No, Building Name (Required)*" name="place" required="" autocomplete="off">
+                           <input type="text" placeholder="House No, Building Name (Required)*" value="{{ old('place') }}" name="place" required="" autocomplete="off">
                            @error('place')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
@@ -85,7 +90,7 @@
                            @enderror
                             </div>
                         <div class="col-lg-12">
-                           <input type="text" placeholder="Road name, Area, Colony (Required)*" name="road" required="" autocomplete="off" id="Road">
+                           <input type="text" placeholder="Road name, Area, Colony (Required)*" value="{{ old('road') }}" name="road" required="" autocomplete="off" id="Road">
                            @error('road')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
@@ -94,7 +99,7 @@
                            <!-- <button type="submit" class="Search-btnfrm"><i class="fa fa-search"></i></button> -->
                         </div>
                          <div class="col-lg-12">
-                           <input type="password" placeholder="Password (Required)*" name="password" required="" autocomplete="off"> 
+                           <input type="password" placeholder="Password (Required)*" value="{{ old('password') }}" name="password" required="" autocomplete="off"> 
                         @error('password')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
@@ -102,7 +107,7 @@
                            @enderror
                         </div>  
                             <div class="col-lg-12">
-                           <input type="password" placeholder="Confirm Password (Required)*" name="confirm_password" required="" autocomplete="off"> 
+                           <input type="password" placeholder="Confirm Password (Required)*" value="{{ old('confirm_password') }}" name="confirm_password" required="" autocomplete="off"> 
                         @error('confirm_password')
                            <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>
