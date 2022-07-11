@@ -51,4 +51,8 @@ class CouponController extends Controller
             return response($response);
         }
     }
+    public function applyCoupon(Request $request)
+    {
+        
+    }
 }

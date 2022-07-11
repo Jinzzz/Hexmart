@@ -105,7 +105,8 @@ $('.Buynow').click(function(e){
          {
               if(response.status=="Login to Continue")
               {
-                window.location.href = "/customer/customer-login";
+                var base_url = window.location.origin;
+                window.location.href = base_url+"/customer/customer-login";
 
               }
               else if(response.status=="Success")

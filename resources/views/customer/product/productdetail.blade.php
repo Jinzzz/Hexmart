@@ -106,7 +106,7 @@
                <h3>{{ucwords($product_varient->variant_name)}}<span id="dots">...</span><span id="more"></span> </h3>
                   <button onclick="myFunction()" id="myBtn"> more</button>
                   </span>
-                  <div class="rating"> <span class="rating-num">4.1 <i class="fa fa-star" aria-hidden="true"></i></span> <span class="rating-con">2,120 ratings</span> </div>
+                  <div class="rating"> <span class="rating-num">4.2 <i class="fa fa-star" aria-hidden="true"></i></span> <span class="rating-con">2,120 ratings</span> </div>
                   <div class="price-d-sec"> <span class="price-d">&#8377;{{$product_varient->variant_price_offer}} </span> <span class="cutprice"><s>134 500</s></span><span class="offer"> 8% off</span> </div>
                   <div class="addcart-sec">
                      <button class="addbtn addToButton">ADD TO CART</button>

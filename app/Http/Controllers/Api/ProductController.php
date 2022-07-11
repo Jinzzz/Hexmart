@@ -292,10 +292,11 @@ class ProductController extends Controller
                     $c->productVariantBaseImage  = Helper::productVarBaseImage(@$c->productVariantData->product_id, $c->product_variant_id);
                     $c->proVarAttributes  = Helper::variantArrtibutes($c->product_variant_id);
                     $c->proVarImages  = Helper::variantImages($c->product_variant_id);
+                    $itemRegularPriceTotal += ($c->productVariantData->variant_price_regular * $c->quantity);
                     $itemCount++;
                 }
 
-                $itemRegularPriceTotal += ($c->productVariantData->variant_price_regular * $c->quantity);
+             
 
 
                 $priceDetails->price = $itemRegularPriceTotal; // total price for carted prducts

@@ -33,10 +33,12 @@ class OrderController extends Controller
 
     public function My_Orders(Request $request)
     {
-       $id=Auth::guard('customer')->user()->customer_id;
+      /* $id=Auth::guard('customer')->user()->customer_id;
        $order=Trn_OrderItem::where('customer_id',$id)->orderBy('order_item_id','desc')->get();
-       return view('customer.order.list',compact('order'));
-
+       return view('customer.order.list',compact('order'));*/
+       $id=Auth::guard('customer')->user()->customer_id;
+       $orders = Trn_Order::orderBy('order_id', 'DESC')->get();
+       return view('customer.order.list',compact('orders'));
     }
 
     /*
@@ -48,7 +50,8 @@ class OrderController extends Controller
     public function Order_Details($order_id)
     {
        $id=Auth::guard('customer')->user()->customer_id;
-       $order=Trn_OrderItem::with('productVariantData')->where('customer_id',$id)->where('order_item_id',$order_id)->first();
+      // $order=Trn_OrderItem::with('productVariantData')->where('customer_id',$id)->where('order_item_id',$order_id)->first();
+       $order=Trn_Order::with(['orderItems','orderItems.productData','orderItems.productVariantData','customerData','orderStatusData','paymentStatusData'])->where('customer_id',$id)->findOrFail($order_id);
        return view('customer.order.order_details',compact('order'));
 
     }
